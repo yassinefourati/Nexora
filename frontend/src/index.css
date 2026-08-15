@@ -1,0 +1,23 @@
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+@media print {
+  /* Hide chrome */
+  header, nav, aside,
+  [data-testid="sidebar"],
+  .MuiAppBar-root,
+  .MuiDrawer-root,
+  .MuiBottomNavigation-root {
+    display: none !important;
+  }
+  /* Expand content */
+  main, [component="main"] {
+    margin: 0 !important;
+    padding: 16px !important;
+  }
+  /* Remove hover effects + shadows */
+  * { box-shadow: none !important; }
+  /* Hide action buttons */
+  button:not([data-print-keep]) { display: none !important; }
+  /* Page breaks */
+  .MuiPaper-root { break-inside: avoid; }
+}

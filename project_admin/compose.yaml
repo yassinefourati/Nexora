@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: admin_db
+      POSTGRES_USER: admin_backend
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5433:5432"   # 5432 is taken by a native Postgres install on this host
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin_backend -d admin_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "9090:8080"   # matches issuer-uri http://localhost:9090/realms/fourati-realm in application-dev.yml
+    volumes:
+      - ./keycloak/fourati-realm.json:/opt/keycloak/data/import/fourati-realm.json:ro
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:

@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.fourati</groupId>
+		<artifactId>project_admin</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>business</artifactId>
+	<name>ProjectAdmin :: Business</name>
+	<description>Business logic and service layer: services, MapStruct mappers, request/response DTOs. Depends on persistence and common.</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.fourati</groupId>
+			<artifactId>persistence</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fourati</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
+
+		<!-- WebSocket (STOMP over SockJS) — live notification push from NotificationService -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
+		<!-- Security — PasswordEncoder (API keys), JwtAuthenticationToken (actor resolution) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
+
+		<!-- Mapping -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${mapstruct.version}</version>
+		</dependency>
+	</dependencies>
+
+</project>

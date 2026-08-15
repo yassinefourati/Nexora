@@ -1,0 +1,46 @@
+﻿# ─── Local developer profile ────────────────────────────────────────────────
+# Use this profile when running on your own machine with local infrastructure.
+# This file is .gitignored — each developer can override it freely.
+#
+# Activate: ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
+# Or set SPRING_PROFILES_ACTIVE=local in your IDE run config.
+
+logging:
+  file:
+    path: logs/local
+  level:
+    root: INFO
+    com.fourati: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG            # Uncomment to log every SQL query
+    org.hibernate.orm.jdbc.bind: TRACE  # Uncomment to log SQL bind parameters
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/admin_db
+    username: admin_backend
+    password: secret
+  jpa:
+    show-sql: false      # Set to true to log SQL to console (verbose — use SQL logging above instead)
+    properties:
+      hibernate:
+        format_sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/fourati-realm
+
+springdoc:
+  swagger-ui:
+    enabled: true
+
+# Disable rate limiting locally so frequent manual testing isn't blocked
+fourati:
+  common:
+    rate-limit:
+      rpm: 100000
+
+app:
+  export:
+    max-rows: 100000     # Raise export limit locally for large dataset testing

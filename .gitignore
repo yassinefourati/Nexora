@@ -1,0 +1,23 @@
+# --- Frontend (Node / Vite) ---
+frontend/node_modules/
+frontend/dist/
+frontend/bff/node_modules/
+frontend/bff/dist/
+frontend/test-results/
+frontend/playwright-report/
+frontend/*.tsbuildinfo
+
+# --- Env / secrets ---
+.env
+*.env
+!*.env.example
+
+# --- Archives / dumps (not source) ---
+*.rar
+*.zip
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

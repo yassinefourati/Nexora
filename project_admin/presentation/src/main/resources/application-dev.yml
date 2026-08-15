@@ -1,0 +1,29 @@
+﻿spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/admin_db
+    username: admin_backend
+    password: secret
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+  docker:
+    compose:
+      enabled: true
+      lifecycle-management: start-and-stop
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/fourati-realm
+
+logging:
+  file:
+    path: logs/dev
+  level:
+    root: INFO
+    com.fourati: DEBUG
+    org.springframework.security: DEBUG
+
+springdoc:
+  swagger-ui:
+    enabled: true

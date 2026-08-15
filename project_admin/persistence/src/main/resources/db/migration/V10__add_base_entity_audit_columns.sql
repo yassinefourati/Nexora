@@ -1,0 +1,12 @@
+-- V10__add_base_entity_audit_columns.sql
+--
+-- HISTORICAL NOTE: this migration originally patched several tables to add
+-- deleted_at/created_by/updated_by columns, back when V1-V8 were built from a
+-- guessed/reverse-engineered schema that didn't match the real production DDL.
+-- V1-V8 have since been rewritten to create every table with its exact final
+-- real-schema shape directly (sourced from an authoritative pg_dump), which
+-- already includes deleted_at wherever the real schema has it and does NOT
+-- include created_by/updated_by anywhere (no table in the real schema has
+-- either column). This migration is now a deliberate no-op, kept only so the
+-- Flyway version sequence (V1..V13) stays intact for anyone who already has
+-- V10 recorded in their local flyway_schema_history.

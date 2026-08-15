@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+		<groupId>com.fourati</groupId>
+		<artifactId>project_admin</artifactId>
+		<version>1.0.0</version>
+  </parent>
+  <artifactId>test</artifactId>
+  <name>ProjectAdmin :: Test</name>
+  <description>Unit, integration and architecture tests spanning all modules.</description>
+
+  <dependencies>
+		<!-- All modules under test — this module exercises the full stack -->
+		<dependency>
+			<groupId>com.fourati</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fourati</groupId>
+			<artifactId>persistence</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fourati</groupId>
+			<artifactId>business</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fourati</groupId>
+			<artifactId>presentation</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>${rest-assured.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Architecture tests — enforce layering rules -->
+		<dependency>
+			<groupId>com.tngtech.archunit</groupId>
+			<artifactId>archunit-junit5</artifactId>
+			<version>${archunit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Integration tests with real Postgres -->
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+  </dependencies>
+</project>

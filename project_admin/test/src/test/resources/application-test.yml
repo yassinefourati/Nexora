@@ -1,0 +1,22 @@
+﻿spring:
+  docker:
+    compose:
+      enabled: false      # Testcontainers manages its own Postgres instance
+  flyway:
+    enabled: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/fourati-realm-test
+
+logging:
+  level:
+    com.fourati: DEBUG
+
+fourati:
+  common:
+    rate-limit:
+      rpm: 10000          # disable effective rate limiting during tests
+    error:
+      base-url: https://errors.example.com/

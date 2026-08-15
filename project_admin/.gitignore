@@ -1,0 +1,29 @@
+# --- Build output (every module, any depth) ---
+target/
+*.log
+
+# --- Runtime artifacts ---
+logs/
+uploads/
+
+# --- Maven ---
+.flattened-pom.xml
+
+# --- IDE (Eclipse/STS project files generated per-module) ---
+.classpath
+.factorypath
+.project
+.settings/
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Env / secrets ---
+.env
+*.env.local

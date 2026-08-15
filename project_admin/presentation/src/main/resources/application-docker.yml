@@ -1,0 +1,37 @@
+﻿# ─── Full-stack docker-compose profile ──────────────────────────────────────
+# Used when this service itself runs as a container alongside postgres/keycloak
+# in the root docker-compose.yml, as opposed to `dev` (app runs on the host,
+# only postgres/keycloak are containerized).
+
+spring:
+  docker:
+    compose:
+      enabled: false                     # already running inside compose — don't try to manage it
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI}
+          jwk-set-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI}
+
+fourati:
+  common:
+    rate-limit:
+      # Defaults to the same 60 rpm as every other profile. Override with the
+      # RATE_LIMIT_RPM env var (e.g. in docker-compose.yml or a
+      # docker-compose.override.yml) for demo/load-testing scenarios where the
+      # production-accurate default causes unwanted throttling.
+      rpm: ${RATE_LIMIT_RPM:60}
+
+logging:
+  level:
+    root: INFO
+    com.fourati: DEBUG
+
+springdoc:
+  swagger-ui:
+    enabled: true

@@ -1,0 +1,20 @@
+export const ROUTES = {
+  HOME: '/', LOGIN: '/login', AUTH_CALLBACK: '/auth/callback',
+  PROFILE: '/profile',
+  NOTIFICATIONS: '/notifications', AUDIT: '/audit',
+  SYSTEM: '/system',
+  USERS: '/users', USERS_DETAIL: '/users/:id',
+  USERS_ROLES: '/users/roles', USERS_PERMISSIONS: '/users/permissions',
+  ROLE_PERMISSIONS: '/users/roles/permissions',
+  ORGANIZATIONS: '/organizations', DEPARTMENTS: '/departments', TEAMS: '/teams',
+  SETTINGS: '/settings',
+  APP_MODULES: '/app-modules', MENUS: '/menus', FEATURE_FLAGS: '/feature-flags',
+  MENU_PERMISSIONS: '/menu-permissions', ROLE_MENUS: '/role-menus', METADATA: '/metadata',
+  AUTH_LOGS: '/auth-logs', LOGIN_HISTORY: '/login-history', SESSIONS: '/sessions',
+  API_KEYS: '/api-keys', ERROR_LOGS: '/error-logs', SYSTEM_EVENTS: '/system-events',
+  NOTIFICATION_TEMPLATES: '/notification-templates', TAGS: '/tags', ENTITY_TAGS: '/entity-tags',
+  DOCS: '/docs',
+  UI_DOCS: '/ui-docs',
+  TABLE_DEMO: '/table-demo',
+} as const;
+export const GUIDE_ROUTE = '/developer-guide';
