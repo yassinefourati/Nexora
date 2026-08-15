@@ -4,7 +4,6 @@
 
 1. Read [`README.md`](README.md) for the full-stack layout and how to run it locally.
 2. Read [`project_admin/README.md`](project_admin/README.md) for the backend's module structure — dependencies only point downward (`presentation → business → persistence → common`), enforced at build time by `ArchitectureTest`. If your change needs to break that direction, the design needs rethinking, not a suppressed test.
-3. Check [`NEXT_STEPS.md`](NEXT_STEPS.md) — it's the current known-gaps list. If you're picking up an item from there, no need to ask first.
 
 ## Making a change
 
@@ -26,9 +25,9 @@ cd project_admin
 - Integration tests use Testcontainers against a real Postgres — see
   `test/src/test/java/com/fourati/integration/` for examples. On Windows with
   Docker Desktop, these may fail locally with a Docker-client connection
-  error unrelated to your code (see `NEXT_STEPS.md` for details) — CI runs
-  them on Linux runners where this doesn't occur, so a local failure here
-  isn't necessarily a signal your change is broken.
+  error unrelated to your code — CI runs them on Linux runners where this
+  doesn't occur, so a local failure here isn't necessarily a signal your
+  change is broken.
 
 ### Frontend (`frontend/`)
 
@@ -46,13 +45,10 @@ npm run build
 - [ ] `npm run lint && npm run test:run && npm run build` passes
 - [ ] If you touched the module structure, package names, or renamed
       anything broadly, you did it in one deliberate pass — not iteratively.
-      (See the process note at the bottom of `NEXT_STEPS.md` for why this
-      matters here specifically.)
 - [ ] New backend behavior has a test at the appropriate level: unit test
       for a service method, integration test for a full request→DB flow,
       architecture test if you're introducing a new layering rule.
 
 ## Commit messages
 
-Explain *why*, not just *what* — the diff already shows what changed. If a
-change fixes a specific bug or closes a gap from `NEXT_STEPS.md`, say so.
+Explain *why*, not just *what* — the diff already shows what changed.

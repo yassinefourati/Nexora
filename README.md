@@ -6,7 +6,6 @@ via Keycloak (OIDC).
 
 - Backend details, module layout, tech stack: [`project_admin/README.md`](project_admin/README.md)
 - Seeded local accounts (frontend login, Keycloak admin, Postgres): [`CREDENTIALS.md`](CREDENTIALS.md)
-- Known gaps and planned improvements: [`NEXT_STEPS.md`](NEXT_STEPS.md)
 
 ---
 
@@ -57,7 +56,6 @@ curl http://localhost:8080/actuator/health
 project_fullstack/
 ├── docker-compose.yml       full-stack compose (see table above)
 ├── CREDENTIALS.md           seeded local accounts
-├── NEXT_STEPS.md            improvement roadmap
 ├── frontend/                React 19 + Vite + MUI
 └── project_admin/           Spring Boot 4 backend, layered Maven multi-module
     ├── common/               cross-cutting infra (errors, rate limiting, export)
