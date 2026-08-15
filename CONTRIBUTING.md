@@ -13,7 +13,7 @@
 cd project_admin
 ./mvnw compile -DskipTests          # fast sanity check while iterating
 ./mvnw test -pl test -am            # run the full test suite (unit + architecture + integration)
-./mvnw verify                       # what CI runs
+./mvnw verify                       # full build + tests + architecture checks
 ```
 
 - New code goes in the module matching its layer (see the dependency graph
@@ -25,9 +25,10 @@ cd project_admin
 - Integration tests use Testcontainers against a real Postgres — see
   `test/src/test/java/com/fourati/integration/` for examples. On Windows with
   Docker Desktop, these may fail locally with a Docker-client connection
-  error unrelated to your code — CI runs them on Linux runners where this
-  doesn't occur, so a local failure here isn't necessarily a signal your
-  change is broken.
+  error (Docker Desktop's npipe proxy returning malformed responses to the
+  `docker-java` client) that's unrelated to your code — a local failure here
+  isn't necessarily a signal your change is broken. Try running the same
+  test on a Linux machine/CI runner if you need to confirm.
 
 ### Frontend (`frontend/`)
 

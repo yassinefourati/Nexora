@@ -65,9 +65,3 @@ project_fullstack/
     ├── test/                 unit, integration and architecture tests
     └── keycloak/             realm import config
 ```
-
-## CI
-
-`.github/workflows/ci.yml` builds and tests both the backend (full Maven
-reactor + architecture checks + Docker image build) and the frontend (lint,
-unit tests, build) on every push/PR to `main`.
