@@ -2117,6 +2117,24 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
         };
+        DocumentResponse: {
+            /** Format: uuid */
+            id?: string;
+            documentType?: string;
+            category?: string;
+            fileName?: string;
+            storageKey?: string;
+            contentType?: string;
+            /** Format: int64 */
+            sizeBytes?: number;
+            status?: string;
+            /** Format: date-time */
+            uploadedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
         UpdateNotificationRequest: {
             title: string;
             body: string;
@@ -2984,6 +3002,15 @@ export interface components {
             /** Format: int32 */
             requestedTermMonths: number;
             purpose?: string;
+        };
+        CreateDocumentRequest: {
+            documentType: string;
+            category: string;
+            fileName: string;
+            storageKey: string;
+            contentType?: string;
+            /** Format: int64 */
+            sizeBytes?: number;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
