@@ -2117,6 +2117,62 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
         };
+        UnderwritingCaseResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            status?: string;
+            decision?: string;
+            decisionReason?: string;
+            approvedAmount?: number;
+            /** Format: int32 */
+            approvedTermMonths?: number;
+            assignedTo?: string;
+            /** Format: date-time */
+            decidedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        UnderwritingConditionResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            underwritingCaseId?: string;
+            description?: string;
+            status?: string;
+            /** Format: date-time */
+            satisfiedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        UnderwritingNoteResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            underwritingCaseId?: string;
+            author?: string;
+            note?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        UnderwritingStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            underwritingCaseId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
         UpdateNotificationRequest: {
             title: string;
             body: string;
@@ -2984,6 +3040,29 @@ export interface components {
             /** Format: int32 */
             requestedTermMonths: number;
             purpose?: string;
+        };
+        CreateUnderwritingCaseRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            assignedTo?: string;
+        };
+        DecideUnderwritingCaseRequest: {
+            decision: string;
+            decisionReason?: string;
+            approvedAmount?: number;
+            /** Format: int32 */
+            approvedTermMonths?: number;
+        };
+        CreateUnderwritingConditionRequest: {
+            /** Format: uuid */
+            underwritingCaseId: string;
+            description: string;
+        };
+        CreateUnderwritingNoteRequest: {
+            /** Format: uuid */
+            underwritingCaseId: string;
+            author: string;
+            note: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
