@@ -2005,6 +2005,12 @@ export interface components {
             maxTermMonths: number;
             description?: string;
         };
+        UpdateLoanApplicationRequest: {
+            requestedAmount: number;
+            /** Format: int32 */
+            requestedTermMonths: number;
+            purpose?: string;
+        };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseOrganizationResponse: {
             /**
@@ -2087,6 +2093,25 @@ export interface components {
             /** Format: int32 */
             maxTermMonths?: number;
             description?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanApplicationResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            customerId?: string;
+            /** Format: uuid */
+            loanProductId?: string;
+            status?: string;
+            requestedAmount?: number;
+            /** Format: int32 */
+            requestedTermMonths?: number;
+            purpose?: string;
+            /** Format: date-time */
+            submittedAt?: string;
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -2949,6 +2974,16 @@ export interface components {
             /** Format: int32 */
             maxTermMonths: number;
             description?: string;
+        };
+        CreateLoanApplicationRequest: {
+            /** Format: uuid */
+            customerId: string;
+            /** Format: uuid */
+            loanProductId: string;
+            requestedAmount: number;
+            /** Format: int32 */
+            requestedTermMonths: number;
+            purpose?: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
