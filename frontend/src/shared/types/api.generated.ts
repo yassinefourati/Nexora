@@ -1991,6 +1991,20 @@ export interface components {
             email: string;
             phone?: string;
         };
+        UpdateLoanProductRequest: {
+            code: string;
+            name: string;
+            productType: string;
+            status?: string;
+            currency?: string;
+            minAmount: number;
+            maxAmount: number;
+            /** Format: int32 */
+            minTermMonths: number;
+            /** Format: int32 */
+            maxTermMonths: number;
+            description?: string;
+        };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseOrganizationResponse: {
             /**
@@ -2053,6 +2067,26 @@ export interface components {
             nationalId?: string;
             email?: string;
             phone?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanProductResponse: {
+            /** Format: uuid */
+            id?: string;
+            code?: string;
+            name?: string;
+            productType?: string;
+            status?: string;
+            currency?: string;
+            minAmount?: number;
+            maxAmount?: number;
+            /** Format: int32 */
+            minTermMonths?: number;
+            /** Format: int32 */
+            maxTermMonths?: number;
+            description?: string;
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -2901,6 +2935,20 @@ export interface components {
             nationalId?: string;
             email: string;
             phone?: string;
+        };
+        CreateLoanProductRequest: {
+            code: string;
+            name: string;
+            productType: string;
+            status?: string;
+            currency?: string;
+            minAmount: number;
+            maxAmount: number;
+            /** Format: int32 */
+            minTermMonths: number;
+            /** Format: int32 */
+            maxTermMonths: number;
+            description?: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
