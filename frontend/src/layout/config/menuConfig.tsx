@@ -41,6 +41,7 @@ export function useMenuConfig(): MenuItem[] {
       { label: 'Departments', icon: <AccountTreeIcon />, path: ROUTES.DEPARTMENTS },
       { label: 'Teams', icon: <Groups2Icon />, path: ROUTES.TEAMS },
     ]},
+    { label: 'Customers', icon: <PersonIcon />, path: ROUTES.CUSTOMERS },
     { label: t('menu.settings'), icon: <SettingsIcon />, children: [
       { label: t('menu.general'), icon: <TuneIcon />, path: ROUTES.SETTINGS },
       { label: 'App Modules', icon: <StorageIcon />, path: ROUTES.APP_MODULES },

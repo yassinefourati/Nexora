@@ -7,6 +7,7 @@ export const ROUTES = {
   USERS_ROLES: '/users/roles', USERS_PERMISSIONS: '/users/permissions',
   ROLE_PERMISSIONS: '/users/roles/permissions',
   ORGANIZATIONS: '/organizations', DEPARTMENTS: '/departments', TEAMS: '/teams',
+  CUSTOMERS: '/customers',
   SETTINGS: '/settings',
   APP_MODULES: '/app-modules', MENUS: '/menus', FEATURE_FLAGS: '/feature-flags',
   MENU_PERMISSIONS: '/menu-permissions', ROLE_MENUS: '/role-menus', METADATA: '/metadata',
