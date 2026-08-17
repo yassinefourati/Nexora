@@ -8,6 +8,7 @@ export const ROUTES = {
   ROLE_PERMISSIONS: '/users/roles/permissions',
   ORGANIZATIONS: '/organizations', DEPARTMENTS: '/departments', TEAMS: '/teams',
   CUSTOMERS: '/customers',
+  KYC_CASES: '/kyc-cases',
   SETTINGS: '/settings',
   APP_MODULES: '/app-modules', MENUS: '/menus', FEATURE_FLAGS: '/feature-flags',
   MENU_PERMISSIONS: '/menu-permissions', ROLE_MENUS: '/role-menus', METADATA: '/metadata',

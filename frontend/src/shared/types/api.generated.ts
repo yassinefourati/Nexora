@@ -2058,6 +2058,21 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
         };
+        KycCaseResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            customerId?: string;
+            status?: string;
+            /** Format: date-time */
+            initiatedAt?: string;
+            /** Format: date-time */
+            completedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
         UpdateNotificationRequest: {
             title: string;
             body: string;
@@ -2901,6 +2916,10 @@ export interface components {
             nationalId?: string;
             email: string;
             phone?: string;
+        };
+        CreateKycCaseRequest: {
+            /** Format: uuid */
+            customerId: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
