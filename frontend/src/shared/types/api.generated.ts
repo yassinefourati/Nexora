@@ -2117,6 +2117,23 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
         };
+        CreditCheckResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            /** Format: uuid */
+            customerId?: string;
+            status?: string;
+            /** Format: date-time */
+            requestedAt?: string;
+            /** Format: date-time */
+            completedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
         UpdateNotificationRequest: {
             title: string;
             body: string;
@@ -2984,6 +3001,12 @@ export interface components {
             /** Format: int32 */
             requestedTermMonths: number;
             purpose?: string;
+        };
+        CreateCreditCheckRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            /** Format: uuid */
+            customerId: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */

@@ -20,6 +20,7 @@ const Organizations      = lazy(() => import('@/features/organizations/pages/Org
 const Customers           = lazy(() => import('@/features/customers/pages/Customers'));
 const LoanProducts       = lazy(() => import('@/features/loanProducts/pages/LoanProducts'));
 const LoanApplications   = lazy(() => import('@/features/loanApplications/pages/LoanApplications'));
+const CreditChecks       = lazy(() => import('@/features/creditChecks/pages/CreditChecks'));
 const Departments        = lazy(() => import('@/features/departments/pages/Departments'));
 const Teams              = lazy(() => import('@/features/teams/pages/Teams'));
 const Settings           = lazy(() => import('@/features/settings/pages/Settings'));
@@ -84,6 +85,7 @@ export default function AppRoutes() {
         <Route path={ROUTES.CUSTOMERS}                     element={<Protected><Customers /></Protected>} />
         <Route path={ROUTES.LOAN_PRODUCTS}                 element={<Protected><LoanProducts /></Protected>} />
         <Route path={ROUTES.LOAN_APPLICATIONS}             element={<Protected><LoanApplications /></Protected>} />
+        <Route path={ROUTES.CREDIT_CHECKS}                 element={<Protected><CreditChecks /></Protected>} />
         <Route path={ROUTES.DEPARTMENTS}                   element={<Protected><Departments /></Protected>} />
         <Route path={ROUTES.TEAMS}                         element={<Protected><Teams /></Protected>} />
         <Route path={ROUTES.SETTINGS}                      element={<Protected><Settings /></Protected>} />
