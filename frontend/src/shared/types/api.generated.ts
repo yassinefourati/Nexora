@@ -1979,6 +1979,18 @@ export interface components {
             status?: string;
             metadata?: string;
         };
+        UpdateCustomerRequest: {
+            customerType: string;
+            status?: string;
+            firstName?: string;
+            lastName?: string;
+            businessName?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            email: string;
+            phone?: string;
+        };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseOrganizationResponse: {
             /**
@@ -2023,6 +2035,39 @@ export interface components {
             code?: string;
             status?: string;
             metadata?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        CustomerResponse: {
+            /** Format: uuid */
+            id?: string;
+            customerType?: string;
+            status?: string;
+            firstName?: string;
+            lastName?: string;
+            businessName?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            email?: string;
+            phone?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        KycCaseResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            customerId?: string;
+            status?: string;
+            /** Format: date-time */
+            initiatedAt?: string;
+            /** Format: date-time */
+            completedAt?: string;
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -2859,6 +2904,22 @@ export interface components {
             code: string;
             status?: string;
             metadata?: string;
+        };
+        CreateCustomerRequest: {
+            customerType: string;
+            status?: string;
+            firstName?: string;
+            lastName?: string;
+            businessName?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            email: string;
+            phone?: string;
+        };
+        CreateKycCaseRequest: {
+            /** Format: uuid */
+            customerId: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
