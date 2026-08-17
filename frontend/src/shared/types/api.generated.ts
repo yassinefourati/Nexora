@@ -2117,6 +2117,37 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
         };
+        RiskAssessmentResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            status?: string;
+            /** Format: int32 */
+            riskScore?: number;
+            riskClass?: string;
+            /** Format: date-time */
+            assessedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        FraudCheckResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            status?: string;
+            /** Format: int32 */
+            fraudScore?: number;
+            /** Format: date-time */
+            checkedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
         UpdateNotificationRequest: {
             title: string;
             body: string;
@@ -2984,6 +3015,14 @@ export interface components {
             /** Format: int32 */
             requestedTermMonths: number;
             purpose?: string;
+        };
+        CreateRiskAssessmentRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+        };
+        CreateFraudCheckRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */

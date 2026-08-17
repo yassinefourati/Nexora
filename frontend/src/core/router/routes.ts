@@ -10,6 +10,8 @@ export const ROUTES = {
   CUSTOMERS: '/customers',
   LOAN_PRODUCTS: '/loan-products',
   LOAN_APPLICATIONS: '/loan-applications',
+  RISK_ASSESSMENTS: '/risk-assessments',
+  FRAUD_CHECKS: '/fraud-checks',
   SETTINGS: '/settings',
   APP_MODULES: '/app-modules', MENUS: '/menus', FEATURE_FLAGS: '/feature-flags',
   MENU_PERMISSIONS: '/menu-permissions', ROLE_MENUS: '/role-menus', METADATA: '/metadata',
