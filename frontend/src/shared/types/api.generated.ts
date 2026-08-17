@@ -1979,6 +1979,38 @@ export interface components {
             status?: string;
             metadata?: string;
         };
+        UpdateCustomerRequest: {
+            customerType: string;
+            status?: string;
+            firstName?: string;
+            lastName?: string;
+            businessName?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            email: string;
+            phone?: string;
+        };
+        UpdateLoanProductRequest: {
+            code: string;
+            name: string;
+            productType: string;
+            status?: string;
+            currency?: string;
+            minAmount: number;
+            maxAmount: number;
+            /** Format: int32 */
+            minTermMonths: number;
+            /** Format: int32 */
+            maxTermMonths: number;
+            description?: string;
+        };
+        UpdateLoanApplicationRequest: {
+            requestedAmount: number;
+            /** Format: int32 */
+            requestedTermMonths: number;
+            purpose?: string;
+        };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseOrganizationResponse: {
             /**
@@ -2023,6 +2055,81 @@ export interface components {
             code?: string;
             status?: string;
             metadata?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        CustomerResponse: {
+            /** Format: uuid */
+            id?: string;
+            customerType?: string;
+            status?: string;
+            firstName?: string;
+            lastName?: string;
+            businessName?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            email?: string;
+            phone?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanProductResponse: {
+            /** Format: uuid */
+            id?: string;
+            code?: string;
+            name?: string;
+            productType?: string;
+            status?: string;
+            currency?: string;
+            minAmount?: number;
+            maxAmount?: number;
+            /** Format: int32 */
+            minTermMonths?: number;
+            /** Format: int32 */
+            maxTermMonths?: number;
+            description?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanApplicationResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            customerId?: string;
+            /** Format: uuid */
+            loanProductId?: string;
+            status?: string;
+            requestedAmount?: number;
+            /** Format: int32 */
+            requestedTermMonths?: number;
+            purpose?: string;
+            /** Format: date-time */
+            submittedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        DocumentResponse: {
+            /** Format: uuid */
+            id?: string;
+            documentType?: string;
+            category?: string;
+            fileName?: string;
+            storageKey?: string;
+            contentType?: string;
+            /** Format: int64 */
+            sizeBytes?: number;
+            status?: string;
+            /** Format: date-time */
+            uploadedAt?: string;
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -2859,6 +2966,51 @@ export interface components {
             code: string;
             status?: string;
             metadata?: string;
+        };
+        CreateCustomerRequest: {
+            customerType: string;
+            status?: string;
+            firstName?: string;
+            lastName?: string;
+            businessName?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            email: string;
+            phone?: string;
+        };
+        CreateLoanProductRequest: {
+            code: string;
+            name: string;
+            productType: string;
+            status?: string;
+            currency?: string;
+            minAmount: number;
+            maxAmount: number;
+            /** Format: int32 */
+            minTermMonths: number;
+            /** Format: int32 */
+            maxTermMonths: number;
+            description?: string;
+        };
+        CreateLoanApplicationRequest: {
+            /** Format: uuid */
+            customerId: string;
+            /** Format: uuid */
+            loanProductId: string;
+            requestedAmount: number;
+            /** Format: int32 */
+            requestedTermMonths: number;
+            purpose?: string;
+        };
+        CreateDocumentRequest: {
+            documentType: string;
+            category: string;
+            fileName: string;
+            storageKey: string;
+            contentType?: string;
+            /** Format: int64 */
+            sizeBytes?: number;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
