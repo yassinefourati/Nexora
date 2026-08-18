@@ -19,6 +19,7 @@ export const ROUTES = {
   LOAN_ACCOUNTS: '/loan-accounts',
   LOAN_REPAYMENTS: '/loan-repayments',
   COLLECTION_CASES: '/collection-cases',
+  LOAN_NOTIFICATIONS: '/loan-notifications',
   SETTINGS: '/settings',
   APP_MODULES: '/app-modules', MENUS: '/menus', FEATURE_FLAGS: '/feature-flags',
   MENU_PERMISSIONS: '/menu-permissions', ROLE_MENUS: '/role-menus', METADATA: '/metadata',

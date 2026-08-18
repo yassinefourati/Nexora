@@ -2488,6 +2488,20 @@ export interface components {
             /** Format: date-time */
             changedAt?: string;
         };
+        LoanNotificationResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            /** Format: uuid */
+            notificationId?: string;
+            eventType?: string;
+            title?: string;
+            body?: string;
+            channel?: string;
+            /** Format: date-time */
+            createdAt?: string;
+        };
         UpdateNotificationRequest: {
             title: string;
             body: string;
@@ -3496,6 +3510,14 @@ export interface components {
             collectionCaseId: string;
             author: string;
             note: string;
+        };
+        CreateLoanNotificationRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            eventType: string;
+            title: string;
+            body: string;
+            channel: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
