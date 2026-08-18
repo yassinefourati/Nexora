@@ -17,6 +17,7 @@ export const ROUTES = {
   CONTRACT_SIGNATURES: '/contract-signatures',
   LOAN_DISBURSEMENTS: '/loan-disbursements',
   LOAN_ACCOUNTS: '/loan-accounts',
+  LOAN_REPAYMENTS: '/loan-repayments',
   SETTINGS: '/settings',
   APP_MODULES: '/app-modules', MENUS: '/menus', FEATURE_FLAGS: '/feature-flags',
   MENU_PERMISSIONS: '/menu-permissions', ROLE_MENUS: '/role-menus', METADATA: '/metadata',

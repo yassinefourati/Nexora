@@ -2412,6 +2412,38 @@ export interface components {
             /** Format: date-time */
             changedAt?: string;
         };
+        LoanRepaymentResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanAccountId?: string;
+            /** Format: uuid */
+            loanInstallmentId?: string;
+            status?: string;
+            amount?: number;
+            paymentMethod?: string;
+            referenceNumber?: string;
+            failureReason?: string;
+            /** Format: date-time */
+            paidAt?: string;
+            /** Format: date-time */
+            failedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanRepaymentStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanRepaymentId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
         UpdateNotificationRequest: {
             title: string;
             body: string;
@@ -3384,6 +3416,20 @@ export interface components {
         };
         DefaultLoanAccountRequest: {
             reason: string;
+        };
+        CreateLoanRepaymentRequest: {
+            /** Format: uuid */
+            loanAccountId: string;
+            /** Format: uuid */
+            loanInstallmentId: string;
+            amount: number;
+            paymentMethod: string;
+        };
+        CompleteLoanRepaymentRequest: {
+            referenceNumber: string;
+        };
+        FailLoanRepaymentRequest: {
+            failureReason: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
