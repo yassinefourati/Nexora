@@ -2221,6 +2221,43 @@ export interface components {
             /** Format: date-time */
             changedAt?: string;
         };
+        LoanOfferResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            /** Format: uuid */
+            loanApprovalId?: string;
+            status?: string;
+            offeredAmount?: number;
+            /** Format: int32 */
+            offeredTermMonths?: number;
+            interestRate?: number;
+            declineReason?: string;
+            /** Format: date-time */
+            issuedAt?: string;
+            /** Format: date-time */
+            expiresAt?: string;
+            /** Format: date-time */
+            acceptedAt?: string;
+            /** Format: date-time */
+            declinedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanOfferStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanOfferId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
         UpdateNotificationRequest: {
             title: string;
             body: string;
@@ -3132,6 +3169,17 @@ export interface components {
             /** Format: uuid */
             loanApprovalId: string;
             description: string;
+        };
+        CreateLoanOfferRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            /** Format: uuid */
+            loanApprovalId: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        DeclineLoanOfferRequest: {
+            declineReason: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */

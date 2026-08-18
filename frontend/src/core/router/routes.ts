@@ -12,6 +12,7 @@ export const ROUTES = {
   LOAN_APPLICATIONS: '/loan-applications',
   UNDERWRITING_CASES: '/underwriting-cases',
   LOAN_APPROVALS: '/loan-approvals',
+  LOAN_OFFERS: '/loan-offers',
   SETTINGS: '/settings',
   APP_MODULES: '/app-modules', MENUS: '/menus', FEATURE_FLAGS: '/feature-flags',
   MENU_PERMISSIONS: '/menu-permissions', ROLE_MENUS: '/role-menus', METADATA: '/metadata',
