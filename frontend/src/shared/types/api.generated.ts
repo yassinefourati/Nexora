@@ -2258,6 +2258,41 @@ export interface components {
             /** Format: date-time */
             changedAt?: string;
         };
+        LoanContractResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            /** Format: uuid */
+            loanOfferId?: string;
+            contractNumber?: string;
+            status?: string;
+            principalAmount?: number;
+            /** Format: int32 */
+            termMonths?: number;
+            interestRate?: number;
+            documentUrl?: string;
+            /** Format: date-time */
+            finalizedAt?: string;
+            /** Format: date-time */
+            cancelledAt?: string;
+            cancellationReason?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanContractStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanContractId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
         UpdateNotificationRequest: {
             title: string;
             body: string;
@@ -3180,6 +3215,19 @@ export interface components {
         };
         DeclineLoanOfferRequest: {
             declineReason: string;
+        };
+        CreateLoanContractRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            /** Format: uuid */
+            loanOfferId: string;
+            contractNumber: string;
+        };
+        FinalizeLoanContractRequest: {
+            documentUrl?: string;
+        };
+        CancelLoanContractRequest: {
+            cancellationReason: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
