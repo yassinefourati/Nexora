@@ -2444,6 +2444,50 @@ export interface components {
             /** Format: date-time */
             changedAt?: string;
         };
+        CollectionCaseResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanAccountId?: string;
+            /** Format: uuid */
+            loanInstallmentId?: string;
+            status?: string;
+            stage?: string;
+            assignedTo?: string;
+            overdueAmount?: number;
+            resolutionNotes?: string;
+            /** Format: date-time */
+            openedAt?: string;
+            /** Format: date-time */
+            resolvedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        CollectionNoteResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            collectionCaseId?: string;
+            author?: string;
+            note?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        CollectionCaseStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            collectionCaseId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
         UpdateNotificationRequest: {
             title: string;
             body: string;
@@ -3430,6 +3474,28 @@ export interface components {
         };
         FailLoanRepaymentRequest: {
             failureReason: string;
+        };
+        CreateCollectionCaseRequest: {
+            /** Format: uuid */
+            loanAccountId: string;
+            /** Format: uuid */
+            loanInstallmentId: string;
+            assignedTo?: string;
+        };
+        EscalateCollectionCaseRequest: {
+            stage: string;
+        };
+        ResolveCollectionCaseRequest: {
+            resolutionNotes: string;
+        };
+        WriteOffCollectionCaseRequest: {
+            resolutionNotes: string;
+        };
+        CreateCollectionNoteRequest: {
+            /** Format: uuid */
+            collectionCaseId: string;
+            author: string;
+            note: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */

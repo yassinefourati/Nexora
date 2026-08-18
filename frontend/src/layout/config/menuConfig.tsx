@@ -32,6 +32,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import SavingsIcon from '@mui/icons-material/Savings';
 import PaymentsIcon from '@mui/icons-material/Payments';
+import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
 import { useTranslation } from 'react-i18next';
 import { ROUTES, GUIDE_ROUTE } from '@/core/router/routes';
 import type { ReactNode } from 'react';
@@ -62,6 +63,7 @@ export function useMenuConfig(): MenuItem[] {
     { label: 'Loan Disbursements', icon: <AccountBalanceIcon />, path: ROUTES.LOAN_DISBURSEMENTS },
     { label: 'Loan Accounts', icon: <SavingsIcon />, path: ROUTES.LOAN_ACCOUNTS },
     { label: 'Loan Repayments', icon: <PaymentsIcon />, path: ROUTES.LOAN_REPAYMENTS },
+    { label: 'Collection Cases', icon: <GavelOutlinedIcon />, path: ROUTES.COLLECTION_CASES },
     { label: t('menu.settings'), icon: <SettingsIcon />, children: [
       { label: t('menu.general'), icon: <TuneIcon />, path: ROUTES.SETTINGS },
       { label: 'App Modules', icon: <StorageIcon />, path: ROUTES.APP_MODULES },
