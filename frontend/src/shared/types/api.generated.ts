@@ -1979,6 +1979,38 @@ export interface components {
             status?: string;
             metadata?: string;
         };
+        UpdateCustomerRequest: {
+            customerType: string;
+            status?: string;
+            firstName?: string;
+            lastName?: string;
+            businessName?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            email: string;
+            phone?: string;
+        };
+        UpdateLoanProductRequest: {
+            code: string;
+            name: string;
+            productType: string;
+            status?: string;
+            currency?: string;
+            minAmount: number;
+            maxAmount: number;
+            /** Format: int32 */
+            minTermMonths: number;
+            /** Format: int32 */
+            maxTermMonths: number;
+            description?: string;
+        };
+        UpdateLoanApplicationRequest: {
+            requestedAmount: number;
+            /** Format: int32 */
+            requestedTermMonths: number;
+            purpose?: string;
+        };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseOrganizationResponse: {
             /**
@@ -2027,6 +2059,434 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+        };
+        CustomerResponse: {
+            /** Format: uuid */
+            id?: string;
+            customerType?: string;
+            status?: string;
+            firstName?: string;
+            lastName?: string;
+            businessName?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            email?: string;
+            phone?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanProductResponse: {
+            /** Format: uuid */
+            id?: string;
+            code?: string;
+            name?: string;
+            productType?: string;
+            status?: string;
+            currency?: string;
+            minAmount?: number;
+            maxAmount?: number;
+            /** Format: int32 */
+            minTermMonths?: number;
+            /** Format: int32 */
+            maxTermMonths?: number;
+            description?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanApplicationResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            customerId?: string;
+            /** Format: uuid */
+            loanProductId?: string;
+            status?: string;
+            requestedAmount?: number;
+            /** Format: int32 */
+            requestedTermMonths?: number;
+            purpose?: string;
+            /** Format: date-time */
+            submittedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        UnderwritingCaseResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            status?: string;
+            decision?: string;
+            decisionReason?: string;
+            approvedAmount?: number;
+            /** Format: int32 */
+            approvedTermMonths?: number;
+            assignedTo?: string;
+            /** Format: date-time */
+            decidedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        UnderwritingConditionResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            underwritingCaseId?: string;
+            description?: string;
+            status?: string;
+            /** Format: date-time */
+            satisfiedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        UnderwritingNoteResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            underwritingCaseId?: string;
+            author?: string;
+            note?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        UnderwritingStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            underwritingCaseId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
+        LoanApprovalResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            /** Format: uuid */
+            underwritingCaseId?: string;
+            status?: string;
+            approvedAmount?: number;
+            /** Format: int32 */
+            approvedTermMonths?: number;
+            interestRate?: number;
+            approvedBy?: string;
+            rejectionReason?: string;
+            /** Format: date-time */
+            expiresAt?: string;
+            /** Format: date-time */
+            approvedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanApprovalConditionResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApprovalId?: string;
+            description?: string;
+            status?: string;
+            /** Format: date-time */
+            satisfiedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanApprovalStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApprovalId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
+        LoanOfferResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            /** Format: uuid */
+            loanApprovalId?: string;
+            status?: string;
+            offeredAmount?: number;
+            /** Format: int32 */
+            offeredTermMonths?: number;
+            interestRate?: number;
+            declineReason?: string;
+            /** Format: date-time */
+            issuedAt?: string;
+            /** Format: date-time */
+            expiresAt?: string;
+            /** Format: date-time */
+            acceptedAt?: string;
+            /** Format: date-time */
+            declinedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanOfferStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanOfferId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
+        LoanContractResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            /** Format: uuid */
+            loanOfferId?: string;
+            contractNumber?: string;
+            status?: string;
+            principalAmount?: number;
+            /** Format: int32 */
+            termMonths?: number;
+            interestRate?: number;
+            documentUrl?: string;
+            /** Format: date-time */
+            finalizedAt?: string;
+            /** Format: date-time */
+            cancelledAt?: string;
+            cancellationReason?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanContractStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanContractId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
+        ContractSignatureResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanContractId?: string;
+            signerName?: string;
+            signerRole?: string;
+            status?: string;
+            signatureMethod?: string;
+            declineReason?: string;
+            /** Format: date-time */
+            requestedAt?: string;
+            /** Format: date-time */
+            signedAt?: string;
+            /** Format: date-time */
+            declinedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        ContractSignatureStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            contractSignatureId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
+        LoanDisbursementResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            /** Format: uuid */
+            loanContractId?: string;
+            status?: string;
+            amount?: number;
+            disbursementMethod?: string;
+            destinationAccount?: string;
+            referenceNumber?: string;
+            failureReason?: string;
+            /** Format: date-time */
+            initiatedAt?: string;
+            /** Format: date-time */
+            completedAt?: string;
+            /** Format: date-time */
+            failedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanDisbursementStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanDisbursementId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
+        LoanAccountResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            /** Format: uuid */
+            loanDisbursementId?: string;
+            accountNumber?: string;
+            status?: string;
+            principalAmount?: number;
+            interestRate?: number;
+            /** Format: int32 */
+            termMonths?: number;
+            outstandingPrincipal?: number;
+            /** Format: date-time */
+            openedAt?: string;
+            /** Format: date-time */
+            closedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanInstallmentResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanAccountId?: string;
+            /** Format: int32 */
+            installmentNumber?: number;
+            /** Format: date */
+            dueDate?: string;
+            principalAmount?: number;
+            interestAmount?: number;
+            totalAmount?: number;
+            status?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanAccountStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanAccountId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
+        LoanRepaymentResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanAccountId?: string;
+            /** Format: uuid */
+            loanInstallmentId?: string;
+            status?: string;
+            amount?: number;
+            paymentMethod?: string;
+            referenceNumber?: string;
+            failureReason?: string;
+            /** Format: date-time */
+            paidAt?: string;
+            /** Format: date-time */
+            failedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanRepaymentStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanRepaymentId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
+        CollectionCaseResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanAccountId?: string;
+            /** Format: uuid */
+            loanInstallmentId?: string;
+            status?: string;
+            stage?: string;
+            assignedTo?: string;
+            overdueAmount?: number;
+            resolutionNotes?: string;
+            /** Format: date-time */
+            openedAt?: string;
+            /** Format: date-time */
+            resolvedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        CollectionNoteResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            collectionCaseId?: string;
+            author?: string;
+            note?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        CollectionCaseStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            collectionCaseId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
         };
         UpdateNotificationRequest: {
             title: string;
@@ -2859,6 +3319,183 @@ export interface components {
             code: string;
             status?: string;
             metadata?: string;
+        };
+        CreateCustomerRequest: {
+            customerType: string;
+            status?: string;
+            firstName?: string;
+            lastName?: string;
+            businessName?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            email: string;
+            phone?: string;
+        };
+        CreateLoanProductRequest: {
+            code: string;
+            name: string;
+            productType: string;
+            status?: string;
+            currency?: string;
+            minAmount: number;
+            maxAmount: number;
+            /** Format: int32 */
+            minTermMonths: number;
+            /** Format: int32 */
+            maxTermMonths: number;
+            description?: string;
+        };
+        CreateLoanApplicationRequest: {
+            /** Format: uuid */
+            customerId: string;
+            /** Format: uuid */
+            loanProductId: string;
+            requestedAmount: number;
+            /** Format: int32 */
+            requestedTermMonths: number;
+            purpose?: string;
+        };
+        CreateUnderwritingCaseRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            assignedTo?: string;
+        };
+        DecideUnderwritingCaseRequest: {
+            decision: string;
+            decisionReason?: string;
+            approvedAmount?: number;
+            /** Format: int32 */
+            approvedTermMonths?: number;
+        };
+        CreateUnderwritingConditionRequest: {
+            /** Format: uuid */
+            underwritingCaseId: string;
+            description: string;
+        };
+        CreateUnderwritingNoteRequest: {
+            /** Format: uuid */
+            underwritingCaseId: string;
+            author: string;
+            note: string;
+        };
+        CreateLoanApprovalRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            /** Format: uuid */
+            underwritingCaseId: string;
+        };
+        ApproveLoanApprovalRequest: {
+            approvedAmount: number;
+            /** Format: int32 */
+            approvedTermMonths: number;
+            interestRate: number;
+            approvedBy: string;
+        };
+        RejectLoanApprovalRequest: {
+            rejectionReason: string;
+        };
+        CreateLoanApprovalConditionRequest: {
+            /** Format: uuid */
+            loanApprovalId: string;
+            description: string;
+        };
+        CreateLoanOfferRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            /** Format: uuid */
+            loanApprovalId: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        DeclineLoanOfferRequest: {
+            declineReason: string;
+        };
+        CreateLoanContractRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            /** Format: uuid */
+            loanOfferId: string;
+            contractNumber: string;
+        };
+        FinalizeLoanContractRequest: {
+            documentUrl?: string;
+        };
+        CancelLoanContractRequest: {
+            cancellationReason: string;
+        };
+        CreateContractSignatureRequest: {
+            /** Format: uuid */
+            loanContractId: string;
+            signerName: string;
+            signerRole: string;
+            signatureMethod?: string;
+        };
+        DeclineContractSignatureRequest: {
+            declineReason: string;
+        };
+        CreateLoanDisbursementRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            /** Format: uuid */
+            loanContractId: string;
+            disbursementMethod: string;
+            destinationAccount: string;
+        };
+        CompleteLoanDisbursementRequest: {
+            referenceNumber: string;
+        };
+        FailLoanDisbursementRequest: {
+            failureReason: string;
+        };
+        CreateLoanAccountRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            /** Format: uuid */
+            loanDisbursementId: string;
+            accountNumber: string;
+        };
+        CloseLoanAccountRequest: {
+            reason?: string;
+        };
+        DefaultLoanAccountRequest: {
+            reason: string;
+        };
+        CreateLoanRepaymentRequest: {
+            /** Format: uuid */
+            loanAccountId: string;
+            /** Format: uuid */
+            loanInstallmentId: string;
+            amount: number;
+            paymentMethod: string;
+        };
+        CompleteLoanRepaymentRequest: {
+            referenceNumber: string;
+        };
+        FailLoanRepaymentRequest: {
+            failureReason: string;
+        };
+        CreateCollectionCaseRequest: {
+            /** Format: uuid */
+            loanAccountId: string;
+            /** Format: uuid */
+            loanInstallmentId: string;
+            assignedTo?: string;
+        };
+        EscalateCollectionCaseRequest: {
+            stage: string;
+        };
+        ResolveCollectionCaseRequest: {
+            resolutionNotes: string;
+        };
+        WriteOffCollectionCaseRequest: {
+            resolutionNotes: string;
+        };
+        CreateCollectionNoteRequest: {
+            /** Format: uuid */
+            collectionCaseId: string;
+            author: string;
+            note: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
