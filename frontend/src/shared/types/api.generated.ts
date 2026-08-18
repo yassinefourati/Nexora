@@ -2173,6 +2173,54 @@ export interface components {
             /** Format: date-time */
             changedAt?: string;
         };
+        LoanApprovalResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            /** Format: uuid */
+            underwritingCaseId?: string;
+            status?: string;
+            approvedAmount?: number;
+            /** Format: int32 */
+            approvedTermMonths?: number;
+            interestRate?: number;
+            approvedBy?: string;
+            rejectionReason?: string;
+            /** Format: date-time */
+            expiresAt?: string;
+            /** Format: date-time */
+            approvedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanApprovalConditionResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApprovalId?: string;
+            description?: string;
+            status?: string;
+            /** Format: date-time */
+            satisfiedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanApprovalStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApprovalId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
         UpdateNotificationRequest: {
             title: string;
             body: string;
@@ -3063,6 +3111,27 @@ export interface components {
             underwritingCaseId: string;
             author: string;
             note: string;
+        };
+        CreateLoanApprovalRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            /** Format: uuid */
+            underwritingCaseId: string;
+        };
+        ApproveLoanApprovalRequest: {
+            approvedAmount: number;
+            /** Format: int32 */
+            approvedTermMonths: number;
+            interestRate: number;
+            approvedBy: string;
+        };
+        RejectLoanApprovalRequest: {
+            rejectionReason: string;
+        };
+        CreateLoanApprovalConditionRequest: {
+            /** Format: uuid */
+            loanApprovalId: string;
+            description: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
