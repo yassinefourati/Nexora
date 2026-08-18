@@ -22,6 +22,12 @@ import GppMaybeIcon from '@mui/icons-material/GppMaybe';
 import LabelIcon from '@mui/icons-material/Label';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ForumIcon from '@mui/icons-material/Forum';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import DescriptionIcon from '@mui/icons-material/Description';
+import GavelIcon from '@mui/icons-material/Gavel';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
+import ArticleIcon from '@mui/icons-material/Article';
 import { useTranslation } from 'react-i18next';
 import { ROUTES, GUIDE_ROUTE } from '@/core/router/routes';
 import type { ReactNode } from 'react';
@@ -41,6 +47,13 @@ export function useMenuConfig(): MenuItem[] {
       { label: 'Departments', icon: <AccountTreeIcon />, path: ROUTES.DEPARTMENTS },
       { label: 'Teams', icon: <Groups2Icon />, path: ROUTES.TEAMS },
     ]},
+    { label: 'Customers', icon: <PersonIcon />, path: ROUTES.CUSTOMERS },
+    { label: 'Loan Products', icon: <AttachMoneyIcon />, path: ROUTES.LOAN_PRODUCTS },
+    { label: 'Loan Applications', icon: <DescriptionIcon />, path: ROUTES.LOAN_APPLICATIONS },
+    { label: 'Underwriting', icon: <GavelIcon />, path: ROUTES.UNDERWRITING_CASES },
+    { label: 'Loan Approvals', icon: <ThumbUpIcon />, path: ROUTES.LOAN_APPROVALS },
+    { label: 'Loan Offers', icon: <LocalOfferOutlinedIcon />, path: ROUTES.LOAN_OFFERS },
+    { label: 'Loan Contracts', icon: <ArticleIcon />, path: ROUTES.LOAN_CONTRACTS },
     { label: t('menu.settings'), icon: <SettingsIcon />, children: [
       { label: t('menu.general'), icon: <TuneIcon />, path: ROUTES.SETTINGS },
       { label: 'App Modules', icon: <StorageIcon />, path: ROUTES.APP_MODULES },
