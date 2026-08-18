@@ -3,8 +3,15 @@ import PeopleIcon from '@mui/icons-material/People';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import ShieldIcon from '@mui/icons-material/Shield';
 import DevicesIcon from '@mui/icons-material/Devices';
+import DescriptionIcon from '@mui/icons-material/Description';
+import SavingsIcon from '@mui/icons-material/Savings';
+import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { useTranslation } from 'react-i18next';
-import { useUserCount, useOrganizationCount, useRoleCount, useActiveSessionCount } from '../hooks/useDashboard';
+import {
+  useUserCount, useOrganizationCount, useRoleCount, useActiveSessionCount,
+  useLoanApplicationCount, useLoanAccountCount, useCollectionCaseCount, useLoanDisbursementCount,
+} from '../hooks/useDashboard';
 import { useAuditLog } from '@/features/audit/hooks/useAudit';
 import StatCard from '../components/StatCard';
 import SectionErrorBoundary from '@/shared/components/SectionErrorBoundary';
@@ -16,6 +23,10 @@ export default function Dashboard() {
   const { data: orgCount, isLoading: orgLoading } = useOrganizationCount();
   const { data: roleCount, isLoading: roleLoading } = useRoleCount();
   const { data: sessionCount, isLoading: sessionLoading } = useActiveSessionCount();
+  const { data: loanApplicationCount, isLoading: loanApplicationLoading } = useLoanApplicationCount();
+  const { data: loanAccountCount, isLoading: loanAccountLoading } = useLoanAccountCount();
+  const { data: collectionCaseCount, isLoading: collectionCaseLoading } = useCollectionCaseCount();
+  const { data: loanDisbursementCount, isLoading: loanDisbursementLoading } = useLoanDisbursementCount();
   const { data: recentAudit, isLoading: auditLoading } = useAuditLog({ page: 0, size: 8, sort: 'createdAt,desc' });
 
   return (
@@ -34,6 +45,22 @@ export default function Dashboard() {
         </Grid>
         <Grid size={{ xs: 12, sm: 6, xl: 3 }}>
           <StatCard title="Active Sessions" value={sessionCount ?? 0} icon={<DevicesIcon />} color="#9c27b0" loading={sessionLoading} />
+        </Grid>
+      </Grid>
+
+      <Typography variant="subtitle1" component="h2" fontWeight={700} mb={1.5}>Loan Portfolio</Typography>
+      <Grid container spacing={3} sx={{ mb: 3 }}>
+        <Grid size={{ xs: 12, sm: 6, xl: 3 }}>
+          <StatCard title="Loan Applications" value={loanApplicationCount ?? 0} icon={<DescriptionIcon />} color="#0288d1" loading={loanApplicationLoading} />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, xl: 3 }}>
+          <StatCard title="Loan Accounts" value={loanAccountCount ?? 0} icon={<SavingsIcon />} color="#2e7d32" loading={loanAccountLoading} />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, xl: 3 }}>
+          <StatCard title="Collection Cases" value={collectionCaseCount ?? 0} icon={<GavelOutlinedIcon />} color="#d32f2f" loading={collectionCaseLoading} />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, xl: 3 }}>
+          <StatCard title="Disbursements" value={loanDisbursementCount ?? 0} icon={<AccountBalanceIcon />} color="#7b1fa2" loading={loanDisbursementLoading} />
         </Grid>
       </Grid>
 
