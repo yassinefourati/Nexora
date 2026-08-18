@@ -28,6 +28,7 @@ import GavelIcon from '@mui/icons-material/Gavel';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import ArticleIcon from '@mui/icons-material/Article';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useTranslation } from 'react-i18next';
 import { ROUTES, GUIDE_ROUTE } from '@/core/router/routes';
 import type { ReactNode } from 'react';
@@ -54,6 +55,7 @@ export function useMenuConfig(): MenuItem[] {
     { label: 'Loan Approvals', icon: <ThumbUpIcon />, path: ROUTES.LOAN_APPROVALS },
     { label: 'Loan Offers', icon: <LocalOfferOutlinedIcon />, path: ROUTES.LOAN_OFFERS },
     { label: 'Loan Contracts', icon: <ArticleIcon />, path: ROUTES.LOAN_CONTRACTS },
+    { label: 'Contract Signatures', icon: <BorderColorIcon />, path: ROUTES.CONTRACT_SIGNATURES },
     { label: t('menu.settings'), icon: <SettingsIcon />, children: [
       { label: t('menu.general'), icon: <TuneIcon />, path: ROUTES.SETTINGS },
       { label: 'App Modules', icon: <StorageIcon />, path: ROUTES.APP_MODULES },
