@@ -26,6 +26,7 @@ const LoanOffers         = lazy(() => import('@/features/loanOffers/pages/LoanOf
 const LoanContracts      = lazy(() => import('@/features/loanContracts/pages/LoanContracts'));
 const ContractSignatures = lazy(() => import('@/features/contractSignatures/pages/ContractSignatures'));
 const LoanDisbursements  = lazy(() => import('@/features/loanDisbursements/pages/LoanDisbursements'));
+const LoanAccounts       = lazy(() => import('@/features/loanAccounts/pages/LoanAccounts'));
 const Departments        = lazy(() => import('@/features/departments/pages/Departments'));
 const Teams              = lazy(() => import('@/features/teams/pages/Teams'));
 const Settings           = lazy(() => import('@/features/settings/pages/Settings'));
@@ -96,6 +97,7 @@ export default function AppRoutes() {
         <Route path={ROUTES.LOAN_CONTRACTS}                element={<Protected><LoanContracts /></Protected>} />
         <Route path={ROUTES.CONTRACT_SIGNATURES}           element={<Protected><ContractSignatures /></Protected>} />
         <Route path={ROUTES.LOAN_DISBURSEMENTS}            element={<Protected><LoanDisbursements /></Protected>} />
+        <Route path={ROUTES.LOAN_ACCOUNTS}                 element={<Protected><LoanAccounts /></Protected>} />
         <Route path={ROUTES.DEPARTMENTS}                   element={<Protected><Departments /></Protected>} />
         <Route path={ROUTES.TEAMS}                         element={<Protected><Teams /></Protected>} />
         <Route path={ROUTES.SETTINGS}                      element={<Protected><Settings /></Protected>} />

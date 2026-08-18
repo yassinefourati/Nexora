@@ -2360,6 +2360,58 @@ export interface components {
             /** Format: date-time */
             changedAt?: string;
         };
+        LoanAccountResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            /** Format: uuid */
+            loanDisbursementId?: string;
+            accountNumber?: string;
+            status?: string;
+            principalAmount?: number;
+            interestRate?: number;
+            /** Format: int32 */
+            termMonths?: number;
+            outstandingPrincipal?: number;
+            /** Format: date-time */
+            openedAt?: string;
+            /** Format: date-time */
+            closedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanInstallmentResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanAccountId?: string;
+            /** Format: int32 */
+            installmentNumber?: number;
+            /** Format: date */
+            dueDate?: string;
+            principalAmount?: number;
+            interestAmount?: number;
+            totalAmount?: number;
+            status?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanAccountStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanAccountId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
         UpdateNotificationRequest: {
             title: string;
             body: string;
@@ -3319,6 +3371,19 @@ export interface components {
         };
         FailLoanDisbursementRequest: {
             failureReason: string;
+        };
+        CreateLoanAccountRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            /** Format: uuid */
+            loanDisbursementId: string;
+            accountNumber: string;
+        };
+        CloseLoanAccountRequest: {
+            reason?: string;
+        };
+        DefaultLoanAccountRequest: {
+            reason: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
