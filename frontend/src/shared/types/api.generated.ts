@@ -2325,6 +2325,41 @@ export interface components {
             /** Format: date-time */
             changedAt?: string;
         };
+        LoanDisbursementResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanApplicationId?: string;
+            /** Format: uuid */
+            loanContractId?: string;
+            status?: string;
+            amount?: number;
+            disbursementMethod?: string;
+            destinationAccount?: string;
+            referenceNumber?: string;
+            failureReason?: string;
+            /** Format: date-time */
+            initiatedAt?: string;
+            /** Format: date-time */
+            completedAt?: string;
+            /** Format: date-time */
+            failedAt?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LoanDisbursementStatusHistoryResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            loanDisbursementId?: string;
+            fromStatus?: string;
+            toStatus?: string;
+            reason?: string;
+            /** Format: date-time */
+            changedAt?: string;
+        };
         UpdateNotificationRequest: {
             title: string;
             body: string;
@@ -3270,6 +3305,20 @@ export interface components {
         };
         DeclineContractSignatureRequest: {
             declineReason: string;
+        };
+        CreateLoanDisbursementRequest: {
+            /** Format: uuid */
+            loanApplicationId: string;
+            /** Format: uuid */
+            loanContractId: string;
+            disbursementMethod: string;
+            destinationAccount: string;
+        };
+        CompleteLoanDisbursementRequest: {
+            referenceNumber: string;
+        };
+        FailLoanDisbursementRequest: {
+            failureReason: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
