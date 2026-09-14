@@ -23,7 +23,7 @@
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
     "@hookform/resolvers": "5.7.1",
-    "@mui/icons-material": "7.3.11",
+    "@mui/icons-material": "9.4.0",
     "@mui/material": "7.3.11",
     "@mui/x-data-grid": "8.29.2",
     "@sentry/react": "10.70.0",
