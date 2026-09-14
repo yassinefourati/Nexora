@@ -32,7 +32,7 @@
 		<shedlock.version>7.10.1</shedlock.version>
 		<spring-modulith.version>2.0.8</spring-modulith.version>
 		<commons-csv.version>1.12.0</commons-csv.version>
-		<openpdf.version>2.0.3</openpdf.version>
+		<openpdf.version>3.0.5</openpdf.version>
 	</properties>
 
 	<modules>
