@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.6</version>
+		<version>4.1.1</version>
 		<relativePath />
 	</parent>
 	<groupId>com.fourati</groupId>
@@ -30,7 +30,7 @@
 		     its Docker client is refused by Docker Engine 29+. -->
 		<archunit.version>1.3.0</archunit.version>
 		<shedlock.version>7.10.1</shedlock.version>
-		<spring-modulith.version>2.0.8</spring-modulith.version>
+		<spring-modulith.version>2.1.1</spring-modulith.version>
 		<commons-csv.version>1.12.0</commons-csv.version>
 		<openpdf.version>2.0.3</openpdf.version>
 	</properties>
