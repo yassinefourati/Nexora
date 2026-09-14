@@ -39,7 +39,7 @@ services:
 
   # ---------------------------------------------------------------- infra --
   postgres:
-    image: postgres:17-alpine
+    image: postgres:18-alpine
     profiles: [infra, app, scale, loadtest]
     restart: unless-stopped
     environment:
