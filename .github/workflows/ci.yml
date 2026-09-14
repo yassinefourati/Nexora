@@ -175,7 +175,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build admin-api
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: backend
           load: true
@@ -183,7 +183,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Build admin-frontend
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: frontend
           load: true
