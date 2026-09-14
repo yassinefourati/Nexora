@@ -164,7 +164,7 @@ services:
         limits: { cpus: "1.5", memory: 1280M }
 
   api-lb:
-    image: nginx:1.27-alpine
+    image: nginx:1.31-alpine
     profiles: [scale]
     restart: unless-stopped
     ports:
