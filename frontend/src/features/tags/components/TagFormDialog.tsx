@@ -1,4 +1,5 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Stack } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
@@ -10,6 +11,7 @@ import type { Tag } from '../api/tagsApi';
 interface Props { open: boolean; onClose: () => void; editTag?: Tag | null; }
 
 export default function TagFormDialog({ open, onClose, editTag }: Props) {
+  const { t } = useTranslation();
   const isEdit = Boolean(editTag);
   const { mutateAsync: create, isPending: creating } = useCreateTag();
   const { mutateAsync: update, isPending: updating } = useUpdateTag();
@@ -35,17 +37,17 @@ export default function TagFormDialog({ open, onClose, editTag }: Props) {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{isEdit ? 'Edit Tag' : 'Add Tag'}</DialogTitle>
+      <DialogTitle>{isEdit ? t('resources.tags.edit') : t('resources.tags.add')}</DialogTitle>
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 1 }}>
-          <TextField label="Name" fullWidth {...register('name')} error={!!errors.name} helperText={errors.name?.message} />
-          <TextField label="Color" fullWidth {...register('color')} placeholder="#1976d2" error={!!errors.color} helperText={errors.color?.message} />
+          <TextField label={t('fields.name')} fullWidth {...register('name')} error={!!errors.name} helperText={errors.name?.message} />
+          <TextField label={t('fields.color')} fullWidth {...register('color')} placeholder={t('fields.colorPlaceholder')} error={!!errors.color} helperText={errors.color?.message} />
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} disabled={isPending}>Cancel</Button>
+        <Button onClick={onClose} disabled={isPending}>{t('common.cancel')}</Button>
         <LoadingButton variant="contained" onClick={handleSubmit(onSubmit)} loading={isPending}>
-          {isEdit ? 'Save' : 'Create'}
+          {isEdit ? t('common.save') : t('common.create')}
         </LoadingButton>
       </DialogActions>
     </Dialog>

@@ -1,4 +1,5 @@
 import { Box, Typography, Paper, Avatar, Chip, Grid, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import DetailSkeleton from '@/shared/components/skeletons/DetailSkeleton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -8,18 +9,19 @@ import EntityCommentsPanel from '@/features/comments/components/EntityCommentsPa
 import EntityAttachmentsPanel from '@/features/attachments/components/EntityAttachmentsPanel';
 
 export default function UserDetail() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: user, isLoading } = useUser(id);
 
   if (isLoading) return <DetailSkeleton />;
-  if (!user) return <Box sx={{ p: 4 }}><Typography>User not found.</Typography></Box>;
+  if (!user) return <Box sx={{ p: 4 }}><Typography>{t('ui.userNotFound')}</Typography></Box>;
 
   const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ') || user.username;
 
   return (
     <Box>
-      <Button startIcon={<ArrowBackIcon />} onClick={() => navigate(ROUTES.USERS)} sx={{ mb: 2 }}>Back to Users</Button>
+      <Button startIcon={<ArrowBackIcon />} onClick={() => navigate(ROUTES.USERS)} sx={{ mb: 2 }}>{t('ui.backToUsers')}</Button>
 
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, md: 4 }}>
@@ -30,20 +32,17 @@ export default function UserDetail() {
             <Typography variant="h6" fontWeight={700}>{fullName}</Typography>
             <Typography variant="body2" color="text.secondary" mb={1}>{user.email}</Typography>
             <Chip label={user.status} color={user.status === 'active' ? 'success' : 'default'} size="small" />
-            {user.superuser && <Chip label="Superuser" color="error" size="small" variant="outlined" sx={{ ml: 1 }} />}
+            {user.superuser && <Chip label={t('ui.superuser')} color="error" size="small" variant="outlined" sx={{ ml: 1 }} />}
           </Paper>
         </Grid>
 
         <Grid size={{ xs: 12, md: 8 }}>
           <Paper elevation={2} sx={{ p: 3, borderRadius: 3 }}>
-            <Typography variant="subtitle1" fontWeight={700} mb={2}>Account details</Typography>
+            <Typography variant="subtitle1" fontWeight={700} mb={2}>{t('ui.accountDetails')}</Typography>
             <Grid container spacing={2}>
-              <Grid size={6}><Typography variant="caption" color="text.secondary">Username</Typography><Typography>{user.username}</Typography></Grid>
-              <Grid size={6}><Typography variant="caption" color="text.secondary">Failed login attempts</Typography><Typography>{user.failedLoginAttempts ?? 0}</Typography></Grid>
-              <Grid size={6}><Typography variant="caption" color="text.secondary">Last login</Typography><Typography>{user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleString() : '—'}</Typography></Grid>
-              <Grid size={6}><Typography variant="caption" color="text.secondary">Locked until</Typography><Typography>{user.lockedUntil ? new Date(user.lockedUntil).toLocaleString() : '—'}</Typography></Grid>
-              <Grid size={6}><Typography variant="caption" color="text.secondary">Password changed</Typography><Typography>{user.passwordChangedAt ? new Date(user.passwordChangedAt).toLocaleString() : '—'}</Typography></Grid>
-              <Grid size={6}><Typography variant="caption" color="text.secondary">Created</Typography><Typography>{user.createdAt ? new Date(user.createdAt).toLocaleString() : '—'}</Typography></Grid>
+              <Grid size={6}><Typography variant="caption" color="text.secondary">{t('ui.username')}</Typography><Typography>{user.username}</Typography></Grid>
+              <Grid size={6}><Typography variant="caption" color="text.secondary">{t('ui.lastLogin')}</Typography><Typography>{user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleString() : '—'}</Typography></Grid>
+              <Grid size={6}><Typography variant="caption" color="text.secondary">{t('ui.created')}</Typography><Typography>{user.createdAt ? new Date(user.createdAt).toLocaleString() : '—'}</Typography></Grid>
             </Grid>
           </Paper>
         </Grid>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Typography, Paper, List, ListItem, ListItemText, Chip, Divider, Stack, Skeleton, Pagination } from '@mui/material';
 import { useMyInbox, useMarkNotificationRead } from '../hooks/useNotifications';
 
@@ -17,19 +18,20 @@ function NotificationSkeleton() {
 }
 
 export default function NotificationsPage() {
+  const { t } = useTranslation();
   const [page, setPage] = useState(0);
   const { items, pagination, isLoading } = useMyInbox({ page, size: 20 });
   const { mutate: markRead } = useMarkNotificationRead();
 
   return (
     <Box>
-      <Typography variant="h4" component="h1" fontWeight={700} mb={3}>Notifications</Typography>
+      <Typography variant="h4" component="h1" fontWeight={700} mb={3}>{t('ui.notifications')}</Typography>
       <Paper elevation={2} sx={{ borderRadius: 3 }}>
         {isLoading ? (
           <NotificationSkeleton />
         ) : items.length === 0 ? (
           <Box sx={{ p: 6, textAlign: 'center' }}>
-            <Typography color="text.secondary">No notifications yet.</Typography>
+            <Typography color="text.secondary">{t('ui.noNotificationsYet')}</Typography>
           </Box>
         ) : (
           <List disablePadding>
@@ -43,9 +45,9 @@ export default function NotificationsPage() {
                 <ListItemText
                   primary={
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                      <Typography variant="subtitle2" component="span">{n.notification?.title ?? '(untitled)'}</Typography>
+                      <Typography variant="subtitle2" component="span">{n.notification?.title ?? t('ui.untitled')}</Typography>
                       {n.notification?.channel && <Chip label={n.notification.channel} size="small" variant="outlined" />}
-                      {!n.read && <Chip label="New" size="small" color="primary" />}
+                      {!n.read && <Chip label={t('ui.new')} size="small" color="primary" />}
                     </Box>
                   }
                   secondary={

@@ -9,15 +9,15 @@ import {
   type CreateNotificationRequest, type Notification, type UserNotification,
 } from '../api/notificationsApi';
 
-function notificationsResource() {
+function useNotificationsResource() {
   return useCrudResource<Notification, CreateNotificationRequest, never>(NOTIFICATIONS_BASE_PATH, NOTIFICATIONS_KEY);
 }
 
 export function useNotificationsList(params: ListParams = {}) {
-  return notificationsResource().useList(params);
+  return useNotificationsResource().useList(params);
 }
 export function useCreateNotification() {
-  return notificationsResource().useCreate();
+  return useNotificationsResource().useCreate();
 }
 
 /**

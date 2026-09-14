@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: project-admin
+  annotations:
+    # Keep the app's own JWT auth in front of /actuator; do not add an auth bypass here.
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [admin.example.com, api.example.com]
+      secretName: project-admin-tls
+  rules:
+    - host: admin.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: admin-frontend, port: { number: 80 } } }
+    - host: api.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: admin-api, port: { number: 8080 } } }

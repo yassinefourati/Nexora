@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Paper, Typography, Stack, TextField, Button, Divider, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useComments, useCreateComment, useDeleteComment } from '../hooks/useComments';
@@ -7,6 +8,7 @@ import { useConfirmStore } from '@/shared/stores/useConfirmStore';
 interface Props { entityType: string; entityId: string; }
 
 export default function EntityCommentsPanel({ entityType, entityId }: Props) {
+  const { t } = useTranslation();
   const { data, isLoading } = useComments(entityType, entityId, { page: 0, size: 50 });
   const { mutate: create, isPending } = useCreateComment();
   const { mutate: remove } = useDeleteComment(entityType, entityId);
@@ -22,11 +24,11 @@ export default function EntityCommentsPanel({ entityType, entityId }: Props) {
 
   return (
     <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
-      <Typography variant="subtitle2" fontWeight={700} mb={1.5}>Comments</Typography>
+      <Typography variant="subtitle2" fontWeight={700} mb={1.5}>{t('ui.comments')}</Typography>
       {isLoading ? (
-        <Typography variant="body2" color="text.secondary">Loading…</Typography>
+        <Typography variant="body2" color="text.secondary">{t('ui.loading')}</Typography>
       ) : comments.length === 0 ? (
-        <Typography variant="body2" color="text.secondary">No comments yet.</Typography>
+        <Typography variant="body2" color="text.secondary">{t('ui.noComments')}</Typography>
       ) : (
         <Stack divider={<Divider />} spacing={1.5} mb={2}>
           {comments.map((c) => (
@@ -46,8 +48,8 @@ export default function EntityCommentsPanel({ entityType, entityId }: Props) {
         </Stack>
       )}
       <Stack direction="row" spacing={1}>
-        <TextField size="small" fullWidth placeholder="Add a comment…" value={body} onChange={(e) => setBody(e.target.value)} />
-        <Button variant="contained" onClick={submit} disabled={isPending || !body.trim()}>Post</Button>
+        <TextField size="small" fullWidth placeholder={t('ui.addComment')} value={body} onChange={(e) => setBody(e.target.value)} />
+        <Button variant="contained" onClick={submit} disabled={isPending || !body.trim()}>{t('ui.post')}</Button>
       </Stack>
     </Paper>
   );

@@ -1,4 +1,5 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Stack, FormControlLabel, Checkbox } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
@@ -10,6 +11,7 @@ import type { AppModule } from '../api/appModulesApi';
 interface Props { open: boolean; onClose: () => void; editModule?: AppModule | null; }
 
 export default function AppModuleFormDialog({ open, onClose, editModule }: Props) {
+  const { t } = useTranslation();
   const isEdit = Boolean(editModule);
   const { mutateAsync: create, isPending: creating } = useCreateAppModule();
   const { mutateAsync: update, isPending: updating } = useUpdateAppModule();
@@ -41,35 +43,35 @@ export default function AppModuleFormDialog({ open, onClose, editModule }: Props
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{isEdit ? 'Edit App Module' : 'Add App Module'}</DialogTitle>
+      <DialogTitle>{isEdit ? t('resources.appModules.edit') : t('resources.appModules.add')}</DialogTitle>
       <DialogContent>
         {isEdit ? (
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Name" fullWidth {...updateForm.register('name')} error={!!updateForm.formState.errors.name} helperText={updateForm.formState.errors.name?.message} />
-            <TextField label="Description" fullWidth multiline rows={2} {...updateForm.register('description')} />
+            <TextField label={t('fields.name')} fullWidth {...updateForm.register('name')} error={!!updateForm.formState.errors.name} helperText={updateForm.formState.errors.name?.message} />
+            <TextField label={t('fields.description')} fullWidth multiline rows={2} {...updateForm.register('description')} />
             <Controller name="active" control={updateForm.control} render={({ field }) => (
-              <FormControlLabel control={<Checkbox checked={field.value} onChange={field.onChange} />} label="Active" />
+              <FormControlLabel control={<Checkbox checked={field.value} onChange={field.onChange} />} label={t('fields.active')} />
             )} />
           </Stack>
         ) : (
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Key" fullWidth {...createForm.register('key')} error={!!createForm.formState.errors.key} helperText={createForm.formState.errors.key?.message} />
-            <TextField label="Name" fullWidth {...createForm.register('name')} error={!!createForm.formState.errors.name} helperText={createForm.formState.errors.name?.message} />
-            <TextField label="Description" fullWidth multiline rows={2} {...createForm.register('description')} />
+            <TextField label={t('fields.key')} fullWidth {...createForm.register('key')} error={!!createForm.formState.errors.key} helperText={createForm.formState.errors.key?.message} />
+            <TextField label={t('fields.name')} fullWidth {...createForm.register('name')} error={!!createForm.formState.errors.name} helperText={createForm.formState.errors.name?.message} />
+            <TextField label={t('fields.description')} fullWidth multiline rows={2} {...createForm.register('description')} />
             <Controller name="active" control={createForm.control} render={({ field }) => (
-              <FormControlLabel control={<Checkbox checked={field.value} onChange={field.onChange} />} label="Active" />
+              <FormControlLabel control={<Checkbox checked={field.value} onChange={field.onChange} />} label={t('fields.active')} />
             )} />
           </Stack>
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} disabled={isPending}>Cancel</Button>
+        <Button onClick={onClose} disabled={isPending}>{t('common.cancel')}</Button>
         <LoadingButton
           variant="contained"
           onClick={isEdit ? updateForm.handleSubmit(onSubmitUpdate) : createForm.handleSubmit(onSubmitCreate)}
           loading={isPending}
         >
-          {isEdit ? 'Save' : 'Create'}
+          {isEdit ? t('common.save') : t('common.create')}
         </LoadingButton>
       </DialogActions>
     </Dialog>

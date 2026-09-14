@@ -1,7 +1,7 @@
-﻿# Local Stack Credentials
+# Local Stack Credentials
 
-Seeded by `backend/keycloak/project-realm.json` (Keycloak users) and
-`backend/src/main/resources/db/migration/V9__seed_admin_backup_data.sql`
+Seeded by `deploy/keycloak/fourati-realm.json` (Keycloak users) and
+`backend/persistence/src/main/resources/db/migration/V9__seed_admin_backup_data.sql`
 (backend `users` table row). All are dev/demo-only credentials — never reuse
 these values outside a local Docker environment.
 

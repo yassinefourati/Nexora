@@ -1,0 +1,68 @@
+# Dependency updates as pull requests (Phase 6 of docs/backend-architecture-plan.md).
+#
+# Dependabot version updates are a GitHub-native service: they open pull
+# requests but consume no Actions minutes, which is why they are on while the
+# CI workflows stay off. Nothing runs on those pull requests, so before merging
+# one: pull the branch, run `cd backend && make check`, push.
+#
+# Minor and patch bumps are grouped into one pull request per ecosystem per
+# week; majors arrive on their own so the upgrade notes get read.
+
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: /backend
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Toronto
+    open-pull-requests-limit: 5
+    groups:
+      spring:
+        patterns: ["org.springframework*"]
+        update-types: [minor, patch]
+      maven-minor-and-patch:
+        patterns: ["*"]
+        update-types: [minor, patch]
+    ignore:
+      # Testcontainers is managed by the Spring Boot parent; a direct pin would
+      # bring 1.x back, which Docker Engine 29 refuses (CONTRIBUTING.md).
+      - dependency-name: "org.testcontainers:*"
+
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Toronto
+    open-pull-requests-limit: 5
+    versioning-strategy: increase
+    groups:
+      npm-minor-and-patch:
+        patterns: ["*"]
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directories:
+      - /backend
+      - /frontend
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Toronto
+
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Toronto
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

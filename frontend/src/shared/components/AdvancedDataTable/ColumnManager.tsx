@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Popover, Button, Stack, FormControlLabel, Checkbox, Typography, Divider, Box } from '@mui/material';
 import ViewColumnIcon from '@mui/icons-material/ViewColumn';
 import type { ColumnDef } from './types';
@@ -10,18 +11,19 @@ interface Props<T> {
 }
 
 export default function ColumnManager<T extends object>({ columns, visible, onToggle }: Props<T>) {
+  const { t } = useTranslation();
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
   const filterable = columns.filter((c) => c.field !== 'actions');
 
   return (
     <>
       <Button size="small" variant="outlined" startIcon={<ViewColumnIcon />} onClick={(e) => setAnchor(e.currentTarget)}>
-        Columns
+        {t('ui.columns')}
       </Button>
       <Popover open={Boolean(anchor)} anchorEl={anchor} onClose={() => setAnchor(null)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }}>
         <Box sx={{ p: 2, minWidth: 180 }}>
-          <Typography variant="caption" fontWeight={700} color="text.secondary" display="block" mb={1}>SHOW / HIDE COLUMNS</Typography>
+          <Typography variant="caption" fontWeight={700} color="text.secondary" display="block" mb={1}>{t('ui.showHideColumns')}</Typography>
           <Divider sx={{ mb: 1 }} />
           <Stack>
             {filterable.map((col) => (

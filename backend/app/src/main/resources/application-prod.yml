@@ -1,0 +1,52 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI}
+
+logging:
+  file:
+    path: ${LOG_PATH:/var/log/admin-api}
+  level:
+    root: INFO
+    com.fourati: INFO
+
+app:
+  cors:
+    # Comma-separated explicit origins, e.g. https://admin.example.com. SecurityConfig
+    # refuses to start in prod if this still contains a wildcard.
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS}
+
+fourati:
+  common:
+    rate-limit:
+      # Set to true only behind a proxy that overwrites X-Forwarded-For.
+      trust-forwarded-headers: ${RATE_LIMIT_TRUST_FORWARDED_HEADERS:false}
+
+springdoc:
+  swagger-ui:
+    enabled: false
+  api-docs:
+    enabled: false
+# --- multi-replica + observability defaults for this profile (override per environment) ---
+management:
+  server:
+    # Health and metrics on their own port: never routed through the public ingress.
+    port: ${MANAGEMENT_PORT:8081}
+  tracing:
+    export:
+      enabled: ${TRACING_EXPORT_ENABLED:true}
+  health:
+    redis:
+      enabled: ${REDIS_HEALTH_ENABLED:true}
+
+fourati.common.store: ${STORE:redis}
+app.websocket.relay.enabled: ${WS_RELAY_ENABLED:true}

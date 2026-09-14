@@ -1,0 +1,151 @@
+spring:
+  profiles:
+    active: dev
+
+  application:
+    name: admin-api
+
+  threads:
+    virtual:
+      enabled: true
+
+  lifecycle:
+    timeout-per-shutdown-phase: 30s   # Drain in-flight requests before pod dies
+
+  mvc:
+    async:
+      request-timeout: 30s
+
+  jpa:
+    hibernate:
+      ddl-auto: validate              # schema is owned by Flyway — Hibernate never mutates it
+    open-in-view: false               # Prevent lazy-loading outside the service layer
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          time_zone: UTC
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 200MB
+
+server:
+  shutdown: graceful   # Wait for in-flight requests before JVM exit
+  compression:
+    enabled: true
+    mime-types: application/json,application/problem+json,text/csv,text/plain
+    min-response-size: 1024
+  tomcat:
+    connection-timeout: 5s
+
+logging:
+  file:
+    path: logs
+  level:
+    root: INFO
+    com.fourati: INFO
+
+management:
+  tracing:
+    sampling:
+      probability: ${TRACING_SAMPLING_PROBABILITY:0.2}
+    export:
+      enabled: ${TRACING_EXPORT_ENABLED:false}   # true where an OTel collector exists (docker/staging/prod)
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318/v1/traces}
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,sbom
+  endpoint:
+    health:
+      show-details: when-authorized
+      probes:
+        enabled: true
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+    redis:
+      enabled: ${REDIS_HEALTH_ENABLED:false}
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    try-it-out-enabled: true
+    persist-authorization: true
+    display-request-duration: true
+    doc-expansion: list
+    disable-swagger-default-url: true
+  show-actuator: false
+
+fourati:
+  common:
+    # memory: single replica. redis: shared rate-limit buckets and idempotency keys across replicas.
+    store: ${STORE:memory}
+    rate-limit:
+      rpm: 60                                    # requests per minute per user (or IP when anonymous)
+    error:
+      base-url: https://errors.example.com/      # Replace with your company's error base URL
+
+spring.data.redis:
+  host: ${REDIS_HOST:localhost}
+  port: ${REDIS_PORT:6379}
+  timeout: 2s
+
+app:
+  websocket:
+    relay:
+      enabled: ${WS_RELAY_ENABLED:false}       # RabbitMQ STOMP relay; required for >1 replica
+      host: ${WS_RELAY_HOST:localhost}
+      port: ${WS_RELAY_PORT:61613}
+      username: ${WS_RELAY_USERNAME:guest}
+      password: ${WS_RELAY_PASSWORD:guest}
+  async:
+    core-pool-size: 5
+    max-pool-size: 20
+    queue-capacity: 100
+    thread-name-prefix: async-
+  storage:
+    location: uploads                            # local file storage directory
+    max-file-size-mb: 50                         # per-file size limit
+  export:
+    max-rows: 10000                              # hard ceiling on rows returned by any export endpoint; protects heap on large datasets
+  cors:
+    allowed-origins:
+      - "*"              # Override in prod: https://app.example.com
+    allowed-methods:
+      - GET
+      - POST
+      - PUT
+      - PATCH
+      - DELETE
+      - OPTIONS
+    allowed-headers:
+      - "*"
+    # SockJS's XHR-streaming/polling fallback transports send withCredentials: true
+    # unconditionally when talking cross-origin (no public API to disable it) — the
+    # WebSocket/STOMP notification push needs this true, or every SockJS handshake
+    # fails with "Access-Control-Allow-Credentials ... must be 'true'". Safe to
+    # combine with allowed-origins: "*" here specifically because SecurityConfig
+    # uses setAllowedOriginPatterns (echoes the actual request Origin), not a
+    # literal wildcard — browsers only reject allowCredentials+allowedOrigins("*")
+    # when the literal "*" is sent back, which patterns never do.
+    allow-credentials: true
+    max-age: 3600

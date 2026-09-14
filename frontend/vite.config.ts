@@ -14,6 +14,8 @@ export default defineConfig(({ mode }) => ({
     environment: 'jsdom',
     globals: true,
     setupFiles: './src/test/setup.ts',
+    // Playwright specs live in e2e/ and are run by `npx playwright test`, not Vitest
+    exclude: ['e2e/**', 'node_modules/**', 'dist/**'],
   },
   define: {
     global: 'window',

@@ -12,7 +12,6 @@ import Groups2Icon from '@mui/icons-material/Groups2';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PersonIcon from '@mui/icons-material/Person';
-import TableChartIcon from '@mui/icons-material/TableChart';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import DevicesIcon from '@mui/icons-material/Devices';
 import HistoryIcon from '@mui/icons-material/History';
@@ -64,10 +63,12 @@ export function useMenuConfig(): MenuItem[] {
       { label: 'Tags', icon: <LabelIcon />, path: ROUTES.TAGS },
       { label: 'Entity Tags', icon: <LocalOfferIcon />, path: ROUTES.ENTITY_TAGS },
     ]},
-    { label: 'Advanced Table Demo', icon: <TableChartIcon />, path: ROUTES.TABLE_DEMO },
     { label: 'Profile', icon: <PersonIcon />, path: ROUTES.PROFILE },
-    { label: 'Dev Guide', icon: <MenuBookIcon />, path: GUIDE_ROUTE },
-    { label: 'Dev Docs', icon: <MenuBookIcon />, path: '/docs' },
-    { label: 'UI Library', icon: <MenuBookIcon />, path: '/ui-docs' },
+    // Developer reference pages are only routed in dev builds (see AppRoutes)
+    ...(import.meta.env.DEV ? [
+      { label: 'Dev Guide', icon: <MenuBookIcon />, path: GUIDE_ROUTE },
+      { label: 'Dev Docs', icon: <MenuBookIcon />, path: '/docs' },
+      { label: 'UI Library', icon: <MenuBookIcon />, path: '/ui-docs' },
+    ] : []),
   ];
 }

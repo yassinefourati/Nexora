@@ -15,6 +15,7 @@ import KeyboardShortcutsModal from '@/shared/components/KeyboardShortcutsModal';
 import { useKeyboardShortcuts } from '@/shared/hooks/useKeyboardShortcuts';
 const THEME_ICONS = { light: <LightModeIcon />, blue: <PaletteIcon />, dark: <DarkModeIcon /> };
 export default function Navbar() {
+  const { t } = useTranslation();
   const { toggleSidebar, toggleTheme, theme, language, setLanguage } = useUIStore();
   const { logout, user } = useAuthStore();
   const navigate = useNavigate();
@@ -28,17 +29,17 @@ export default function Navbar() {
     <>
       <AppBar position="fixed" sx={{ zIndex: (t) => t.zIndex.drawer + 1 }}>
         <Toolbar>
-          <IconButton color="inherit" onClick={toggleSidebar} edge="start" sx={{ mr: 1 }} aria-label="Toggle sidebar"><MenuIcon /></IconButton>
-          <Typography component="span" variant="h6" noWrap sx={{ flexGrow: 1 }}>Admin Panel</Typography>
+          <IconButton color="inherit" onClick={toggleSidebar} edge="start" sx={{ mr: 1 }} aria-label={t('ui.toggleSidebar')}><MenuIcon /></IconButton>
+          <Typography component="span" variant="h6" noWrap sx={{ flexGrow: 1 }}>{t('ui.appName')}</Typography>
           <NotificationsBell />
-          <Tooltip title={language === 'en' ? 'Switch to French' : 'Passer en anglais'}>
-            <IconButton color="inherit" onClick={handleToggleLang} aria-label={language === 'en' ? 'Switch to French' : 'Passer en anglais'} sx={{ fontSize:'0.75rem', fontWeight:700, width:36, height:36 }}>{language === 'en' ? 'EN' : 'FR'}</IconButton>
+          <Tooltip title={language === 'en' ? t('ui.switchToFrench') : t('ui.switchToEnglish')}>
+            <IconButton color="inherit" onClick={handleToggleLang} aria-label={language === 'en' ? t('ui.switchToFrench') : t('ui.switchToEnglish')} sx={{ fontSize:'0.75rem', fontWeight:700, width:36, height:36 }}>{language === 'en' ? 'EN' : 'FR'}</IconButton>
           </Tooltip>
-          <Tooltip title={`Theme: ${theme}`}><IconButton color="inherit" onClick={toggleTheme} aria-label={`Theme: ${theme}`}>{THEME_ICONS[theme]}</IconButton></Tooltip>
-          <Tooltip title="Keyboard shortcuts (?)"><IconButton color="inherit" onClick={() => setHelpOpen(true)} aria-label="Keyboard shortcuts">{<HelpOutlineIcon />}</IconButton></Tooltip>
+          <Tooltip title={t('ui.themeLabel', { theme })}><IconButton color="inherit" onClick={toggleTheme} aria-label={t('ui.themeLabel', { theme })}>{THEME_ICONS[theme]}</IconButton></Tooltip>
+          <Tooltip title={t('ui.keyboardShortcutsHint')}><IconButton color="inherit" onClick={() => setHelpOpen(true)} aria-label={t('ui.keyboardShortcuts')}>{<HelpOutlineIcon />}</IconButton></Tooltip>
           <IconButton
             onClick={(e) => setAnchorEl(e.currentTarget)}
-            aria-label="Account menu"
+            aria-label={t('ui.accountMenu')}
             aria-haspopup="true"
             aria-expanded={Boolean(anchorEl)}
             sx={{ p: 0, ml: 1 }}
@@ -47,8 +48,8 @@ export default function Navbar() {
           </IconButton>
           <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)} transformOrigin={{ horizontal:'right', vertical:'top' }} anchorOrigin={{ horizontal:'right', vertical:'bottom' }}>
             <MenuItem disabled sx={{ fontSize:'0.8rem', opacity:'1 !important' }}>{user?.name} · {user?.roles.join(', ')}</MenuItem>
-            <MenuItem onClick={() => { setAnchorEl(null); navigate(ROUTES.PROFILE); }}>Profile</MenuItem>
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            <MenuItem onClick={() => { setAnchorEl(null); navigate(ROUTES.PROFILE); }}>{t('ui.profile')}</MenuItem>
+            <MenuItem onClick={handleLogout}>{t('ui.logout')}</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>

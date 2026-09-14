@@ -1,0 +1,52 @@
+name: Rollback
+
+# Manual: redeploy a previously built image tag (any commit SHA that passed CI
+# and was pushed by the `images` job). Rolling back the database is deliberate
+# not automated: Flyway migrations are forward-only, so a rollback is only safe
+# when the target SHA's migrations are a prefix of the current ones.
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        type: choice
+        options: [staging, prod]
+        required: true
+      sha:
+        description: Commit SHA of the image tag to roll back to
+        required: true
+
+permissions:
+  contents: read
+  packages: read
+
+env:
+  IMAGE_API: ghcr.io/${{ github.repository }}/admin-api
+  IMAGE_WEB: ghcr.io/${{ github.repository }}/admin-frontend
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.sha }}
+      - name: Verify the image exists
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          docker manifest inspect "$IMAGE_API:${{ inputs.sha }}" > /dev/null
+          docker manifest inspect "$IMAGE_WEB:${{ inputs.sha }}" > /dev/null
+      - name: Point the overlay at the target SHA
+        run: |
+          cd deploy/k8s/overlays/${{ inputs.environment }}
+          kustomize edit set image admin-api=${IMAGE_API}:${{ inputs.sha }} admin-frontend=${IMAGE_WEB}:${{ inputs.sha }}
+      - name: Apply
+        env:
+          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG }}
+        run: |
+          echo "$KUBECONFIG_DATA" | base64 -d > kubeconfig
+          export KUBECONFIG=$PWD/kubeconfig
+          kubectl apply -k deploy/k8s/overlays/${{ inputs.environment }}
+          kubectl -n project-admin rollout status deploy/admin-api --timeout=300s
+          kubectl -n project-admin rollout status deploy/admin-frontend --timeout=120s

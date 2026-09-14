@@ -1,4 +1,5 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem, Stack } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
@@ -12,6 +13,7 @@ interface Props { open: boolean; onClose: () => void; editOrg?: Organization | n
 const STATUS_OPTIONS = ['active', 'inactive', 'suspended'];
 
 export default function OrganizationFormDialog({ open, onClose, editOrg }: Props) {
+  const { t } = useTranslation();
   const isEdit = Boolean(editOrg);
   const { mutateAsync: create, isPending: creating } = useCreateOrganization();
   const { mutateAsync: update, isPending: updating } = useUpdateOrganization();
@@ -43,24 +45,24 @@ export default function OrganizationFormDialog({ open, onClose, editOrg }: Props
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{isEdit ? 'Edit Organization' : 'Add Organization'}</DialogTitle>
+      <DialogTitle>{isEdit ? t('resources.organizations.edit') : t('resources.organizations.add')}</DialogTitle>
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 1 }}>
-          <TextField label="Name" fullWidth {...register('name')} error={!!errors.name} helperText={errors.name?.message} />
-          <TextField label="Code" fullWidth {...register('code')} error={!!errors.code} helperText={errors.code?.message} />
-          <TextField label="Status" select fullWidth {...register('status')} error={!!errors.status} helperText={errors.status?.message}>
+          <TextField label={t('fields.name')} fullWidth {...register('name')} error={!!errors.name} helperText={errors.name?.message} />
+          <TextField label={t('fields.code')} fullWidth {...register('code')} error={!!errors.code} helperText={errors.code?.message} />
+          <TextField label={t('fields.status')} select fullWidth {...register('status')} error={!!errors.status} helperText={errors.status?.message}>
             {STATUS_OPTIONS.map((s) => <MenuItem key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</MenuItem>)}
           </TextField>
-          <TextField label="Parent organization" select fullWidth {...register('parentOrganizationId')} error={!!errors.parentOrganizationId} helperText={errors.parentOrganizationId?.message}>
-            <MenuItem value="">None</MenuItem>
+          <TextField label={t('fields.parentOrganization')} select fullWidth {...register('parentOrganizationId')} error={!!errors.parentOrganizationId} helperText={errors.parentOrganizationId?.message}>
+            <MenuItem value="">{t('fields.none')}</MenuItem>
             {candidateParents.map((o) => <MenuItem key={o.id} value={o.id}>{o.name}</MenuItem>)}
           </TextField>
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} disabled={isPending}>Cancel</Button>
+        <Button onClick={onClose} disabled={isPending}>{t('common.cancel')}</Button>
         <LoadingButton variant="contained" onClick={handleSubmit(onSubmit)} loading={isPending}>
-          {isEdit ? 'Save' : 'Create'}
+          {isEdit ? t('common.save') : t('common.create')}
         </LoadingButton>
       </DialogActions>
     </Dialog>

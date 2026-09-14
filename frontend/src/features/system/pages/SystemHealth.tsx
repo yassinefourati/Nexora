@@ -1,4 +1,5 @@
 import { Box, Typography, Paper, Grid, Chip, Stack, Table, TableHead, TableBody, TableRow, TableCell, CircularProgress, Skeleton, Alert } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -38,6 +39,7 @@ function SystemHealthSkeleton() {
 }
 
 export default function SystemHealth() {
+  const { t } = useTranslation();
   const { data, isLoading, isFetching, isError, dataUpdatedAt } = useHealth();
 
   if (isLoading) return <SystemHealthSkeleton />;
@@ -45,8 +47,8 @@ export default function SystemHealth() {
   if (isError) {
     return (
       <Box>
-        <Typography variant="h4" component="h1" fontWeight={700} mb={3}>System Health</Typography>
-        <Alert severity="error">Could not reach the backend's health endpoint. The service may be down.</Alert>
+        <Typography variant="h4" component="h1" fontWeight={700} mb={3}>{t('ui.systemHealth')}</Typography>
+        <Alert severity="error">{t('ui.healthUnreachable')}</Alert>
       </Box>
     );
   }
@@ -57,13 +59,13 @@ export default function SystemHealth() {
   return (
     <Box>
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
-        <Typography variant="h4" component="h1" fontWeight={700}>System Health</Typography>
+        <Typography variant="h4" component="h1" fontWeight={700}>{t('ui.systemHealth')}</Typography>
         <Stack direction="row" spacing={1} alignItems="center">
-          {isFetching ? <CircularProgress size={16} aria-label="Refreshing" /> : null}
-          <Chip label={data?.status ?? 'checking…'} color={overallOk ? 'success' : 'warning'} icon={overallOk ? <CheckCircleIcon /> : <WarningIcon />} />
+          {isFetching ? <CircularProgress size={16} aria-label={t('ui.refreshing')} /> : null}
+          <Chip label={data?.status ?? t('ui.checking')} color={overallOk ? 'success' : 'warning'} icon={overallOk ? <CheckCircleIcon /> : <WarningIcon />} />
           {dataUpdatedAt > 0 && (
             <Typography variant="caption" color="text.secondary">
-              Updated {new Date(dataUpdatedAt).toLocaleTimeString()}
+              {t('ui.updatedAt', { time: new Date(dataUpdatedAt).toLocaleTimeString() })}
             </Typography>
           )}
         </Stack>
@@ -72,13 +74,13 @@ export default function SystemHealth() {
       <Grid container spacing={3}>
         <Grid size={{ xs: 12 }}>
           <Paper elevation={2} sx={{ borderRadius: 3, overflow: 'hidden' }}>
-            <Box sx={{ p: 2 }}><Typography variant="subtitle1" fontWeight={700}>Components</Typography></Box>
+            <Box sx={{ p: 2 }}><Typography variant="subtitle1" fontWeight={700}>{t('ui.components')}</Typography></Box>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ fontWeight: 700 }}>Component</TableCell>
-                  <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
-                  <TableCell sx={{ fontWeight: 700 }}>Details</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>{t('ui.component')}</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>{t('ui.status')}</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>{t('ui.details')}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

@@ -1,4 +1,5 @@
 import { Dialog, DialogContent, TextField, List, ListItemButton, ListItemText, ListItemIcon, Typography, Box, Chip, InputAdornment, Divider } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState, useRef, useEffect } from 'react';
 import { useGlobalSearch } from '../hooks/useGlobalSearch';
@@ -7,6 +8,7 @@ import type { SearchItem } from '../hooks/useGlobalSearch';
 interface Props { open: boolean; onClose: () => void; }
 
 function SearchModalInner({ onClose }: { onClose: () => void }) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState(0);
   const { results, navigate_to } = useGlobalSearch(query);
@@ -24,13 +26,13 @@ function SearchModalInner({ onClose }: { onClose: () => void }) {
 
   return (
     <DialogContent sx={{ p: 0 }}>
-      <TextField inputRef={inputRef} fullWidth placeholder="Search pages, users, settings… (↑↓ to navigate)"
+      <TextField inputRef={inputRef} fullWidth placeholder={t('ui.searchPlaceholder')}
         value={query} onChange={(e) => { setQuery(e.target.value); setSelected(0); }} onKeyDown={handleKeyDown}
         InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>, disableUnderline: true }}
         variant="standard" sx={{ '& .MuiInputBase-root': { px: 2, py: 1.5 } }} />
       <Divider />
       {results.length === 0
-        ? <Box sx={{ p: 4, textAlign: 'center', color: 'text.secondary' }}><Typography variant="body2">No results for "{query}"</Typography></Box>
+        ? <Box sx={{ p: 4, textAlign: 'center', color: 'text.secondary' }}><Typography variant="body2">{t('ui.noResultsFor', { query })}</Typography></Box>
         : <List disablePadding sx={{ maxHeight: 400, overflow: 'auto' }}>
             {results.map((item, i) => (
               <ListItemButton key={item.id} selected={i === selected} onClick={() => handleSelect(item)} onMouseEnter={() => setSelected(i)} sx={{ px: 2, py: 1 }}>
@@ -42,10 +44,10 @@ function SearchModalInner({ onClose }: { onClose: () => void }) {
           </List>}
       <Divider />
       <Box sx={{ px: 2, py: 1, display: 'flex', gap: 2, color: 'text.secondary' }}>
-        <Typography variant="caption">↑↓ navigate</Typography>
-        <Typography variant="caption">↵ select</Typography>
-        <Typography variant="caption">esc close</Typography>
-        <Typography variant="caption" sx={{ ml: 'auto' }}>⌘K to open</Typography>
+        <Typography variant="caption">{t('ui.hintNavigate')}</Typography>
+        <Typography variant="caption">{t('ui.hintSelect')}</Typography>
+        <Typography variant="caption">{t('ui.hintClose')}</Typography>
+        <Typography variant="caption" sx={{ ml: 'auto' }}>{t('ui.hintOpen')}</Typography>
       </Box>
     </DialogContent>
   );

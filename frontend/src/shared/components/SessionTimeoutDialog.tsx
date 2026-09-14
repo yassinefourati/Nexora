@@ -1,9 +1,11 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, LinearProgress, Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 
 interface Props { open: boolean; warningSeconds: number; onStayLoggedIn: () => void; onLogout: () => void; }
 
 function CountdownContent({ warningSeconds, onStayLoggedIn, onLogout }: Omit<Props, 'open'>) {
+  const { t } = useTranslation();
   const [remaining, setRemaining] = useState(warningSeconds);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -13,16 +15,16 @@ function CountdownContent({ warningSeconds, onStayLoggedIn, onLogout }: Omit<Pro
   }, []);
   return (
     <>
-      <DialogTitle>Session expiring soon</DialogTitle>
+      <DialogTitle>{t('ui.sessionExpiring')}</DialogTitle>
       <DialogContent>
-        <DialogContentText>You'll be logged out in <strong>{remaining}s</strong> due to inactivity.</DialogContentText>
+        <DialogContentText>{t('ui.sessionTimeoutMessage', { seconds: remaining })}</DialogContentText>
         <Box sx={{ mt: 2 }}>
           <LinearProgress variant="determinate" value={(remaining / warningSeconds) * 100} color={remaining < 10 ? 'error' : 'primary'} />
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button color="error" onClick={onLogout}>Logout now</Button>
-        <Button variant="contained" onClick={onStayLoggedIn} autoFocus>Stay logged in</Button>
+        <Button color="error" onClick={onLogout}>{t('ui.logoutNow')}</Button>
+        <Button variant="contained" onClick={onStayLoggedIn} autoFocus>{t('ui.stayLoggedIn')}</Button>
       </DialogActions>
     </>
   );

@@ -1,10 +1,12 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Drawer, Divider, List, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { useMenuConfig, type MenuItem } from '../config/menuConfig';
 import { useUIStore } from '@/shared/stores/useUIStore';
 import { useResponsive } from '@/shared/hooks/useResponsive';
-import SidebarMenuItem, { isPathActive, type OpenMap } from './SidebarMenuItem';
+import SidebarMenuItem, { type OpenMap } from './SidebarMenuItem';
+import { isPathActive } from '../menuPath';
 
 const DRAWER_WIDTH = 240; const COLLAPSED_WIDTH = 68;
 const ROOT = 'root';
@@ -21,6 +23,7 @@ function activeOpenMap(items: MenuItem[], pathname: string, parentKey = ROOT, ma
 }
 
 export default function Sidebar() {
+  const { t } = useTranslation();
   const { sidebarOpen, toggleSidebar } = useUIStore();
   const { isMobile } = useResponsive();
   const menuConfig = useMenuConfig();
@@ -28,16 +31,21 @@ export default function Sidebar() {
   const drawerWidth = sidebarOpen ? DRAWER_WIDTH : COLLAPSED_WIDTH;
 
   const [openMap, setOpenMap] = useState<OpenMap>(() => activeOpenMap(menuConfig, pathname));
-  useEffect(() => { setOpenMap(activeOpenMap(menuConfig, pathname)); }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Re-derive the open branch when the route changes (state-from-props pattern, no effect needed)
+  const [openMapPath, setOpenMapPath] = useState(pathname);
+  if (openMapPath !== pathname) {
+    setOpenMapPath(pathname);
+    setOpenMap(activeOpenMap(menuConfig, pathname));
+  }
 
   const handleToggle = useCallback((parentKey: string, label: string) => {
     setOpenMap((prev) => ({ ...prev, [parentKey]: prev[parentKey] === label ? null : label }));
   }, []);
 
   const content = (
-    <Box component="nav" aria-label="Main navigation" sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
+    <Box component="nav" aria-label={t('ui.mainNavigation')} sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
       <Box sx={{ height: 64, display: 'flex', alignItems: 'center', px: 2, flexShrink: 0 }}>
-        <Typography variant="subtitle1" fontWeight={700} color="primary" noWrap>{sidebarOpen ? 'Admin Panel' : 'AP'}</Typography>
+        <Typography variant="subtitle1" fontWeight={700} color="primary" noWrap>{sidebarOpen ? t('ui.appName') : 'AP'}</Typography>
       </Box>
       <Divider />
       <Box sx={{ flexGrow: 1, overflowY: 'auto', overflowX: 'hidden', pt: 1 }}>

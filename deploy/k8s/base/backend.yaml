@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-api
+  labels: { app: admin-api }
+spec:
+  # Rate-limit/idempotency state lives in Redis and WebSocket push goes through the
+  # RabbitMQ STOMP relay (STORE / WS_RELAY_* below), so replicas are interchangeable.
+  replicas: 2
+  selector:
+    matchLabels: { app: admin-api }
+  template:
+    metadata:
+      labels: { app: admin-api }
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "8081"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: admin-api
+          image: admin-api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - { name: http, containerPort: 8080 }
+            - { name: management, containerPort: 8081 }
+          env:
+            - { name: SPRING_PROFILES_ACTIVE, value: prod }
+            # Log to stdout only; the cluster's log collector owns aggregation.
+            - { name: LOG_PATH, value: /tmp/logs }
+            - { name: RATE_LIMIT_TRUST_FORWARDED_HEADERS, value: "true" }  # ingress overwrites X-Forwarded-For
+            - { name: STORE, value: redis }
+            - { name: REDIS_HOST, value: redis }
+            - { name: WS_RELAY_ENABLED, value: "true" }
+            - { name: WS_RELAY_HOST, value: rabbitmq }
+            - { name: OTEL_EXPORTER_OTLP_ENDPOINT, value: http://otel-collector:4318/v1/traces }
+            - { name: TRACING_EXPORT_ENABLED, value: "true" }
+          envFrom:
+            - secretRef: { name: admin-api-secrets }
+          resources:
+            requests: { cpu: 250m, memory: 768Mi }
+            limits:   { cpu: "2",  memory: 1536Mi }
+          startupProbe:
+            httpGet: { path: /actuator/health/liveness, port: management }
+            periodSeconds: 5
+            failureThreshold: 24   # up to 2 min for Flyway + JIT warm-up
+          readinessProbe:
+            httpGet: { path: /actuator/health/readiness, port: management }
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /actuator/health/liveness, port: management }
+            periodSeconds: 20
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
+          volumeMounts:
+            - { name: tmp, mountPath: /tmp }
+            - { name: uploads, mountPath: /app/uploads }
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: uploads
+          emptyDir: {}   # replace with a PVC or object storage when attachments hold real files
+      terminationGracePeriodSeconds: 40   # > spring.lifecycle.timeout-per-shutdown-phase (30s)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-api
+spec:
+  selector: { app: admin-api }
+  ports:
+    - { name: http, port: 8080, targetPort: http }
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: admin-api
+spec:
+  scaleTargetRef: { apiVersion: apps/v1, kind: Deployment, name: admin-api }
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource: { name: cpu, target: { type: Utilization, averageUtilization: 70 } }

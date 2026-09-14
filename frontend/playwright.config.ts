@@ -13,6 +13,7 @@ export default defineConfig({
   webServer: {
     command: 'npm run dev',
     url: 'http://localhost:5173',
-    reuseExistingServer: !process.env.CI,
+    // A container or dev server already on :5173 is used as-is (CI starts the compose stack first)
+    reuseExistingServer: true,
   },
 });

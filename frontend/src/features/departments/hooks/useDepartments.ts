@@ -1,22 +1,22 @@
 import { useCrudResource, type ListParams } from '@/core/api/useCrudResource';
 import { DEPARTMENTS_BASE_PATH, DEPARTMENTS_KEY, type CreateDepartmentRequest, type UpdateDepartmentRequest, type Department } from '../api/departmentsApi';
 
-function resource() {
+function useResource() {
   return useCrudResource<Department, CreateDepartmentRequest, UpdateDepartmentRequest>(DEPARTMENTS_BASE_PATH, DEPARTMENTS_KEY);
 }
 
 export function useDepartments(params: ListParams = {}) {
-  return resource().useList(params);
+  return useResource().useList(params);
 }
 export function useDepartment(id: string | undefined) {
-  return resource().useOne(id);
+  return useResource().useOne(id);
 }
 export function useCreateDepartment() {
-  return resource().useCreate();
+  return useResource().useCreate();
 }
 export function useUpdateDepartment() {
-  return resource().useUpdate();
+  return useResource().useUpdate();
 }
 export function useDeleteDepartment() {
-  return resource().useRemove();
+  return useResource().useRemove();
 }

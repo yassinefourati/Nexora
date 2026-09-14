@@ -334,11 +334,45 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List users (paginated) */
+        /** List users (paginated); q searches username/email/name, status filters exactly */
         get: operations["list"];
         put?: never;
         /** Create a new user */
         post: operations["create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/{userId}/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Assign a role to a user (optionally scoped to an organization, optionally expiring) */
+        post: operations["assignRole"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/{userId}/access:revoke": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Revoke all access: remove roles, revoke sessions and API keys, suspend the account */
+        post: operations["revokeAccess"];
         delete?: never;
         options?: never;
         head?: never;
@@ -370,7 +404,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List user notifications, optionally filtered by user and read state */
+        /** List user notifications filtered by user and read state (non-admins: own notifications only) */
         get: operations["list_2"];
         put?: never;
         /** Assign a notification to a user */
@@ -483,6 +517,23 @@ export interface paths {
         put?: never;
         /** Create a new role */
         post: operations["create_8"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/roles/{roleId}/permissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Grant several permissions to a role in one transaction (already-granted ones are skipped) */
+        post: operations["grantPermissions"];
         delete?: never;
         options?: never;
         head?: never;
@@ -625,8 +676,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List metadata entries for an entity, or fetch a single key */
-        get: operations["listByEntity"];
+        /** List metadata entries (paginated), or filter to a single entity's entries */
+        get: operations["list_16"];
         put?: never;
         /** Create a metadata key/value entry */
         post: operations["create_16"];
@@ -647,7 +698,7 @@ export interface paths {
          * List menus
          * @description Paginated list of menus.
          */
-        get: operations["list_16"];
+        get: operations["list_17"];
         put?: never;
         /** Create a new menu */
         post: operations["create_17"];
@@ -668,7 +719,7 @@ export interface paths {
          * List menu permission links
          * @description Paginated, or filtered by menuItemId/permissionId.
          */
-        get: operations["list_17"];
+        get: operations["list_18"];
         put?: never;
         /** Associate a permission with a menu item */
         post: operations["create_18"];
@@ -689,7 +740,7 @@ export interface paths {
          * List menu items
          * @description Paginated list of menu items, or filtered by menuId/parentMenuItemId.
          */
-        get: operations["list_18"];
+        get: operations["list_19"];
         put?: never;
         /** Create a new menu item */
         post: operations["create_19"];
@@ -707,7 +758,7 @@ export interface paths {
             cookie?: never;
         };
         /** List login history entries, optionally filtered by user */
-        get: operations["list_19"];
+        get: operations["list_20"];
         put?: never;
         /** Record a new login history entry */
         post: operations["create_20"];
@@ -725,7 +776,7 @@ export interface paths {
             cookie?: never;
         };
         /** List feature flags (paginated) */
-        get: operations["list_20"];
+        get: operations["list_21"];
         put?: never;
         /** Create a new feature flag */
         post: operations["create_21"];
@@ -743,7 +794,7 @@ export interface paths {
             cookie?: never;
         };
         /** List tags attached to an entity, or entities attached to a tag */
-        get: operations["list_21"];
+        get: operations["list_22"];
         put?: never;
         /** Attach a tag to an entity */
         post: operations["create_22"];
@@ -762,7 +813,7 @@ export interface paths {
             cookie?: never;
         };
         /** List departments (paginated), optionally filtered by organization or parent department */
-        get: operations["list_22"];
+        get: operations["list_23"];
         put?: never;
         /** Create a new department */
         post: operations["create_23"];
@@ -780,7 +831,7 @@ export interface paths {
             cookie?: never;
         };
         /** List comments for an entity (paginated) */
-        get: operations["listByEntity_1"];
+        get: operations["listByEntity"];
         put?: never;
         /** Create a new comment */
         post: operations["create_24"];
@@ -798,7 +849,7 @@ export interface paths {
             cookie?: never;
         };
         /** List attachments for an entity */
-        get: operations["listByEntity_2"];
+        get: operations["listByEntity_1"];
         put?: never;
         /** Register a new attachment */
         post: operations["create_25"];
@@ -816,7 +867,7 @@ export interface paths {
             cookie?: never;
         };
         /** List application modules (paginated) */
-        get: operations["list_23"];
+        get: operations["list_24"];
         put?: never;
         /** Create a new application module */
         post: operations["create_26"];
@@ -834,7 +885,7 @@ export interface paths {
             cookie?: never;
         };
         /** List API keys, optionally filtered by user */
-        get: operations["list_24"];
+        get: operations["list_25"];
         put?: never;
         /**
          * Create a new API key
@@ -952,6 +1003,23 @@ export interface paths {
         patch: operations["revoke_1"];
         trace?: never;
     };
+    "/api/v1/users/{userId}/effective-permissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Resolve every permission a user currently holds through unexpired role grants */
+        get: operations["effectivePermissions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/user-roles/{id}": {
         parameters: {
             query?: never;
@@ -994,7 +1062,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List users assigned to a role */
+        /** List users assigned to a role (paginated) */
         get: operations["listByRole"];
         put?: never;
         post?: never;
@@ -1065,7 +1133,7 @@ export interface paths {
             cookie?: never;
         };
         /** List system events, optionally filtered by event type or severity */
-        get: operations["list_25"];
+        get: operations["list_26"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1247,6 +1315,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the current user's backend record, resolved from the JWT subject */
+        get: operations["me"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/permissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List the current user's effective permissions, resolved from their JWT roles */
+        get: operations["myPermissions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/feature-flags/by-organization/{organizationId}": {
         parameters: {
             query?: never;
@@ -1331,7 +1433,7 @@ export interface paths {
             cookie?: never;
         };
         /** List error log entries, optionally filtered by severity or source */
-        get: operations["list_26"];
+        get: operations["list_27"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1400,7 +1502,7 @@ export interface paths {
             cookie?: never;
         };
         /** List auth log entries, optionally filtered by user or event type */
-        get: operations["list_27"];
+        get: operations["list_28"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1434,7 +1536,7 @@ export interface paths {
             cookie?: never;
         };
         /** List audit log entries, optionally filtered by user or by target entity */
-        get: operations["list_28"];
+        get: operations["list_29"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1452,6 +1554,23 @@ export interface paths {
         };
         /** Get a single audit log entry by id */
         get: operations["getById_30"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/audit-logs/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Export the newest audit entries as CSV, PDF or JSON (capped at app.export.max-rows) */
+        get: operations["export"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1522,6 +1641,8 @@ export interface components {
             lastName: string;
             status: string;
             superuser?: boolean;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseUserResponse: {
@@ -1641,6 +1762,8 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description A single field-level constraint violation */
         Violation: {
@@ -1666,6 +1789,8 @@ export interface components {
             /** Format: uuid */
             departmentId?: string;
             name: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseTeamResponse: {
@@ -1714,10 +1839,14 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateTagRequest: {
             name: string;
             color?: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseTagResponse: {
@@ -1763,11 +1892,15 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateSettingRequest: {
             value?: string;
             description?: string;
             editable: boolean;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseSettingResponse: {
@@ -1818,11 +1951,15 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateRoleRequest: {
             name: string;
             description?: string;
             system?: boolean;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseRoleResponse: {
@@ -1869,9 +2006,13 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateRoleMenuRequest: {
             canView: boolean;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseRoleMenuResponse: {
@@ -1920,9 +2061,13 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdatePermissionRequest: {
             description?: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponsePermissionResponse: {
@@ -1970,6 +2115,8 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateOrganizationRequest: {
             /** Format: uuid */
@@ -1978,6 +2125,8 @@ export interface components {
             code: string;
             status?: string;
             metadata?: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseOrganizationResponse: {
@@ -2027,12 +2176,16 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateNotificationRequest: {
             title: string;
             body: string;
             channel: string;
             data?: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseNotificationResponse: {
@@ -2082,12 +2235,16 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateNotificationTemplateRequest: {
             name: string;
             subjectTemplate?: string;
             bodyTemplate: string;
             channel: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseNotificationTemplateResponse: {
@@ -2136,9 +2293,13 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateMetadataKvRequest: {
             value: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseMetadataKvResponse: {
@@ -2187,11 +2348,15 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateMenuRequest: {
             name: string;
             description?: string;
             active?: boolean;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseMenuResponse: {
@@ -2239,6 +2404,8 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateMenuItemRequest: {
             /** Format: uuid */
@@ -2250,6 +2417,8 @@ export interface components {
             /** Format: int32 */
             sortOrder?: number;
             active?: boolean;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseMenuItemResponse: {
@@ -2304,11 +2473,15 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateFeatureFlagRequest: {
             name: string;
             description?: string;
             enabled: boolean;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseFeatureFlagResponse: {
@@ -2358,12 +2531,16 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateDepartmentRequest: {
             /** Format: uuid */
             parentDepartmentId?: string;
             name: string;
             code?: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseDepartmentResponse: {
@@ -2413,9 +2590,13 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateCommentRequest: {
             body: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseCommentResponse: {
@@ -2467,11 +2648,15 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateAppModuleRequest: {
             name: string;
             description?: string;
             active: boolean;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseAppModuleResponse: {
@@ -2519,19 +2704,19 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         CreateUserRequest: {
             username: string;
             email: string;
-            password: string;
+            password?: string;
             firstName: string;
             lastName: string;
             status?: string;
             superuser?: boolean;
         };
-        CreateUserRoleRequest: {
-            /** Format: uuid */
-            userId: string;
+        AssignRoleRequest: {
             /** Format: uuid */
             roleId: string;
             /** Format: uuid */
@@ -2591,6 +2776,64 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
+        };
+        /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
+        ApiResponseRevokeAccessResponse: {
+            /**
+             * @description true on success, false on error
+             * @example true
+             */
+            success?: boolean;
+            /**
+             * Format: int32
+             * @description HTTP status code
+             * @example 200
+             */
+            status?: number;
+            /**
+             * @description Human-readable result message
+             * @example Item retrieved
+             */
+            message?: string;
+            /**
+             * @description ISO-8601 UTC timestamp
+             * @example 2026-06-04T12:00:00.000Z
+             */
+            timestamp?: string;
+            /**
+             * @description Correlation ID from X-Correlation-ID header — use to trace logs
+             * @example d993afa6-5486-4221-8085-dbcf19fce65f
+             */
+            correlationId?: string;
+            /** @description Response payload — null on errors */
+            data?: components["schemas"]["RevokeAccessResponse"];
+            /** @description Pagination metadata — only present on list endpoints */
+            pagination?: components["schemas"]["Pagination"];
+            /** @description Error details — only present on failure responses */
+            error?: components["schemas"]["ErrorDetail"];
+        };
+        RevokeAccessResponse: {
+            /** Format: uuid */
+            userId?: string;
+            /** Format: int32 */
+            rolesRemoved?: number;
+            /** Format: int32 */
+            sessionsRevoked?: number;
+            /** Format: int32 */
+            apiKeysRevoked?: number;
+            status?: string;
+        };
+        CreateUserRoleRequest: {
+            /** Format: uuid */
+            userId: string;
+            /** Format: uuid */
+            roleId: string;
+            /** Format: uuid */
+            organizationId?: string;
+            /** Format: date-time */
+            expiresAt?: string;
         };
         CreateUserNotificationRequest: {
             /** Format: uuid */
@@ -2647,6 +2890,8 @@ export interface components {
             deliveredAt?: string;
             /** Format: date-time */
             createdAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         CreateUserIdentityProviderRequest: {
             /** Format: uuid */
@@ -2700,6 +2945,8 @@ export interface components {
             rawProfile?: string;
             /** Format: date-time */
             linkedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         CreateTeamRequest: {
             /** Format: uuid */
@@ -2779,11 +3026,66 @@ export interface components {
             revokedAt?: string;
             ipAddress?: string;
             userAgent?: string;
+            /** Format: int64 */
+            version?: number;
         };
         CreateRoleRequest: {
             name: string;
             description?: string;
             system?: boolean;
+        };
+        GrantPermissionsRequest: {
+            permissionIds: string[];
+        };
+        /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
+        ApiResponseListRolePermissionResponse: {
+            /**
+             * @description true on success, false on error
+             * @example true
+             */
+            success?: boolean;
+            /**
+             * Format: int32
+             * @description HTTP status code
+             * @example 200
+             */
+            status?: number;
+            /**
+             * @description Human-readable result message
+             * @example Item retrieved
+             */
+            message?: string;
+            /**
+             * @description ISO-8601 UTC timestamp
+             * @example 2026-06-04T12:00:00.000Z
+             */
+            timestamp?: string;
+            /**
+             * @description Correlation ID from X-Correlation-ID header — use to trace logs
+             * @example d993afa6-5486-4221-8085-dbcf19fce65f
+             */
+            correlationId?: string;
+            /** @description Response payload — null on errors */
+            data?: components["schemas"]["RolePermissionResponse"][];
+            /** @description Pagination metadata — only present on list endpoints */
+            pagination?: components["schemas"]["Pagination"];
+            /** @description Error details — only present on failure responses */
+            error?: components["schemas"]["ErrorDetail"];
+        };
+        RolePermissionResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            roleId?: string;
+            /** Format: uuid */
+            permissionId?: string;
+            conditions?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         CreateRolePermissionRequest: {
             /** Format: uuid */
@@ -2826,19 +3128,6 @@ export interface components {
             pagination?: components["schemas"]["Pagination"];
             /** @description Error details — only present on failure responses */
             error?: components["schemas"]["ErrorDetail"];
-        };
-        RolePermissionResponse: {
-            /** Format: uuid */
-            id?: string;
-            /** Format: uuid */
-            roleId?: string;
-            /** Format: uuid */
-            permissionId?: string;
-            conditions?: string;
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: date-time */
-            updatedAt?: string;
         };
         CreateRoleMenuRequest: {
             /** Format: uuid */
@@ -2926,6 +3215,8 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         CreateNotificationRequest: {
             /** Format: uuid */
@@ -3007,6 +3298,8 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         CreateMenuItemRequest: {
             /** Format: uuid */
@@ -3079,6 +3372,8 @@ export interface components {
             success?: boolean;
             /** Format: date-time */
             createdAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         CreateFeatureFlagRequest: {
             key: string;
@@ -3142,6 +3437,8 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         CreateDepartmentRequest: {
             /** Format: uuid */
@@ -3223,6 +3520,8 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         CreateAppModuleRequest: {
             key: string;
@@ -3289,10 +3588,14 @@ export interface components {
         UpdateSessionRequest: {
             /** Format: date-time */
             revokedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateLoginHistoryRequest: {
             /** Format: date-time */
             logoutAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         UpdateApiKeyRequest: {
             name?: string;
@@ -3301,6 +3604,8 @@ export interface components {
             expiresAt?: string;
             /** Format: date-time */
             revokedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         ApiKeyResponse: {
             /** Format: uuid */
@@ -3317,6 +3622,8 @@ export interface components {
             lastUsedAt?: string;
             /** Format: date-time */
             revokedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseApiKeyResponse: {
@@ -3390,6 +3697,41 @@ export interface components {
             correlationId?: string;
             /** @description Response payload — null on errors */
             data?: components["schemas"]["UserResponse"][];
+            /** @description Pagination metadata — only present on list endpoints */
+            pagination?: components["schemas"]["Pagination"];
+            /** @description Error details — only present on failure responses */
+            error?: components["schemas"]["ErrorDetail"];
+        };
+        /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
+        ApiResponseListPermissionResponse: {
+            /**
+             * @description true on success, false on error
+             * @example true
+             */
+            success?: boolean;
+            /**
+             * Format: int32
+             * @description HTTP status code
+             * @example 200
+             */
+            status?: number;
+            /**
+             * @description Human-readable result message
+             * @example Item retrieved
+             */
+            message?: string;
+            /**
+             * @description ISO-8601 UTC timestamp
+             * @example 2026-06-04T12:00:00.000Z
+             */
+            timestamp?: string;
+            /**
+             * @description Correlation ID from X-Correlation-ID header — use to trace logs
+             * @example d993afa6-5486-4221-8085-dbcf19fce65f
+             */
+            correlationId?: string;
+            /** @description Response payload — null on errors */
+            data?: components["schemas"]["PermissionResponse"][];
             /** @description Pagination metadata — only present on list endpoints */
             pagination?: components["schemas"]["Pagination"];
             /** @description Error details — only present on failure responses */
@@ -3654,6 +3996,8 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseSystemEventResponse: {
@@ -3796,41 +4140,6 @@ export interface components {
             error?: components["schemas"]["ErrorDetail"];
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
-        ApiResponseListRolePermissionResponse: {
-            /**
-             * @description true on success, false on error
-             * @example true
-             */
-            success?: boolean;
-            /**
-             * Format: int32
-             * @description HTTP status code
-             * @example 200
-             */
-            status?: number;
-            /**
-             * @description Human-readable result message
-             * @example Item retrieved
-             */
-            message?: string;
-            /**
-             * @description ISO-8601 UTC timestamp
-             * @example 2026-06-04T12:00:00.000Z
-             */
-            timestamp?: string;
-            /**
-             * @description Correlation ID from X-Correlation-ID header — use to trace logs
-             * @example d993afa6-5486-4221-8085-dbcf19fce65f
-             */
-            correlationId?: string;
-            /** @description Response payload — null on errors */
-            data?: components["schemas"]["RolePermissionResponse"][];
-            /** @description Pagination metadata — only present on list endpoints */
-            pagination?: components["schemas"]["Pagination"];
-            /** @description Error details — only present on failure responses */
-            error?: components["schemas"]["ErrorDetail"];
-        };
-        /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseListRoleMenuResponse: {
             /**
              * @description true on success, false on error
@@ -3860,41 +4169,6 @@ export interface components {
             correlationId?: string;
             /** @description Response payload — null on errors */
             data?: components["schemas"]["RoleMenuResponse"][];
-            /** @description Pagination metadata — only present on list endpoints */
-            pagination?: components["schemas"]["Pagination"];
-            /** @description Error details — only present on failure responses */
-            error?: components["schemas"]["ErrorDetail"];
-        };
-        /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
-        ApiResponseListPermissionResponse: {
-            /**
-             * @description true on success, false on error
-             * @example true
-             */
-            success?: boolean;
-            /**
-             * Format: int32
-             * @description HTTP status code
-             * @example 200
-             */
-            status?: number;
-            /**
-             * @description Human-readable result message
-             * @example Item retrieved
-             */
-            message?: string;
-            /**
-             * @description ISO-8601 UTC timestamp
-             * @example 2026-06-04T12:00:00.000Z
-             */
-            timestamp?: string;
-            /**
-             * @description Correlation ID from X-Correlation-ID header — use to trace logs
-             * @example d993afa6-5486-4221-8085-dbcf19fce65f
-             */
-            correlationId?: string;
-            /** @description Response payload — null on errors */
-            data?: components["schemas"]["PermissionResponse"][];
             /** @description Pagination metadata — only present on list endpoints */
             pagination?: components["schemas"]["Pagination"];
             /** @description Error details — only present on failure responses */
@@ -4377,6 +4651,8 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseErrorLogResponse: {
@@ -4564,6 +4840,8 @@ export interface components {
             metadata?: string;
             /** Format: date-time */
             createdAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseAuthLogResponse: {
@@ -4649,6 +4927,8 @@ export interface components {
             ipAddress?: string;
             /** Format: date-time */
             createdAt?: string;
+            /** Format: int64 */
+            version?: number;
         };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseAuditLogResponse: {
@@ -9697,6 +9977,8 @@ export interface operations {
     list: {
         parameters: {
             query: {
+                q?: string;
+                status?: string;
                 pageable: components["schemas"]["Pageable"];
             };
             header?: never;
@@ -9803,6 +10085,252 @@ export interface operations {
             };
             /** @description Forbidden */
             403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Payload Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Unsupported Media Type */
+            415: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+        };
+    };
+    assignRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AssignRoleRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseUserRoleResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Payload Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Unsupported Media Type */
+            415: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+        };
+    };
+    revokeAccess: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseRevokeAccessResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Not Found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -11328,6 +11856,131 @@ export interface operations {
             };
         };
     };
+    grantPermissions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                roleId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GrantPermissionsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseListRolePermissionResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Payload Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Unsupported Media Type */
+            415: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+        };
+    };
     list_9: {
         parameters: {
             query: {
@@ -12603,11 +13256,12 @@ export interface operations {
             };
         };
     };
-    listByEntity: {
+    list_16: {
         parameters: {
             query: {
-                entityType: string;
-                entityId: string;
+                entityType?: string;
+                entityId?: string;
+                pageable: components["schemas"]["Pageable"];
             };
             header?: never;
             path?: never;
@@ -12785,7 +13439,7 @@ export interface operations {
             };
         };
     };
-    list_16: {
+    list_17: {
         parameters: {
             query: {
                 pageable: components["schemas"]["Pageable"];
@@ -12966,7 +13620,7 @@ export interface operations {
             };
         };
     };
-    list_17: {
+    list_18: {
         parameters: {
             query: {
                 menuItemId?: string;
@@ -13149,7 +13803,7 @@ export interface operations {
             };
         };
     };
-    list_18: {
+    list_19: {
         parameters: {
             query: {
                 menuId?: string;
@@ -13333,7 +13987,7 @@ export interface operations {
             };
         };
     };
-    list_19: {
+    list_20: {
         parameters: {
             query: {
                 userId?: string;
@@ -13515,7 +14169,7 @@ export interface operations {
             };
         };
     };
-    list_20: {
+    list_21: {
         parameters: {
             query: {
                 pageable: components["schemas"]["Pageable"];
@@ -13696,7 +14350,7 @@ export interface operations {
             };
         };
     };
-    list_21: {
+    list_22: {
         parameters: {
             query?: {
                 entityType?: string;
@@ -13972,7 +14626,7 @@ export interface operations {
             };
         };
     };
-    list_22: {
+    list_23: {
         parameters: {
             query: {
                 pageable: components["schemas"]["Pageable"];
@@ -14155,7 +14809,7 @@ export interface operations {
             };
         };
     };
-    listByEntity_1: {
+    listByEntity: {
         parameters: {
             query: {
                 entityType: string;
@@ -14340,7 +14994,7 @@ export interface operations {
             };
         };
     };
-    listByEntity_2: {
+    listByEntity_1: {
         parameters: {
             query: {
                 entityType: string;
@@ -14522,7 +15176,7 @@ export interface operations {
             };
         };
     };
-    list_23: {
+    list_24: {
         parameters: {
             query: {
                 pageable: components["schemas"]["Pageable"];
@@ -14703,7 +15357,7 @@ export interface operations {
             };
         };
     };
-    list_24: {
+    list_25: {
         parameters: {
             query: {
                 userId?: string;
@@ -15797,6 +16451,82 @@ export interface operations {
             };
         };
     };
+    effectivePermissions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseListPermissionResponse"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+        };
+    };
     getById_20: {
         parameters: {
             query?: never;
@@ -16043,7 +16773,9 @@ export interface operations {
     };
     listByRole: {
         parameters: {
-            query?: never;
+            query: {
+                pageable: components["schemas"]["Pageable"];
+            };
             header?: never;
             path: {
                 roleId: string;
@@ -16520,7 +17252,7 @@ export interface operations {
             };
         };
     };
-    list_25: {
+    list_26: {
         parameters: {
             query: {
                 eventType?: string;
@@ -17619,6 +18351,136 @@ export interface operations {
             };
         };
     };
+    me: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseUserResponse"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+        };
+    };
+    myPermissions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseListPermissionResponse"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+        };
+    };
     listByOrganization: {
         parameters: {
             query?: never;
@@ -17912,7 +18774,7 @@ export interface operations {
             };
         };
     };
-    list_26: {
+    list_27: {
         parameters: {
             query: {
                 severity?: string;
@@ -18303,7 +19165,7 @@ export interface operations {
             };
         };
     };
-    list_27: {
+    list_28: {
         parameters: {
             query: {
                 userId?: string;
@@ -18448,7 +19310,7 @@ export interface operations {
             };
         };
     };
-    list_28: {
+    list_29: {
         parameters: {
             query: {
                 userId?: string;
@@ -18558,6 +19420,74 @@ export interface operations {
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+        };
+    };
+    export: {
+        parameters: {
+            query?: {
+                userId?: string;
+                format?: "CSV" | "PDF" | "JSON";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": unknown;
+                };
+            };
+            /** @description Forbidden */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };

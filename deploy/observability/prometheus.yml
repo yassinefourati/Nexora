@@ -1,0 +1,18 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - /etc/prometheus/alert-rules.yml
+
+scrape_configs:
+  # The backend serves health + metrics on a dedicated management port (8081) that
+  # SecurityConfig leaves anonymous for /actuator/prometheus and that is never
+  # exposed through the public ingress. From the IDE (dev profile) both ports are 8080
+  # and the scrape needs a JWT; use the compose `app` profile for a local dashboard.
+  - job_name: admin-api
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ['admin-api:8081', 'admin-api-scaled:8081']
+        labels:
+          app: admin-api

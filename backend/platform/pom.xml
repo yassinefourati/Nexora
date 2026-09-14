@@ -1,0 +1,108 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.fourati</groupId>
+		<artifactId>backend</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>platform</artifactId>
+	<name>ProjectAdmin :: Platform</name>
+	<description>Cross-cutting platform library: problem-details errors and codes, rate limiting, idempotency, audit aspect, export, correlation ids, the CurrentUser principal. Domain-agnostic; depends on no other module. A library: it declares the APIs it compiles against, never a Boot starter, so the application decides what runs (ADR 0008, Phase 6).</description>
+
+	<dependencies>
+		<!-- Spring Modulith annotations: this package is an OPEN application module (see package-info) -->
+		<dependency>
+			<groupId>org.springframework.modulith</groupId>
+			<artifactId>spring-modulith-api</artifactId>
+		</dependency>
+
+		<!-- Boot: @AutoConfiguration, @ConditionalOn*, @ConfigurationProperties (no starter: the app brings the runtime) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+		</dependency>
+
+		<!-- Web MVC: @RestControllerAdvice, HandlerInterceptor, ProblemDetail, HttpStatus, exception types -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<!-- Servlet API for the filters; the application's embedded container provides it at runtime -->
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Bean Validation annotations on CommonProperties and SafeInput; the validator is the app's -->
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+		</dependency>
+
+		<!-- Security core: Authentication, GrantedAuthority, AccessDeniedException, SecurityContextHolder -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+
+		<!-- Spring Data: Page/Pageable for PageUtils and ApiResponse; StringRedisTemplate for the shared stores -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+		</dependency>
+
+		<!-- Jackson 3 (Boot 4's JSON stack): problem-details bodies, idempotency cache, JSON export -->
+		<dependency>
+			<groupId>tools.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+
+		<!-- AOP: the @Audited aspect -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+
+		<!-- Logging facade; MDC for correlation ids -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<!-- OpenAPI: @Schema on ApiResponse only. Same swagger-core line as springdoc ${springdoc.version}. -->
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations-jakarta</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+
+		<!-- Export: CSV/PDF (ExportService) -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>${commons-csv.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.librepdf</groupId>
+			<artifactId>openpdf</artifactId>
+			<version>${openpdf.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+</project>

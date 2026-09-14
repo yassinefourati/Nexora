@@ -1,57 +1,28 @@
-import { useState, useMemo } from 'react';
-import { Box, Chip } from '@mui/material';
-import { useAuthLogs } from '../hooks/useAuthLogs';
-import PageHeader from '@/shared/components/PageHeader';
-import ServerDataTable, { type ServerSort } from '@/shared/components/AdvancedDataTable/ServerDataTable';
+import { useMemo, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import CrudPage from '@/shared/components/crud/CrudPage';
 import type { ColumnDef } from '@/shared/components/AdvancedDataTable/types';
+import { useAuthLogs } from '../hooks/useAuthLogs';
 import type { AuthLog } from '../api/authLogsApi';
+import { Chip } from '@mui/material';
 
 export default function AuthLogs() {
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(20);
-  const [sort, setSort] = useState<ServerSort | null>({ field: 'createdAt', direction: 'desc' });
-  const [search, setSearch] = useState('');
-
-  const { data, isLoading, isError, refetch } = useAuthLogs({
-    page, size: pageSize,
-    ...(sort ? { sort: `${sort.field},${sort.direction}` } : {}),
-  });
-
-  const rows = useMemo(() => {
-    const items = data?.items ?? [];
-    if (!search) return items;
-    const term = search.toLowerCase();
-    return items.filter((e) => e.eventType?.toLowerCase().includes(term) || e.ipAddress?.toLowerCase().includes(term));
-  }, [data, search]);
-
+  const { t } = useTranslation();
+  const fmt = useCallback((v?: string) => (v ? new Date(v).toLocaleString() : t('common.dash')), [t]);
   const columns: ColumnDef<AuthLog>[] = useMemo(() => [
-    { field: 'eventType', headerName: 'Event', width: 160, renderCell: (row) => <Chip label={row.eventType} size="small" variant="outlined" /> },
-    { field: 'ipAddress', headerName: 'IP', width: 140 },
-    { field: 'userAgent', headerName: 'User agent', width: 260 },
-    { field: 'createdAt', headerName: 'Time', width: 180, renderCell: (row) => row.createdAt ? new Date(row.createdAt).toLocaleString() : '—' },
-  ], []);
+    { field: 'eventType', headerName: t('fields.event'), width: 160, renderCell: (row) => <Chip label={row.eventType} size="small" variant="outlined" /> },
+    { field: 'ipAddress', headerName: t('fields.ip'), width: 140 },
+    { field: 'userAgent', headerName: t('fields.userAgent'), width: 260 },
+    { field: 'createdAt', headerName: t('fields.time'), width: 180, renderCell: (row) => fmt(row.createdAt) },
+  ], [t, fmt]);
 
   return (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <PageHeader title="Auth Logs" description="Authentication events — logins, logouts, token refreshes." />
-      <ServerDataTable
-        title="Auth Logs"
-        rows={rows}
-        columns={columns}
-        pagination={data?.pagination}
-        isLoading={isLoading}
-        isError={isError}
-        onRefetch={() => void refetch()}
-        page={page}
-        pageSize={pageSize}
-        onPageChange={setPage}
-        onPageSizeChange={setPageSize}
-        sort={sort}
-        onSortChange={(s) => { setSort(s); setPage(0); }}
-        search={search}
-        onSearchChange={setSearch}
-        rowKey={(row) => row.id!}
-      />
-    </Box>
+    <CrudPage<AuthLog>
+      resource="authLogs"
+      useList={useAuthLogs}
+      columns={columns}
+      rowLabel={(row) => row.id ?? ''}
+      defaultSort={{ field: 'createdAt', direction: 'desc' }}
+    ></CrudPage>
   );
 }

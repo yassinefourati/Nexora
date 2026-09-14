@@ -1,0 +1,75 @@
+# Production: `prod` Spring profile (Swagger off, explicit CORS, JSON logs),
+# managed Postgres/Redis/RabbitMQ expected (the in-cluster dependencies from the
+# base are removed here and replaced by the host names in admin-api-secrets).
+# Image tags are set by CI / the rollback workflow.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+images:
+  - name: admin-api
+    newName: ghcr.io/OWNER/REPO/admin-api
+    newTag: latest
+  - name: admin-frontend
+    newName: ghcr.io/OWNER/REPO/admin-frontend
+    newTag: latest
+patches:
+  # Managed services in prod: drop the in-cluster Redis and RabbitMQ
+  - target: { kind: Deployment, name: redis }
+    patch: |
+      $patch: delete
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata: { name: redis }
+  - target: { kind: Service, name: redis }
+    patch: |
+      $patch: delete
+      apiVersion: v1
+      kind: Service
+      metadata: { name: redis }
+  - target: { kind: Deployment, name: rabbitmq }
+    patch: |
+      $patch: delete
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata: { name: rabbitmq }
+  - target: { kind: Service, name: rabbitmq }
+    patch: |
+      $patch: delete
+      apiVersion: v1
+      kind: Service
+      metadata: { name: rabbitmq }
+  - target:
+      kind: Deployment
+      name: admin-api
+    patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0/value
+        value: prod
+      - op: replace
+        path: /spec/template/spec/containers/0/resources
+        value:
+          requests: { cpu: 500m, memory: 1Gi }
+          limits:   { cpu: "2",  memory: 2Gi }
+      # REDIS_HOST / WS_RELAY_HOST come from admin-api-secrets in prod
+      - op: remove
+        path: /spec/template/spec/containers/0/env/4
+      - op: remove
+        path: /spec/template/spec/containers/0/env/5
+  - target:
+      kind: HorizontalPodAutoscaler
+      name: admin-api
+    patch: |
+      - op: replace
+        path: /spec/minReplicas
+        value: 3
+      - op: replace
+        path: /spec/maxReplicas
+        value: 10
+  - target:
+      kind: Ingress
+      name: project-admin
+    patch: |
+      - op: add
+        path: /metadata/annotations/nginx.ingress.kubernetes.io~1limit-rps
+        value: "50"

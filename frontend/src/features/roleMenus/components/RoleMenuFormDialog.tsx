@@ -1,4 +1,5 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem, Stack, FormControlLabel, Checkbox } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { roleMenuSchema, type RoleMenuFormData } from '../schemas/roleMenuSchema';
@@ -10,6 +11,7 @@ import LoadingButton from '@/shared/components/LoadingButton';
 interface Props { open: boolean; onClose: () => void; }
 
 export default function RoleMenuFormDialog({ open, onClose }: Props) {
+  const { t } = useTranslation();
   const { mutateAsync: create, isPending } = useCreateRoleMenu();
   const { data: rolesPage } = useRoles({ page: 0, size: 100 });
   const { data: menuItemsPage } = useMenuItems({ page: 0, size: 200 });
@@ -30,23 +32,23 @@ export default function RoleMenuFormDialog({ open, onClose }: Props) {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Grant Role Menu Access</DialogTitle>
+      <DialogTitle>{t('ui.grantRoleMenuAccess')}</DialogTitle>
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 1 }}>
-          <TextField label="Role" select fullWidth {...register('roleId')} error={!!errors.roleId} helperText={errors.roleId?.message}>
+          <TextField label={t('fields.role')} select fullWidth {...register('roleId')} error={!!errors.roleId} helperText={errors.roleId?.message}>
             {roles.map((r) => <MenuItem key={r.id} value={r.id}>{r.name}</MenuItem>)}
           </TextField>
-          <TextField label="Menu item" select fullWidth {...register('menuItemId')} error={!!errors.menuItemId} helperText={errors.menuItemId?.message}>
+          <TextField label={t('fields.menuItem')} select fullWidth {...register('menuItemId')} error={!!errors.menuItemId} helperText={errors.menuItemId?.message}>
             {menuItems.map((mi) => <MenuItem key={mi.id} value={mi.id}>{mi.label}</MenuItem>)}
           </TextField>
           <Controller name="canView" control={control} render={({ field }) => (
-            <FormControlLabel control={<Checkbox checked={field.value} onChange={field.onChange} />} label="Can view" />
+            <FormControlLabel control={<Checkbox checked={field.value} onChange={field.onChange} />} label={t('fields.canView')} />
           )} />
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} disabled={isPending}>Cancel</Button>
-        <LoadingButton variant="contained" onClick={handleSubmit(onSubmit)} loading={isPending}>Grant</LoadingButton>
+        <Button onClick={onClose} disabled={isPending}>{t('common.cancel')}</Button>
+        <LoadingButton variant="contained" onClick={handleSubmit(onSubmit)} loading={isPending}>{t('common.grant')}</LoadingButton>
       </DialogActions>
     </Dialog>
   );

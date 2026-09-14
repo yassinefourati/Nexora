@@ -4,19 +4,19 @@ import {
   type CreateNotificationTemplateRequest, type UpdateNotificationTemplateRequest, type NotificationTemplate,
 } from '../api/notificationTemplatesApi';
 
-function resource() {
+function useResource() {
   return useCrudResource<NotificationTemplate, CreateNotificationTemplateRequest, UpdateNotificationTemplateRequest>(NOTIFICATION_TEMPLATES_BASE_PATH, NOTIFICATION_TEMPLATES_KEY);
 }
 
 export function useNotificationTemplates(params: ListParams = {}) {
-  return resource().useList(params);
+  return useResource().useList(params);
 }
 export function useCreateNotificationTemplate() {
-  return resource().useCreate();
+  return useResource().useCreate();
 }
 export function useUpdateNotificationTemplate() {
-  return resource().useUpdate();
+  return useResource().useUpdate();
 }
 export function useDeleteNotificationTemplate() {
-  return resource().useRemove();
+  return useResource().useRemove();
 }

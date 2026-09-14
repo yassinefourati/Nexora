@@ -42,35 +42,35 @@ export default function RolePermissionsMatrix() {
     <Box>
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2} flexWrap="wrap" gap={2}>
         <Box>
-          <Typography variant="h4" component="h1" fontWeight={700}>{t('menu.roles')} · Permissions</Typography>
+          <Typography variant="h4" component="h1" fontWeight={700}>{t('menu.roles')} {t('ui.permissionsSuffix')}</Typography>
           <Typography variant="body2" color="text.secondary">
-            {canEdit ? 'Select a role, then click checkboxes to grant or revoke permissions.' : 'Read-only — you do not have permission to edit role grants.'}
+            {canEdit ? t('ui.matrixHelp') : t('ui.matrixReadOnly')}
           </Typography>
         </Box>
         <FormControl size="small" sx={{ minWidth: 220 }}>
-          <InputLabel>Role</InputLabel>
-          <Select label="Role" value={roleId} onChange={(e) => setRoleId(e.target.value)}>
+          <InputLabel>{t('ui.role')}</InputLabel>
+          <Select label={t('ui.role')} value={roleId} onChange={(e) => setRoleId(e.target.value)}>
             {roles.map((r) => <MenuItem key={r.id} value={r.id}>{r.name}</MenuItem>)}
           </Select>
         </FormControl>
       </Stack>
 
       {!roleId ? (
-        <Alert severity="info">Select a role to view and edit its granted permissions.</Alert>
+        <Alert severity="info">{t('ui.matrixSelectRole')}</Alert>
       ) : (
         <Paper elevation={2} sx={{ borderRadius: 3, overflow: 'hidden', position: 'relative' }}>
           {(grantsLoading || granting || revoking) && (
             <Box sx={{ position: 'absolute', inset: 0, bgcolor: 'background.paper', opacity: 0.6, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1 }}>
-              <CircularProgress size={28} aria-label="Loading" />
+              <CircularProgress size={28} aria-label={t('ui.loading')} />
             </Box>
           )}
           <Table size="small" stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ fontWeight: 700 }}>Code</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>Resource</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>Action</TableCell>
-                <TableCell sx={{ fontWeight: 700 }} align="center">Granted</TableCell>
+                <TableCell sx={{ fontWeight: 700 }}>{t('ui.code')}</TableCell>
+                <TableCell sx={{ fontWeight: 700 }}>{t('ui.resource')}</TableCell>
+                <TableCell sx={{ fontWeight: 700 }}>{t('ui.action')}</TableCell>
+                <TableCell sx={{ fontWeight: 700 }} align="center">{t('ui.granted')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -5,35 +5,35 @@ import {
   type CreateMenuItemRequest, type UpdateMenuItemRequest, type MenuItem,
 } from '../api/menusApi';
 
-function menusResource() {
+function useMenusResource() {
   return useCrudResource<Menu, CreateMenuRequest, UpdateMenuRequest>(MENUS_BASE_PATH, MENUS_KEY);
 }
-function menuItemsResource() {
+function useMenuItemsResource() {
   return useCrudResource<MenuItem, CreateMenuItemRequest, UpdateMenuItemRequest>(MENU_ITEMS_BASE_PATH, MENU_ITEMS_KEY);
 }
 
 export function useMenus(params: ListParams = {}) {
-  return menusResource().useList(params);
+  return useMenusResource().useList(params);
 }
 export function useCreateMenu() {
-  return menusResource().useCreate();
+  return useMenusResource().useCreate();
 }
 export function useUpdateMenu() {
-  return menusResource().useUpdate();
+  return useMenusResource().useUpdate();
 }
 export function useDeleteMenu() {
-  return menusResource().useRemove();
+  return useMenusResource().useRemove();
 }
 
 export function useMenuItems(params: ListParams = {}) {
-  return menuItemsResource().useList(params);
+  return useMenuItemsResource().useList(params);
 }
 export function useCreateMenuItem() {
-  return menuItemsResource().useCreate();
+  return useMenuItemsResource().useCreate();
 }
 export function useUpdateMenuItem() {
-  return menuItemsResource().useUpdate();
+  return useMenuItemsResource().useUpdate();
 }
 export function useDeleteMenuItem() {
-  return menuItemsResource().useRemove();
+  return useMenuItemsResource().useRemove();
 }

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Runs the backend verify (unit, architecture, contract and integration tests)
+# before every push. This is the enforcement point for every build-breaking
+# rule while no hosted CI runs (ADR 0008).
+#
+# Install once:   cd backend && make hooks
+# Bypass once:    SKIP_VERIFY=1 git push      (visible in shell history on purpose)
+set -euo pipefail
+
+if [ "${SKIP_VERIFY:-0}" = "1" ]; then
+  echo "pre-push: SKIP_VERIFY=1, skipping backend verify"
+  exit 0
+fi
+
+root="$(git rev-parse --show-toplevel)"
+cd "$root/backend"
+
+echo "pre-push: running backend verify (set SKIP_VERIFY=1 to bypass)"
+./mvnw --no-transfer-progress -q verify
+echo "pre-push: backend verify passed"

@@ -1,19 +1,19 @@
 import { useCrudResource, type ListParams } from '@/core/api/useCrudResource';
 import { METADATA_BASE_PATH, METADATA_KEY, type CreateMetadataKvRequest, type UpdateMetadataKvRequest, type MetadataKv } from '../api/metadataApi';
 
-function resource() {
+function useResource() {
   return useCrudResource<MetadataKv, CreateMetadataKvRequest, UpdateMetadataKvRequest>(METADATA_BASE_PATH, METADATA_KEY);
 }
 
 export function useMetadata(params: ListParams = {}) {
-  return resource().useList(params);
+  return useResource().useList(params);
 }
 export function useCreateMetadata() {
-  return resource().useCreate();
+  return useResource().useCreate();
 }
 export function useUpdateMetadata() {
-  return resource().useUpdate();
+  return useResource().useUpdate();
 }
 export function useDeleteMetadata() {
-  return resource().useRemove();
+  return useResource().useRemove();
 }

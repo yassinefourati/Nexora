@@ -1,9 +1,12 @@
 import type { AxiosResponse } from 'axios';
 
 /**
- * Real backend response envelope (platform's ApiResponse<T>), exactly as
- * returned by GlobalExceptionHandler / every controller — not the fictional
- * {status, code, meta} shape the old mock API used.
+ * Backend response contract.
+ *
+ * Successful (2xx) responses are wrapped in the platform's ApiResponse<T>
+ * envelope. Errors are NOT wrapped: every 4xx/5xx is an RFC 9457 problem
+ * details document (`application/problem+json`, ADR 0005) with the stable
+ * `code` the UI branches on.
  */
 export interface ApiPagination {
   page: number;          // zero-based
@@ -14,20 +17,49 @@ export interface ApiPagination {
   last: boolean;
 }
 
-export interface ApiError {
-  code: string;
-  details?: unknown;
-}
-
 export interface ApiResponse<T> {
-  success: boolean;
+  success: true;
   status: number;
   message: string;
   timestamp: string;
   correlationId: string;
   data: T;
   pagination?: ApiPagination;
-  error?: ApiError;
+}
+
+/** One field-level constraint violation, present on VALIDATION_FAILED and TYPE_MISMATCH. */
+export interface Violation {
+  field: string | null;
+  code: string;
+  message: string;
+  rejectedValue?: unknown;
+}
+
+/** RFC 9457 problem details as produced by the backend for every error. */
+export interface ProblemDetail {
+  type: string;
+  title: string;
+  status: number;
+  detail?: string;
+  instance?: string;
+  /** Stable UPPER_SNAKE_CASE code from the backend's ErrorCode catalog. */
+  code: string;
+  retryable: boolean;
+  timestamp: string;
+  correlationId?: string;
+  violations?: Violation[];
+}
+
+export function isProblemDetail(body: unknown): body is ProblemDetail {
+  return typeof body === 'object' && body !== null
+    && typeof (body as ProblemDetail).status === 'number'
+    && typeof (body as ProblemDetail).code === 'string';
+}
+
+/** Extracts the problem details from a rejected axios call, if the backend produced one. */
+export function problemOf(error: unknown): ProblemDetail | undefined {
+  const body = (error as { response?: { data?: unknown } } | undefined)?.response?.data;
+  return isProblemDetail(body) ? body : undefined;
 }
 
 /** Unwraps the envelope's `data` field from an axios response. */

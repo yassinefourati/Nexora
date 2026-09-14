@@ -6,6 +6,7 @@ import CircleIcon from '@mui/icons-material/Circle';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import type { MenuItem } from '../config/menuConfig';
+import { isPathActive } from '../menuPath';
 
 export type OpenMap = Record<string, string | null>;
 
@@ -17,11 +18,6 @@ interface Props {
   parentKey: string;
   openMap: OpenMap;
   onToggle: (parentKey: string, label: string) => void;
-}
-
-export function isPathActive(item: MenuItem, pathname: string): boolean {
-  if (item.path === pathname) return true;
-  return item.children?.some((c) => isPathActive(c, pathname)) ?? false;
 }
 
 export default function SidebarMenuItem({ item, depth = 0, sidebarOpen, parentKey, openMap, onToggle }: Props) {

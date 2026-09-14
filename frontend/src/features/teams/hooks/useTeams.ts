@@ -1,22 +1,22 @@
 import { useCrudResource, type ListParams } from '@/core/api/useCrudResource';
 import { TEAMS_BASE_PATH, TEAMS_KEY, type CreateTeamRequest, type UpdateTeamRequest, type Team } from '../api/teamsApi';
 
-function resource() {
+function useResource() {
   return useCrudResource<Team, CreateTeamRequest, UpdateTeamRequest>(TEAMS_BASE_PATH, TEAMS_KEY);
 }
 
 export function useTeams(params: ListParams = {}) {
-  return resource().useList(params);
+  return useResource().useList(params);
 }
 export function useTeam(id: string | undefined) {
-  return resource().useOne(id);
+  return useResource().useOne(id);
 }
 export function useCreateTeam() {
-  return resource().useCreate();
+  return useResource().useCreate();
 }
 export function useUpdateTeam() {
-  return resource().useUpdate();
+  return useResource().useUpdate();
 }
 export function useDeleteTeam() {
-  return resource().useRemove();
+  return useResource().useRemove();
 }

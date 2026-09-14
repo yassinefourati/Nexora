@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import {
   Box, Paper, Table, TableHead, TableBody, TableRow, TableCell,
   TableSortLabel, TablePagination, TextField, Select, MenuItem,
@@ -7,12 +8,11 @@ import {
 import { visuallyHidden } from '@mui/utils';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useState, useMemo } from 'react';
 import type { ColumnDef, FilterState, SortState } from './types';
-import { exportCsv, exportPdf } from './exportUtils';
+import { exportCsv } from './exportUtils';
 import ColumnManager from './ColumnManager';
 
 interface Props<T extends object> {
@@ -42,6 +42,7 @@ function applyFilter<T extends object>(row: T, f: FilterState): boolean {
 export default function AdvancedDataTable<T extends object>({
   rows, columns, title = 'Data', exportFilename = 'export', pageSize: defaultSize = 10, tableId,
 }: Props<T>) {
+  const { t } = useTranslation();
   const storageKey = `col-prefs-${tableId ?? 'default'}`;
 
   const [visible, setVisible] = useState<Set<string>>(() => {
@@ -102,11 +103,11 @@ export default function AdvancedDataTable<T extends object>({
     <Paper elevation={2} sx={{ borderRadius: 3, overflow: 'hidden' }}>
       <Box sx={{ px: 2, py: 1.5, display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
         <Typography variant="subtitle1" component="h2" fontWeight={700} sx={{ flexGrow: 1 }}>
-          {title} <Typography component="span" variant="caption" color="text.secondary" ml={1}>{filtered.length} rows</Typography>
+          {title} <Typography component="span" variant="caption" color="text.secondary" ml={1}>{filtered.length} {t('ui.rows')}</Typography>
         </Typography>
-        <TextField size="small" placeholder="Search…" value={search} onChange={(e) => { setSearch(e.target.value); setPage(0); }} sx={{ width: 200 }}
+        <TextField size="small" placeholder={t('ui.search')} value={search} onChange={(e) => { setSearch(e.target.value); setPage(0); }} sx={{ width: 200 }}
           InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment>, endAdornment: search ? <InputAdornment position="end"><IconButton size="small" onClick={() => setSearch('')}><ClearIcon fontSize="small" /></IconButton></InputAdornment> : null }} />
-        <Tooltip title="Column filters">
+        <Tooltip title={t('ui.columnFilters')}>
           <IconButton onClick={() => setShowFilters((p) => !p)} color={showFilters ? 'primary' : 'default'}>
             <FilterListIcon />
             {activeFilterCount > 0 && <Chip label={activeFilterCount} size="small" color="primary" sx={{ position: 'absolute', top: 4, right: 4, height: 16, fontSize: '0.6rem' }} />}
@@ -114,8 +115,7 @@ export default function AdvancedDataTable<T extends object>({
         </Tooltip>
         <ColumnManager columns={columns} visible={visible} onToggle={toggleCol} />
         <ButtonGroup size="small" variant="outlined">
-          <Tooltip title="Export CSV"><Button onClick={() => exportCsv(sorted, columns, exportFilename)} startIcon={<TableRowsIcon fontSize="small" />}>CSV</Button></Tooltip>
-          <Tooltip title="Export PDF"><Button onClick={() => exportPdf(sorted, columns, title, exportFilename)} startIcon={<PictureAsPdfIcon fontSize="small" />}>PDF</Button></Tooltip>
+          <Tooltip title={t('ui.exportCsv')}><Button onClick={() => exportCsv(sorted, columns, exportFilename)} startIcon={<TableRowsIcon fontSize="small" />}>CSV</Button></Tooltip>
         </ButtonGroup>
       </Box>
 
@@ -127,24 +127,24 @@ export default function AdvancedDataTable<T extends object>({
               return (
                 <Stack key={i} direction="row" spacing={1} alignItems="center">
                   <FormControl size="small" sx={{ minWidth: 120 }}>
-                    <InputLabel>Field</InputLabel>
-                    <Select label="Field" value={f.field} onChange={(e) => updateFilter(i, { field: e.target.value })}>
+                    <InputLabel>{t('ui.field')}</InputLabel>
+                    <Select label={t('ui.field')} value={f.field} onChange={(e) => updateFilter(i, { field: e.target.value })}>
                       {fc.map((c) => <MenuItem key={String(c.field)} value={String(c.field)}>{c.headerName}</MenuItem>)}
                     </Select>
                   </FormControl>
                   <FormControl size="small" sx={{ minWidth: 120 }}>
-                    <InputLabel>Operator</InputLabel>
-                    <Select label="Operator" value={f.operator} onChange={(e) => updateFilter(i, { operator: e.target.value as FilterState['operator'] })}>
+                    <InputLabel>{t('ui.operator')}</InputLabel>
+                    <Select label={t('ui.operator')} value={f.operator} onChange={(e) => updateFilter(i, { operator: e.target.value as FilterState['operator'] })}>
                       {OPERATORS.map((op) => <MenuItem key={op.value} value={op.value}>{op.label}</MenuItem>)}
                     </Select>
                   </FormControl>
-                  <TextField size="small" placeholder="Value" value={f.value} onChange={(e) => { updateFilter(i, { value: e.target.value }); setPage(0); }} sx={{ width: 140 }} />
+                  <TextField size="small" placeholder={t('ui.value')} value={f.value} onChange={(e) => { updateFilter(i, { value: e.target.value }); setPage(0); }} sx={{ width: 140 }} />
                   <IconButton size="small" onClick={() => removeFilter(i)} color="error"><ClearIcon fontSize="small" /></IconButton>
                 </Stack>
               );
             })}
-            <Button size="small" onClick={addFilter} startIcon={<FilterListIcon />}>Add filter</Button>
-            {filters.length > 0 && <Button size="small" color="error" onClick={() => setFilters([])}>Clear all</Button>}
+            <Button size="small" onClick={addFilter} startIcon={<FilterListIcon />}>{t('ui.addFilter')}</Button>
+            {filters.length > 0 && <Button size="small" color="error" onClick={() => setFilters([])}>{t('ui.clearAll')}</Button>}
           </Stack>
         </Box>
       )}
@@ -157,14 +157,14 @@ export default function AdvancedDataTable<T extends object>({
                 <TableCell key={String(col.field)} width={col.width} sx={{ fontWeight: 700, whiteSpace: 'nowrap' }}>
                   {col.sortable !== false && col.field !== 'actions'
                     ? <TableSortLabel active={sort?.field === String(col.field)} direction={sort?.field === String(col.field) ? sort.direction : 'asc'} onClick={() => handleSort(String(col.field))}>{col.headerName}</TableSortLabel>
-                    : col.headerName || (col.field === 'actions' ? <Box component="span" sx={visuallyHidden}>Actions</Box> : null)}
+                    : col.headerName || (col.field === 'actions' ? <Box component="span" sx={visuallyHidden}>{t('ui.actions')}</Box> : null)}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {paginated.length === 0
-              ? <TableRow><TableCell colSpan={visibleCols.length} align="center" sx={{ py: 6, color: 'text.secondary' }}>No results found</TableCell></TableRow>
+              ? <TableRow><TableCell colSpan={visibleCols.length} align="center" sx={{ py: 6, color: 'text.secondary' }}>{t('ui.noResults')}</TableCell></TableRow>
               : paginated.map((row, i) => (
                   <TableRow key={i} hover>
                     {visibleCols.map((col) => (

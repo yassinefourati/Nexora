@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogActions, Button, Typography, Box, MobileStepper } from '@mui/material';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -26,6 +27,7 @@ const STEPS = [
 ];
 
 export default function OnboardingTour() {
+  const { t } = useTranslation();
   const { seenOnboarding, setSeenOnboarding } = useUIStore();
   const [step, setStep] = useState(0);
 
@@ -54,12 +56,12 @@ export default function OnboardingTour() {
 
       <DialogActions sx={{ px: 3, pb: 3, justifyContent: 'space-between' }}>
         <Button size="small" color="inherit" onClick={setSeenOnboarding} sx={{ color: 'text.secondary' }}>
-          Skip tour
+          {t('ui.skipTour')}
         </Button>
         <Box sx={{ display: 'flex', gap: 1 }}>
           {step > 0 && (
             <Button size="small" startIcon={<KeyboardArrowLeftIcon />} onClick={() => setStep((s) => s - 1)}>
-              Back
+              {t('ui.back')}
             </Button>
           )}
           <Button
@@ -68,7 +70,7 @@ export default function OnboardingTour() {
             endIcon={isLast ? null : <KeyboardArrowRightIcon />}
             onClick={() => isLast ? setSeenOnboarding() : setStep((s) => s + 1)}
           >
-            {isLast ? "Let's go!" : 'Next'}
+            {isLast ? t('ui.letsGo') : t('ui.next')}
           </Button>
         </Box>
       </DialogActions>

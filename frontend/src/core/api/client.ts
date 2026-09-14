@@ -58,6 +58,13 @@ export function setupInterceptors(
         return apiClient(original);
       }
 
+      if (error.response?.status === 429) {
+        const retryAfter = Number((error.response as { headers?: Record<string, string> }).headers?.['retry-after']);
+        const wait = Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter : 60;
+        void import('@/shared/stores/useAppStore').then(({ useAppStore }) =>
+          useAppStore.getState().notify(`Too many requests. Try again in ${wait}s.`, 'warning'));
+      }
+
       return Promise.reject(error);
     }
   );

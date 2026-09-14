@@ -1,19 +1,19 @@
 import { useCrudResource, type ListParams } from '@/core/api/useCrudResource';
 import { ROLE_MENUS_BASE_PATH, ROLE_MENUS_KEY, type CreateRoleMenuRequest, type UpdateRoleMenuRequest, type RoleMenu } from '../api/roleMenusApi';
 
-function resource() {
+function useResource() {
   return useCrudResource<RoleMenu, CreateRoleMenuRequest, UpdateRoleMenuRequest>(ROLE_MENUS_BASE_PATH, ROLE_MENUS_KEY);
 }
 
 export function useRoleMenus(params: ListParams = {}) {
-  return resource().useList(params);
+  return useResource().useList(params);
 }
 export function useCreateRoleMenu() {
-  return resource().useCreate();
+  return useResource().useCreate();
 }
 export function useUpdateRoleMenu() {
-  return resource().useUpdate();
+  return useResource().useUpdate();
 }
 export function useDeleteRoleMenu() {
-  return resource().useRemove();
+  return useResource().useRemove();
 }

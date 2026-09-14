@@ -1,4 +1,5 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem, Stack } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
@@ -12,6 +13,7 @@ import type { Team } from '../api/teamsApi';
 interface Props { open: boolean; onClose: () => void; editTeam?: Team | null; }
 
 export default function TeamFormDialog({ open, onClose, editTeam }: Props) {
+  const { t } = useTranslation();
   const isEdit = Boolean(editTeam);
   const { mutateAsync: create, isPending: creating } = useCreateTeam();
   const { mutateAsync: update, isPending: updating } = useUpdateTeam();
@@ -51,37 +53,37 @@ export default function TeamFormDialog({ open, onClose, editTeam }: Props) {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{isEdit ? 'Edit Team' : 'Add Team'}</DialogTitle>
+      <DialogTitle>{isEdit ? t('resources.teams.edit') : t('resources.teams.add')}</DialogTitle>
       <DialogContent>
         {isEdit ? (
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Name" fullWidth {...updateForm.register('name')} error={!!updateForm.formState.errors.name} helperText={updateForm.formState.errors.name?.message} />
-            <TextField label="Department" select fullWidth {...updateForm.register('departmentId')}>
-              <MenuItem value="">None</MenuItem>
+            <TextField label={t('fields.name')} fullWidth {...updateForm.register('name')} error={!!updateForm.formState.errors.name} helperText={updateForm.formState.errors.name?.message} />
+            <TextField label={t('fields.department')} select fullWidth {...updateForm.register('departmentId')}>
+              <MenuItem value="">{t('fields.none')}</MenuItem>
               {depts.map((d) => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
             </TextField>
           </Stack>
         ) : (
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Name" fullWidth {...createForm.register('name')} error={!!createForm.formState.errors.name} helperText={createForm.formState.errors.name?.message} />
-            <TextField label="Organization" select fullWidth {...createForm.register('organizationId')} error={!!createForm.formState.errors.organizationId} helperText={createForm.formState.errors.organizationId?.message}>
+            <TextField label={t('fields.name')} fullWidth {...createForm.register('name')} error={!!createForm.formState.errors.name} helperText={createForm.formState.errors.name?.message} />
+            <TextField label={t('fields.organization')} select fullWidth {...createForm.register('organizationId')} error={!!createForm.formState.errors.organizationId} helperText={createForm.formState.errors.organizationId?.message}>
               {orgs.map((o) => <MenuItem key={o.id} value={o.id}>{o.name}</MenuItem>)}
             </TextField>
-            <TextField label="Department" select fullWidth {...createForm.register('departmentId')}>
-              <MenuItem value="">None</MenuItem>
+            <TextField label={t('fields.department')} select fullWidth {...createForm.register('departmentId')}>
+              <MenuItem value="">{t('fields.none')}</MenuItem>
               {depts.map((d) => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
             </TextField>
           </Stack>
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} disabled={isPending}>Cancel</Button>
+        <Button onClick={onClose} disabled={isPending}>{t('common.cancel')}</Button>
         <LoadingButton
           variant="contained"
           onClick={isEdit ? updateForm.handleSubmit(onSubmitUpdate) : createForm.handleSubmit(onSubmitCreate)}
           loading={isPending}
         >
-          {isEdit ? 'Save' : 'Create'}
+          {isEdit ? t('common.save') : t('common.create')}
         </LoadingButton>
       </DialogActions>
     </Dialog>

@@ -1,7 +1,9 @@
 import { Snackbar, Alert, Box, Button, Fade } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/shared/stores/useAppStore';
 
 export default function GlobalFeedback() {
+  const { t } = useTranslation();
   const { loading, snackbar, closeSnackbar } = useAppStore();
   const showUndo = snackbar.message.includes('Click Undo');
 
@@ -50,7 +52,7 @@ export default function GlobalFeedback() {
               : undefined
           }
         >
-          {snackbar.message.replace(' Click Undo to reverse.', '')}
+          {snackbar.message.replace(' ' + t('ui.clickUndo'), '')}
         </Alert>
       </Snackbar>
     </>

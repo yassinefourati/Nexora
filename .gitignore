@@ -21,3 +21,6 @@ frontend/*.tsbuildinfo
 Thumbs.db
 .vscode/
 .idea/
+
+# --- Local database backups (scripts/db-backup.sh) ---
+backups/

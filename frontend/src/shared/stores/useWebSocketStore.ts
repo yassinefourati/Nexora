@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Client, type StompSubscription } from '@stomp/stompjs';
+import { Client, ReconnectionTimeMode, type StompSubscription } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { env } from '@/core/config/env';
 
@@ -46,8 +46,11 @@ export const useWebSocketStore = create<WebSocketState>((set, get) => ({
         Authorization: `Bearer ${accessToken}`,
       },
 
-      // Auto-reconnect every 5 seconds if the connection drops
-      reconnectDelay: 5000,
+      // Reconnect with exponential backoff + jitter (1s → 60s) so a backend outage
+      // does not get a synchronized 5-second hammer from every open tab.
+      reconnectDelay: 1000,
+      maxReconnectDelay: 60_000,
+      reconnectTimeMode: ReconnectionTimeMode.EXPONENTIAL,
 
       onConnect: () => {
         set({ connected: true });

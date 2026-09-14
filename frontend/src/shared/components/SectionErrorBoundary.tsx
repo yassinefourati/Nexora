@@ -1,8 +1,10 @@
 import { ErrorBoundary } from 'react-error-boundary';
+import { useTranslation } from 'react-i18next';
 import { Box, Typography, Button } from '@mui/material';
 import type { ReactNode } from 'react';
 
 function SectionFallback({ error, resetErrorBoundary }: { error: unknown; resetErrorBoundary: () => void }) {
+  const { t } = useTranslation();
   const message = error instanceof Error ? error.message : String(error);
   return (
     <Box
@@ -20,10 +22,10 @@ function SectionFallback({ error, resetErrorBoundary }: { error: unknown; resetE
       }}
     >
       <Typography variant="body2" color="error">
-        {message || 'This section failed to load'}
+        {message || t('ui.sectionFailed')}
       </Typography>
       <Button size="small" variant="outlined" color="error" onClick={resetErrorBoundary}>
-        Retry
+        {t('ui.retry')}
       </Button>
     </Box>
   );

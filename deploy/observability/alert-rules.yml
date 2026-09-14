@@ -1,0 +1,53 @@
+groups:
+  - name: admin-api
+    rules:
+      - alert: AdminApiHighErrorRate
+        expr: |
+          sum(rate(http_server_requests_seconds_count{app="admin-api", status=~"5.."}[5m]))
+            /
+          sum(rate(http_server_requests_seconds_count{app="admin-api"}[5m])) > 0.02
+        for: 5m
+        labels:
+          severity: page
+        annotations:
+          summary: "admin-api 5xx rate above 2% for 5 minutes"
+          runbook: docs/runbooks/incident-5xx.md
+
+      - alert: AdminApiSlowRequests
+        expr: |
+          histogram_quantile(0.95,
+            sum by (le) (rate(http_server_requests_seconds_bucket{app="admin-api", uri!~"/actuator.*"}[5m]))
+          ) > 0.5
+        for: 10m
+        labels:
+          severity: ticket
+        annotations:
+          summary: "admin-api p95 latency above 500 ms for 10 minutes"
+          runbook: docs/runbooks/incident-5xx.md
+
+      - alert: AdminApiDown
+        expr: up{job="admin-api"} == 0
+        for: 2m
+        labels:
+          severity: page
+        annotations:
+          summary: "No admin-api instance is being scraped"
+          runbook: docs/runbooks/deploy.md
+
+      - alert: AdminApiDbPoolExhausted
+        expr: hikaricp_connections_pending{app="admin-api"} > 0
+        for: 2m
+        labels:
+          severity: ticket
+        annotations:
+          summary: "Requests are waiting for a database connection"
+          runbook: docs/runbooks/incident-5xx.md
+
+      - alert: AdminApiRateLimitingSpike
+        expr: |
+          sum(rate(http_server_requests_seconds_count{app="admin-api", status="429"}[5m])) > 5
+        for: 5m
+        labels:
+          severity: ticket
+        annotations:
+          summary: "More than 5 rate-limited requests/s: abuse, or the limit is too low for a legitimate client"

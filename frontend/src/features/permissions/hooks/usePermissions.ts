@@ -9,24 +9,24 @@ import {
   type CreatePermissionRequest, type CreateRolePermissionRequest, type Permission, type RolePermission, type UpdatePermissionRequest,
 } from '../api/permissionsApi';
 
-function permissionsResource() {
+function usePermissionsResource() {
   return useCrudResource<Permission, CreatePermissionRequest, UpdatePermissionRequest>(PERMISSIONS_BASE_PATH, PERMISSIONS_KEY);
 }
 
 export function usePermissionsList(params: ListParams = {}) {
-  return permissionsResource().useList(params);
+  return usePermissionsResource().useList(params);
 }
 
 export function useCreatePermission() {
-  return permissionsResource().useCreate();
+  return usePermissionsResource().useCreate();
 }
 
 export function useUpdatePermission() {
-  return permissionsResource().useUpdate();
+  return usePermissionsResource().useUpdate();
 }
 
 export function useDeletePermission() {
-  return permissionsResource().useRemove();
+  return usePermissionsResource().useRemove();
 }
 
 /** Permissions granted to a single role — not a top-level list endpoint, so no pagination block. */

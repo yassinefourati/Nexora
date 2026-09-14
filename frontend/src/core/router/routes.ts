@@ -15,6 +15,5 @@ export const ROUTES = {
   NOTIFICATION_TEMPLATES: '/notification-templates', TAGS: '/tags', ENTITY_TAGS: '/entity-tags',
   DOCS: '/docs',
   UI_DOCS: '/ui-docs',
-  TABLE_DEMO: '/table-demo',
 } as const;
 export const GUIDE_ROUTE = '/developer-guide';

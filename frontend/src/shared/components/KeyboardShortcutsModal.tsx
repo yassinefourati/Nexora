@@ -1,4 +1,5 @@
 import { Dialog, DialogTitle, DialogContent, Box, Typography, Grid, Chip, IconButton } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface Props { open: boolean; onClose: () => void; }
@@ -16,10 +17,11 @@ const SHORTCUTS = [
 ];
 
 export default function KeyboardShortcutsModal({ open, onClose }: Props) {
+  const { t } = useTranslation();
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        Keyboard Shortcuts
+        {t('ui.keyboardShortcuts')}
         <IconButton size="small" onClick={onClose}><CloseIcon /></IconButton>
       </DialogTitle>
       <DialogContent>

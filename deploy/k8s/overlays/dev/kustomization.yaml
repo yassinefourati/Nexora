@@ -1,0 +1,44 @@
+# Local cluster (kind / minikube / Docker Desktop): single replica, images built
+# locally, tracing export off unless an OTel collector is running.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+images:
+  - name: admin-api
+    newName: admin-api
+    newTag: latest
+  - name: admin-frontend
+    newName: admin-frontend
+    newTag: latest
+patches:
+  - target:
+      kind: Deployment
+      name: admin-api
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 1
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0/value
+        value: staging
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value: { name: TRACING_EXPORT_ENABLED, value: "false" }
+  - target:
+      kind: HorizontalPodAutoscaler
+      name: admin-api
+    patch: |
+      - op: replace
+        path: /spec/minReplicas
+        value: 1
+      - op: replace
+        path: /spec/maxReplicas
+        value: 2
+  - target:
+      kind: Deployment
+      name: admin-frontend
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 1

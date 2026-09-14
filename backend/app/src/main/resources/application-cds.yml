@@ -1,0 +1,47 @@
+# CDS training profile (Dockerfile, Phase 6 of docs/backend-architecture-plan.md).
+#
+# The image build starts the application once with
+#   -XX:ArchiveClassesAtExit=admin-api.jsa -Dspring.context.exit=onRefresh
+# so the JVM records every class the full context loads, then exits before
+# serving traffic. Nothing is reachable during that run, so everything that
+# would connect at start-up is pointed at a placeholder or switched off.
+# Never activate this profile on a running instance.
+
+spring:
+  main:
+    banner-mode: off
+  flyway:
+    enabled: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cds-training
+    username: cds
+    password: cds
+    hikari:
+      initialization-fail-timeout: -1     # build the pool, do not open a connection
+  jpa:
+    hibernate:
+      ddl-auto: none                      # no schema validation without a database
+    properties:
+      hibernate:
+        boot:
+          allow_jdbc_metadata_access: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/cds-training   # the decoder is lazy; never fetched
+
+fourati.common.store: memory
+app.websocket.relay.enabled: false
+
+management:
+  tracing:
+    export:
+      enabled: false
+  health:
+    redis:
+      enabled: false
+
+logging:
+  level:
+    root: WARN

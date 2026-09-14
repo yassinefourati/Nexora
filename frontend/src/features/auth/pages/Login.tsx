@@ -34,7 +34,7 @@ export default function Login() {
 
         <Typography variant="h5" component="h1" fontWeight={800}>{t('auth.signIn')}</Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3.5 }}>
-          Sign in with your organization account to continue.
+          {t('ui.signInSubtitle')}
         </Typography>
 
         <Button

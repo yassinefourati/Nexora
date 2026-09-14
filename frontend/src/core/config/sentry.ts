@@ -13,6 +13,6 @@ export function initSentry() {
   });
 }
 
-export function setSentryUser(user: { id: number; email: string; role: string } | null) {
-  Sentry.setUser(user ? { id: String(user.id), email: user.email, role: user.role } : null);
+export function setSentryUser(user: { id: string; email: string; roles: string[] } | null) {
+  Sentry.setUser(user ? { id: user.id, email: user.email, roles: user.roles.join(',') } : null);
 }

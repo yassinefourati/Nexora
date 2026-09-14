@@ -1,4 +1,5 @@
 import { Box, Typography, Paper, Avatar, Chip, Stack, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Divider, Button, Alert } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DevicesIcon from '@mui/icons-material/Devices';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
@@ -14,6 +15,7 @@ import { env } from '@/core/config/env';
 const accountConsoleUrl = `${env.VITE_OIDC_AUTHORITY}/account/`;
 
 export default function Profile() {
+  const { t } = useTranslation();
   const jwtUser = useAuthStore((s) => s.user);
   const { data: profile, isLoading, isError } = useCurrentBackendUser();
   const { data: sessionsPage } = useSessionsList({ page: 0, size: 20, userId: profile?.id });
@@ -43,55 +45,54 @@ export default function Profile() {
 
       {isError && (
         <Alert severity="error" sx={{ mb: 3 }}>
-          Couldn't load your account details. Try refreshing the page.
+          {t('ui.profileLoadFailed')}
         </Alert>
       )}
       {!isError && !profile && (
         <Alert severity="warning" sx={{ mb: 3 }}>
-          No matching backend user record found for "{jwtUser?.username}" — sessions and API keys below can't be scoped to this account.
+          {t('ui.profileNoBackendUser', { username: jwtUser?.username })}
         </Alert>
       )}
 
       <Stack spacing={3} maxWidth={640}>
         <Paper elevation={2} sx={{ p: 3, borderRadius: 3 }}>
-          <Typography variant="h6" mb={2}>Account details</Typography>
+          <Typography variant="h6" mb={2}>{t('ui.accountDetails')}</Typography>
           <Stack spacing={1.5}>
-            <Box><Typography variant="caption" color="text.secondary">Username</Typography><Typography>{profile?.username ?? jwtUser?.username}</Typography></Box>
-            <Box><Typography variant="caption" color="text.secondary">Email</Typography><Typography>{profile?.email ?? jwtUser?.email}</Typography></Box>
-            <Box><Typography variant="caption" color="text.secondary">Last login</Typography><Typography>{profile?.lastLoginAt ? new Date(profile.lastLoginAt).toLocaleString() : '—'}</Typography></Box>
+            <Box><Typography variant="caption" color="text.secondary">{t('ui.username')}</Typography><Typography>{profile?.username ?? jwtUser?.username}</Typography></Box>
+            <Box><Typography variant="caption" color="text.secondary">{t('ui.email')}</Typography><Typography>{profile?.email ?? jwtUser?.email}</Typography></Box>
+            <Box><Typography variant="caption" color="text.secondary">{t('ui.lastLogin')}</Typography><Typography>{profile?.lastLoginAt ? new Date(profile.lastLoginAt).toLocaleString() : '—'}</Typography></Box>
           </Stack>
         </Paper>
 
         <Paper elevation={2} sx={{ p: 3, borderRadius: 3 }}>
-          <Typography variant="h6" mb={1}>Password &amp; two-factor authentication</Typography>
+          <Typography variant="h6" mb={1}>{t('ui.passwordAndTwoFactor')}</Typography>
           <Typography variant="body2" color="text.secondary" mb={2}>
-            Sign-in is managed by the identity provider — change your password, set up two-factor authentication,
-            or review your login devices in the account console.
+            {t('ui.identityManagedByProvider')}
           </Typography>
           <Button variant="outlined" endIcon={<OpenInNewIcon fontSize="small" />} href={accountConsoleUrl} target="_blank" rel="noopener">
-            Open account console
+            {t('ui.openAccountConsole')}
           </Button>
         </Paper>
 
         <Paper elevation={2} sx={{ borderRadius: 3, overflow: 'hidden' }}>
           <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
             <DevicesIcon fontSize="small" color="action" />
-            <Typography variant="subtitle1" fontWeight={600}>Your sessions</Typography>
+            <Typography variant="subtitle1" fontWeight={600}>{t('ui.yourSessions')}</Typography>
           </Box>
           <Divider />
           {sessions.length === 0 ? (
-            <Box sx={{ p: 3, textAlign: 'center' }}><Typography variant="body2" color="text.secondary">No sessions found.</Typography></Box>
+            <Box sx={{ p: 3, textAlign: 'center' }}><Typography variant="body2" color="text.secondary">{t('ui.noSessions')}</Typography></Box>
           ) : (
             <List disablePadding>
               {sessions.map((s) => (
                 <ListItem key={s.id} divider>
                   <ListItemText
-                    primary={<>{s.userAgent ?? 'Unknown device'} {s.revokedAt && <Chip label="revoked" size="small" sx={{ ml: 1 }} />}</>}
-                    secondary={`${s.ipAddress ?? '—'} · expires ${s.expiresAt ? new Date(s.expiresAt).toLocaleString() : '—'}`}
+                    primary={<>{s.userAgent ?? t('ui.unknownDevice')} {s.revokedAt && <Chip label={t('ui.revoked')} size="small" sx={{ ml: 1 }} />}</>}
+                    secondary={t('ui.sessionLine', { ip: s.ipAddress ?? t('ui.dash'), expires: s.expiresAt ? new Date(s.expiresAt).toLocaleString() : t('ui.dash') })}
                   />
                   {!s.revokedAt && (
                     <ListItemSecondaryAction>
-                      <IconButton size="small" color="error" aria-label="Revoke session" onClick={() => confirm({
+                      <IconButton size="small" color="error" aria-label={t('ui.revokeSession')} onClick={() => confirm({
                         title: 'Revoke session', message: 'This device will be signed out immediately.', severity: 'error',
                         onConfirm: () => revokeSession(s.id!),
                       })}>
@@ -108,22 +109,22 @@ export default function Profile() {
         <Paper elevation={2} sx={{ borderRadius: 3, overflow: 'hidden' }}>
           <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
             <VpnKeyIcon fontSize="small" color="action" />
-            <Typography variant="subtitle1" fontWeight={600}>Your API keys</Typography>
+            <Typography variant="subtitle1" fontWeight={600}>{t('ui.yourApiKeys')}</Typography>
           </Box>
           <Divider />
           {apiKeys.length === 0 ? (
-            <Box sx={{ p: 3, textAlign: 'center' }}><Typography variant="body2" color="text.secondary">No API keys issued to this account.</Typography></Box>
+            <Box sx={{ p: 3, textAlign: 'center' }}><Typography variant="body2" color="text.secondary">{t('ui.noApiKeys')}</Typography></Box>
           ) : (
             <List disablePadding>
               {apiKeys.map((k) => (
                 <ListItem key={k.id} divider>
                   <ListItemText
-                    primary={<>{k.name} {k.revokedAt && <Chip label="revoked" size="small" sx={{ ml: 1 }} />}</>}
-                    secondary={`Last used ${k.lastUsedAt ? new Date(k.lastUsedAt).toLocaleString() : 'never'}`}
+                    primary={<>{k.name} {k.revokedAt && <Chip label={t('ui.revoked')} size="small" sx={{ ml: 1 }} />}</>}
+                    secondary={t('ui.lastUsed', { when: k.lastUsedAt ? new Date(k.lastUsedAt).toLocaleString() : t('ui.never') })}
                   />
                   {!k.revokedAt && (
                     <ListItemSecondaryAction>
-                      <IconButton size="small" color="error" aria-label="Revoke API key" onClick={() => confirm({
+                      <IconButton size="small" color="error" aria-label={t('ui.revokeApiKey')} onClick={() => confirm({
                         title: 'Revoke API key', message: `Revoke "${k.name}"? Requests using it will be rejected immediately.`, severity: 'error',
                         onConfirm: () => revokeApiKey(k.id!),
                       })}>

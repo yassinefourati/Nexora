@@ -1,4 +1,5 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem, Stack, FormControlLabel, Checkbox } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
@@ -11,6 +12,7 @@ import type { FeatureFlag } from '../api/featureFlagsApi';
 interface Props { open: boolean; onClose: () => void; editFlag?: FeatureFlag | null; }
 
 export default function FeatureFlagFormDialog({ open, onClose, editFlag }: Props) {
+  const { t } = useTranslation();
   const isEdit = Boolean(editFlag);
   const { mutateAsync: create, isPending: creating } = useCreateFeatureFlag();
   const { mutateAsync: update, isPending: updating } = useUpdateFeatureFlag();
@@ -48,39 +50,39 @@ export default function FeatureFlagFormDialog({ open, onClose, editFlag }: Props
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{isEdit ? 'Edit Feature Flag' : 'Add Feature Flag'}</DialogTitle>
+      <DialogTitle>{isEdit ? t('ui.editFeatureFlag') : t('ui.addFeatureFlag')}</DialogTitle>
       <DialogContent>
         {isEdit ? (
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Name" fullWidth {...updateForm.register('name')} error={!!updateForm.formState.errors.name} helperText={updateForm.formState.errors.name?.message} />
-            <TextField label="Description" fullWidth multiline rows={2} {...updateForm.register('description')} />
+            <TextField label={t('fields.name')} fullWidth {...updateForm.register('name')} error={!!updateForm.formState.errors.name} helperText={updateForm.formState.errors.name?.message} />
+            <TextField label={t('fields.description')} fullWidth multiline rows={2} {...updateForm.register('description')} />
             <Controller name="enabled" control={updateForm.control} render={({ field }) => (
-              <FormControlLabel control={<Checkbox checked={field.value} onChange={field.onChange} />} label="Enabled" />
+              <FormControlLabel control={<Checkbox checked={field.value} onChange={field.onChange} />} label={t('fields.enabled')} />
             )} />
           </Stack>
         ) : (
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Key" fullWidth {...createForm.register('key')} error={!!createForm.formState.errors.key} helperText={createForm.formState.errors.key?.message} />
-            <TextField label="Name" fullWidth {...createForm.register('name')} error={!!createForm.formState.errors.name} helperText={createForm.formState.errors.name?.message} />
-            <TextField label="Description" fullWidth multiline rows={2} {...createForm.register('description')} />
-            <TextField label="Organization (optional)" select fullWidth {...createForm.register('organizationId')}>
-              <MenuItem value="">Global (all organizations)</MenuItem>
+            <TextField label={t('fields.key')} fullWidth {...createForm.register('key')} error={!!createForm.formState.errors.key} helperText={createForm.formState.errors.key?.message} />
+            <TextField label={t('fields.name')} fullWidth {...createForm.register('name')} error={!!createForm.formState.errors.name} helperText={createForm.formState.errors.name?.message} />
+            <TextField label={t('fields.description')} fullWidth multiline rows={2} {...createForm.register('description')} />
+            <TextField label={t('fields.organizationOptional')} select fullWidth {...createForm.register('organizationId')}>
+              <MenuItem value="">{t('fields.globalAllOrganizations')}</MenuItem>
               {orgs.map((o) => <MenuItem key={o.id} value={o.id}>{o.name}</MenuItem>)}
             </TextField>
             <Controller name="enabled" control={createForm.control} render={({ field }) => (
-              <FormControlLabel control={<Checkbox checked={field.value} onChange={field.onChange} />} label="Enabled" />
+              <FormControlLabel control={<Checkbox checked={field.value} onChange={field.onChange} />} label={t('fields.enabled')} />
             )} />
           </Stack>
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} disabled={isPending}>Cancel</Button>
+        <Button onClick={onClose} disabled={isPending}>{t('common.cancel')}</Button>
         <LoadingButton
           variant="contained"
           onClick={isEdit ? updateForm.handleSubmit(onSubmitUpdate) : createForm.handleSubmit(onSubmitCreate)}
           loading={isPending}
         >
-          {isEdit ? 'Save' : 'Create'}
+          {isEdit ? t('common.save') : t('common.create')}
         </LoadingButton>
       </DialogActions>
     </Dialog>

@@ -20,20 +20,20 @@ export default function Dashboard() {
 
   return (
     <Box>
-      <PageHeader title={t('dashboard.title')} description="An overview of your workspace — live counts from the backend." />
+      <PageHeader title={t('dashboard.title')} description={t('ui.dashboardDescription')} />
 
       <Grid container spacing={3} sx={{ mb: 3 }}>
         <Grid size={{ xs: 12, sm: 6, xl: 3 }}>
-          <StatCard title="Users" value={userCount ?? 0} icon={<PeopleIcon />} color="#1976d2" loading={userLoading} />
+          <StatCard title={t('ui.users')} value={userCount ?? 0} icon={<PeopleIcon />} color="#1976d2" loading={userLoading} />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, xl: 3 }}>
-          <StatCard title="Organizations" value={orgCount ?? 0} icon={<ApartmentIcon />} color="#2e7d32" loading={orgLoading} />
+          <StatCard title={t('ui.organizations')} value={orgCount ?? 0} icon={<ApartmentIcon />} color="#2e7d32" loading={orgLoading} />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, xl: 3 }}>
-          <StatCard title="Roles" value={roleCount ?? 0} icon={<ShieldIcon />} color="#ed6c02" loading={roleLoading} />
+          <StatCard title={t('ui.roles')} value={roleCount ?? 0} icon={<ShieldIcon />} color="#ed6c02" loading={roleLoading} />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, xl: 3 }}>
-          <StatCard title="Active Sessions" value={sessionCount ?? 0} icon={<DevicesIcon />} color="#9c27b0" loading={sessionLoading} />
+          <StatCard title={t('ui.activeSessions')} value={sessionCount ?? 0} icon={<DevicesIcon />} color="#9c27b0" loading={sessionLoading} />
         </Grid>
       </Grid>
 
@@ -41,11 +41,11 @@ export default function Dashboard() {
         <Grid size={{ xs: 12 }}>
           <SectionErrorBoundary>
             <Paper variant="outlined" sx={{ p: 3, borderRadius: 3 }}>
-              <Typography variant="subtitle1" component="h2" fontWeight={700} mb={1.5}>Recent Activity</Typography>
+              <Typography variant="subtitle1" component="h2" fontWeight={700} mb={1.5}>{t('ui.recentActivity')}</Typography>
               {auditLoading ? (
-                <Typography variant="body2" color="text.secondary">Loading…</Typography>
+                <Typography variant="body2" color="text.secondary">{t('ui.loading')}</Typography>
               ) : !recentAudit?.items.length ? (
-                <Typography variant="body2" color="text.secondary" sx={{ py: 3, textAlign: 'center' }}>No recent activity to show.</Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ py: 3, textAlign: 'center' }}>{t('ui.noRecentActivity')}</Typography>
               ) : (
                 <List disablePadding dense>
                   {recentAudit.items.map((e) => (

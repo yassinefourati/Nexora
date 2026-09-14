@@ -1,0 +1,396 @@
+{
+ "API Key Created": [
+  "features/apiKeys/components/ApiKeyFormDialog.tsx:39"
+ ],
+ "Create API Key": [
+  "features/apiKeys/components/ApiKeyFormDialog.tsx:39"
+ ],
+ "This secret is shown only once. Copy it now — it cannot be retrieved again.": [
+  "features/apiKeys/components/ApiKeyFormDialog.tsx:43"
+ ],
+ "Leave scopes/expiry unset for a non-expiring, unrestricted key.": [
+  "features/apiKeys/components/ApiKeyFormDialog.tsx:52"
+ ],
+ "Done": [
+  "features/apiKeys/components/ApiKeyFormDialog.tsx:58"
+ ],
+ "Attachments": [
+  "features/attachments/components/EntityAttachmentsPanel.tsx:30"
+ ],
+ "Loading…": [
+  "features/attachments/components/EntityAttachmentsPanel.tsx:32",
+  "features/comments/components/EntityCommentsPanel.tsx:27",
+  "features/dashboard/pages/Dashboard.tsx:46"
+ ],
+ "No attachments yet.": [
+  "features/attachments/components/EntityAttachmentsPanel.tsx:34"
+ ],
+ "File name": [
+  "features/attachments/components/EntityAttachmentsPanel.tsx:53"
+ ],
+ "File URL": [
+  "features/attachments/components/EntityAttachmentsPanel.tsx:54"
+ ],
+ "MIME type": [
+  "features/attachments/components/EntityAttachmentsPanel.tsx:55"
+ ],
+ "Add": [
+  "features/attachments/components/EntityAttachmentsPanel.tsx:56"
+ ],
+ "Completing sign-in…": [
+  "features/auth/pages/AuthCallback.tsx:29"
+ ],
+ "Comments": [
+  "features/comments/components/EntityCommentsPanel.tsx:25"
+ ],
+ "No comments yet.": [
+  "features/comments/components/EntityCommentsPanel.tsx:29"
+ ],
+ "Add a comment…": [
+  "features/comments/components/EntityCommentsPanel.tsx:49"
+ ],
+ "Post": [
+  "features/comments/components/EntityCommentsPanel.tsx:50"
+ ],
+ "An overview of your workspace — live counts from the backend.": [
+  "features/dashboard/pages/Dashboard.tsx:23"
+ ],
+ "Users": [
+  "features/dashboard/pages/Dashboard.tsx:27"
+ ],
+ "Organizations": [
+  "features/dashboard/pages/Dashboard.tsx:30"
+ ],
+ "Roles": [
+  "features/dashboard/pages/Dashboard.tsx:33"
+ ],
+ "Active Sessions": [
+  "features/dashboard/pages/Dashboard.tsx:36"
+ ],
+ "Recent Activity": [
+  "features/dashboard/pages/Dashboard.tsx:44"
+ ],
+ "No recent activity to show.": [
+  "features/dashboard/pages/Dashboard.tsx:48"
+ ],
+ "Attach Tag to Entity": [
+  "features/entityTags/components/EntityTagFormDialog.tsx:32"
+ ],
+ "e.g. user, organization": [
+  "features/entityTags/components/EntityTagFormDialog.tsx:38",
+  "features/metadata/components/MetadataFormDialog.tsx:54"
+ ],
+ "Edit Feature Flag": [
+  "features/featureFlags/components/FeatureFlagFormDialog.tsx:53"
+ ],
+ "Add Feature Flag": [
+  "features/featureFlags/components/FeatureFlagFormDialog.tsx:53"
+ ],
+ "Grant Menu Permission": [
+  "features/menuPermissions/components/MenuPermissionFormDialog.tsx:35"
+ ],
+ "email, sms, push": [
+  "features/notificationTemplates/components/NotificationTemplateFormDialog.tsx:54",
+  "features/notificationTemplates/components/NotificationTemplateFormDialog.tsx:62"
+ ],
+ "Notifications": [
+  "features/notifications/components/NotificationsBell.tsx:20",
+  "features/notifications/pages/NotificationsPage.tsx:26"
+ ],
+ "Notifications${unreadCount ? ": [
+  "features/notifications/components/NotificationsBell.tsx:31"
+ ],
+ ", ${unreadCount} unread": [
+  "features/notifications/components/NotificationsBell.tsx:31"
+ ],
+ "No notifications": [
+  "features/notifications/components/NotificationsBell.tsx:58"
+ ],
+ "(untitled)": [
+  "features/notifications/components/NotificationsBell.tsx:68",
+  "features/notifications/pages/NotificationsPage.tsx:46"
+ ],
+ "No notifications yet.": [
+  "features/notifications/pages/NotificationsPage.tsx:32"
+ ],
+ "New": [
+  "features/notifications/pages/NotificationsPage.tsx:48"
+ ],
+ "e.g. users, roles, organizations": [
+  "features/permissions/components/PermissionFormDialog.tsx:32"
+ ],
+ "· Permissions": [
+  "features/permissions/pages/RolePermissionsMatrix.tsx:45"
+ ],
+ "Select a role, then click checkboxes to grant or revoke permissions.": [
+  "features/permissions/pages/RolePermissionsMatrix.tsx:47"
+ ],
+ "Read-only — you do not have permission to edit role grants.": [
+  "features/permissions/pages/RolePermissionsMatrix.tsx:47"
+ ],
+ "Role": [
+  "features/permissions/pages/RolePermissionsMatrix.tsx:51",
+  "features/permissions/pages/RolePermissionsMatrix.tsx:52"
+ ],
+ "Select a role to view and edit its granted permissions.": [
+  "features/permissions/pages/RolePermissionsMatrix.tsx:59"
+ ],
+ "Loading": [
+  "features/permissions/pages/RolePermissionsMatrix.tsx:64"
+ ],
+ "Code": [
+  "features/permissions/pages/RolePermissionsMatrix.tsx:70"
+ ],
+ "Resource": [
+  "features/permissions/pages/RolePermissionsMatrix.tsx:71"
+ ],
+ "Action": [
+  "features/permissions/pages/RolePermissionsMatrix.tsx:72"
+ ],
+ "Granted": [
+  "features/permissions/pages/RolePermissionsMatrix.tsx:73"
+ ],
+ "Account details": [
+  "features/profile/pages/Profile.tsx:57",
+  "features/users/pages/UserDetail.tsx:39"
+ ],
+ "Username": [
+  "features/profile/pages/Profile.tsx:59",
+  "features/users/pages/UserDetail.tsx:41"
+ ],
+ "Email": [
+  "features/profile/pages/Profile.tsx:60"
+ ],
+ "Last login": [
+  "features/profile/pages/Profile.tsx:61",
+  "features/users/pages/UserDetail.tsx:43"
+ ],
+ "Password &amp; two-factor authentication": [
+  "features/profile/pages/Profile.tsx:66"
+ ],
+ "Your sessions": [
+  "features/profile/pages/Profile.tsx:79"
+ ],
+ "No sessions found.": [
+  "features/profile/pages/Profile.tsx:83"
+ ],
+ "Unknown device": [
+  "features/profile/pages/Profile.tsx:89"
+ ],
+ "revoked": [
+  "features/profile/pages/Profile.tsx:89",
+  "features/profile/pages/Profile.tsx:121"
+ ],
+ "${s.ipAddress ?? '—'} · expires ${s.expiresAt ? new Date(s.expiresAt).toLocaleString() : '—'}": [
+  "features/profile/pages/Profile.tsx:90"
+ ],
+ "Revoke session": [
+  "features/profile/pages/Profile.tsx:94"
+ ],
+ "Your API keys": [
+  "features/profile/pages/Profile.tsx:111"
+ ],
+ "No API keys issued to this account.": [
+  "features/profile/pages/Profile.tsx:115"
+ ],
+ "Last used ${k.lastUsedAt ? new Date(k.lastUsedAt).toLocaleString() : 'never'}": [
+  "features/profile/pages/Profile.tsx:122"
+ ],
+ "never": [
+  "features/profile/pages/Profile.tsx:122"
+ ],
+ "Revoke API key": [
+  "features/profile/pages/Profile.tsx:126"
+ ],
+ "Grant Role Menu Access": [
+  "features/roleMenus/components/RoleMenuFormDialog.tsx:35"
+ ],
+ "Search pages, users, settings… (↑↓ to navigate)": [
+  "features/search/components/GlobalSearchModal.tsx:27"
+ ],
+ "No results for \"": [
+  "features/search/components/GlobalSearchModal.tsx:33"
+ ],
+ "↑↓ navigate": [
+  "features/search/components/GlobalSearchModal.tsx:45"
+ ],
+ "↵ select": [
+  "features/search/components/GlobalSearchModal.tsx:46"
+ ],
+ "esc close": [
+  "features/search/components/GlobalSearchModal.tsx:47"
+ ],
+ "⌘K to open": [
+  "features/search/components/GlobalSearchModal.tsx:48"
+ ],
+ "e.g. app.name": [
+  "features/settings/components/SettingFormDialog.tsx:76"
+ ],
+ "System Health": [
+  "features/system/pages/SystemHealth.tsx:48",
+  "features/system/pages/SystemHealth.tsx:60"
+ ],
+ "Could not reach the backend's health endpoint. The service may be down.": [
+  "features/system/pages/SystemHealth.tsx:49"
+ ],
+ "Refreshing": [
+  "features/system/pages/SystemHealth.tsx:62"
+ ],
+ "checking…": [
+  "features/system/pages/SystemHealth.tsx:63"
+ ],
+ "Components": [
+  "features/system/pages/SystemHealth.tsx:75"
+ ],
+ "Component": [
+  "features/system/pages/SystemHealth.tsx:79"
+ ],
+ "Status": [
+  "features/system/pages/SystemHealth.tsx:80"
+ ],
+ "Details": [
+  "features/system/pages/SystemHealth.tsx:81"
+ ],
+ "User not found.": [
+  "features/users/pages/UserDetail.tsx:16"
+ ],
+ "Back to Users": [
+  "features/users/pages/UserDetail.tsx:22"
+ ],
+ "Superuser": [
+  "features/users/pages/UserDetail.tsx:33"
+ ],
+ "Failed login attempts": [
+  "features/users/pages/UserDetail.tsx:42"
+ ],
+ "Locked until": [
+  "features/users/pages/UserDetail.tsx:44"
+ ],
+ "Password changed": [
+  "features/users/pages/UserDetail.tsx:45"
+ ],
+ "Created": [
+  "features/users/pages/UserDetail.tsx:46"
+ ],
+ "Toggle sidebar": [
+  "layout/components/Navbar.tsx:31"
+ ],
+ "Admin Panel": [
+  "layout/components/Navbar.tsx:32",
+  "layout/components/Sidebar.tsx:46"
+ ],
+ "Switch to French": [
+  "layout/components/Navbar.tsx:34",
+  "layout/components/Navbar.tsx:35"
+ ],
+ "Passer en anglais": [
+  "layout/components/Navbar.tsx:34",
+  "layout/components/Navbar.tsx:35"
+ ],
+ "Theme: ${theme}": [
+  "layout/components/Navbar.tsx:37",
+  "layout/components/Navbar.tsx:37"
+ ],
+ "Keyboard shortcuts (?)": [
+  "layout/components/Navbar.tsx:38"
+ ],
+ "Keyboard shortcuts": [
+  "layout/components/Navbar.tsx:38"
+ ],
+ "Account menu": [
+  "layout/components/Navbar.tsx:41"
+ ],
+ "Profile": [
+  "layout/components/Navbar.tsx:50"
+ ],
+ "Logout": [
+  "layout/components/Navbar.tsx:51"
+ ],
+ "Main navigation": [
+  "layout/components/Sidebar.tsx:44"
+ ],
+ "rows": [
+  "shared/components/AdvancedDataTable/AdvancedDataTable.tsx:104"
+ ],
+ "Search…": [
+  "shared/components/AdvancedDataTable/AdvancedDataTable.tsx:106"
+ ],
+ "Column filters": [
+  "shared/components/AdvancedDataTable/AdvancedDataTable.tsx:108"
+ ],
+ "Export CSV": [
+  "shared/components/AdvancedDataTable/AdvancedDataTable.tsx:116"
+ ],
+ "Field": [
+  "shared/components/AdvancedDataTable/AdvancedDataTable.tsx:128",
+  "shared/components/AdvancedDataTable/AdvancedDataTable.tsx:129"
+ ],
+ "Operator": [
+  "shared/components/AdvancedDataTable/AdvancedDataTable.tsx:134",
+  "shared/components/AdvancedDataTable/AdvancedDataTable.tsx:135"
+ ],
+ "Value": [
+  "shared/components/AdvancedDataTable/AdvancedDataTable.tsx:139"
+ ],
+ "Add filter": [
+  "shared/components/AdvancedDataTable/AdvancedDataTable.tsx:144"
+ ],
+ "Clear all": [
+  "shared/components/AdvancedDataTable/AdvancedDataTable.tsx:145"
+ ],
+ "Actions": [
+  "shared/components/AdvancedDataTable/AdvancedDataTable.tsx:158"
+ ],
+ "No results found": [
+  "shared/components/AdvancedDataTable/AdvancedDataTable.tsx:165"
+ ],
+ "SHOW / HIDE COLUMNS": [
+  "shared/components/AdvancedDataTable/ColumnManager.tsx:24"
+ ],
+ " Click Undo to reverse.": [
+  "shared/components/GlobalFeedback.tsx:53"
+ ],
+ "Let's go!": [
+  "shared/components/Onboarding/OnboardingTour.tsx:71"
+ ],
+ "Next": [
+  "shared/components/Onboarding/OnboardingTour.tsx:71"
+ ],
+ "Something went wrong": [
+  "shared/components/PageErrorBoundary.tsx:10"
+ ],
+ "Try again": [
+  "shared/components/PageErrorBoundary.tsx:12"
+ ],
+ "Application failed to load": [
+  "shared/components/RootFallback.tsx:5"
+ ],
+ "Reload": [
+  "shared/components/RootFallback.tsx:7"
+ ],
+ "More actions": [
+  "shared/components/RowActionsMenu.tsx:14",
+  "shared/components/RowActionsMenu.tsx:15"
+ ],
+ "This section failed to load": [
+  "shared/components/SectionErrorBoundary.tsx:23"
+ ],
+ "Session expiring soon": [
+  "shared/components/SessionTimeoutDialog.tsx:16"
+ ],
+ "You'll be logged out in": [
+  "shared/components/SessionTimeoutDialog.tsx:18"
+ ],
+ "s": [
+  "shared/components/SessionTimeoutDialog.tsx:18"
+ ],
+ "due to inactivity.": [
+  "shared/components/SessionTimeoutDialog.tsx:18"
+ ],
+ "Logout now": [
+  "shared/components/SessionTimeoutDialog.tsx:24"
+ ],
+ "Stay logged in": [
+  "shared/components/SessionTimeoutDialog.tsx:25"
+ ]
+}

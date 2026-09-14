@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Box, CircularProgress, Typography, Alert } from '@mui/material';
 import { useAuthStore } from '@/core/auth/stores/useAuthStore';
@@ -6,6 +7,7 @@ import { ROUTES } from '@/core/router/routes';
 
 /** Landing page for the OIDC Authorization Code redirect back from Keycloak. */
 export default function AuthCallback() {
+  const { t } = useTranslation();
   const handleCallback = useAuthStore((s) => s.handleCallback);
   const navigate = useNavigate();
   const ran = useRef(false);
@@ -26,7 +28,7 @@ export default function AuthCallback() {
       ) : (
         <>
           <CircularProgress />
-          <Typography variant="body2" color="text.secondary">Completing sign-in…</Typography>
+          <Typography variant="body2" color="text.secondary">{t('ui.completingSignIn')}</Typography>
         </>
       )}
     </Box>

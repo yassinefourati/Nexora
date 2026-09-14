@@ -1,18 +1,20 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { IconButton, Menu, MenuItem, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import type { ReactNode, MouseEvent } from 'react';
 export interface RowAction { label: string; icon: ReactNode; onClick: () => void; color?: 'error' | 'inherit'; hidden?: boolean; }
 interface RowActionsMenuProps { actions: RowAction[]; }
 export default function RowActionsMenu({ actions }: RowActionsMenuProps) {
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const visible = actions.filter((a) => !a.hidden);
   if (!visible.length) return null;
   const close = () => setAnchorEl(null);
   return (
     <>
-      <Tooltip title="More actions">
-        <IconButton size="small" aria-label="More actions" onClick={(e: MouseEvent<HTMLElement>) => { e.stopPropagation(); setAnchorEl(e.currentTarget); }}>
+      <Tooltip title={t('ui.moreActions')}>
+        <IconButton size="small" aria-label={t('ui.moreActions')} onClick={(e: MouseEvent<HTMLElement>) => { e.stopPropagation(); setAnchorEl(e.currentTarget); }}>
           <MoreVertIcon fontSize="small" />
         </IconButton>
       </Tooltip>

@@ -1,4 +1,5 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem, Stack } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
@@ -11,6 +12,7 @@ import type { Department } from '../api/departmentsApi';
 interface Props { open: boolean; onClose: () => void; editDept?: Department | null; }
 
 export default function DepartmentFormDialog({ open, onClose, editDept }: Props) {
+  const { t } = useTranslation();
   const isEdit = Boolean(editDept);
   const { mutateAsync: create, isPending: creating } = useCreateDepartment();
   const { mutateAsync: update, isPending: updating } = useUpdateDepartment();
@@ -50,39 +52,39 @@ export default function DepartmentFormDialog({ open, onClose, editDept }: Props)
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{isEdit ? 'Edit Department' : 'Add Department'}</DialogTitle>
+      <DialogTitle>{isEdit ? t('resources.departments.edit') : t('resources.departments.add')}</DialogTitle>
       <DialogContent>
         {isEdit ? (
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Name" fullWidth {...updateForm.register('name')} error={!!updateForm.formState.errors.name} helperText={updateForm.formState.errors.name?.message} />
-            <TextField label="Code" fullWidth {...updateForm.register('code')} error={!!updateForm.formState.errors.code} helperText={updateForm.formState.errors.code?.message} />
-            <TextField label="Parent department" select fullWidth {...updateForm.register('parentDepartmentId')}>
-              <MenuItem value="">None</MenuItem>
+            <TextField label={t('fields.name')} fullWidth {...updateForm.register('name')} error={!!updateForm.formState.errors.name} helperText={updateForm.formState.errors.name?.message} />
+            <TextField label={t('fields.code')} fullWidth {...updateForm.register('code')} error={!!updateForm.formState.errors.code} helperText={updateForm.formState.errors.code?.message} />
+            <TextField label={t('fields.parentDepartment')} select fullWidth {...updateForm.register('parentDepartmentId')}>
+              <MenuItem value="">{t('fields.none')}</MenuItem>
               {candidateParents.map((d) => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
             </TextField>
           </Stack>
         ) : (
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Name" fullWidth {...createForm.register('name')} error={!!createForm.formState.errors.name} helperText={createForm.formState.errors.name?.message} />
-            <TextField label="Code" fullWidth {...createForm.register('code')} error={!!createForm.formState.errors.code} helperText={createForm.formState.errors.code?.message} />
-            <TextField label="Organization" select fullWidth {...createForm.register('organizationId')} error={!!createForm.formState.errors.organizationId} helperText={createForm.formState.errors.organizationId?.message}>
+            <TextField label={t('fields.name')} fullWidth {...createForm.register('name')} error={!!createForm.formState.errors.name} helperText={createForm.formState.errors.name?.message} />
+            <TextField label={t('fields.code')} fullWidth {...createForm.register('code')} error={!!createForm.formState.errors.code} helperText={createForm.formState.errors.code?.message} />
+            <TextField label={t('fields.organization')} select fullWidth {...createForm.register('organizationId')} error={!!createForm.formState.errors.organizationId} helperText={createForm.formState.errors.organizationId?.message}>
               {orgs.map((o) => <MenuItem key={o.id} value={o.id}>{o.name}</MenuItem>)}
             </TextField>
-            <TextField label="Parent department" select fullWidth {...createForm.register('parentDepartmentId')}>
-              <MenuItem value="">None</MenuItem>
+            <TextField label={t('fields.parentDepartment')} select fullWidth {...createForm.register('parentDepartmentId')}>
+              <MenuItem value="">{t('fields.none')}</MenuItem>
               {candidateParents.map((d) => <MenuItem key={d.id} value={d.id}>{d.name}</MenuItem>)}
             </TextField>
           </Stack>
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} disabled={isPending}>Cancel</Button>
+        <Button onClick={onClose} disabled={isPending}>{t('common.cancel')}</Button>
         <LoadingButton
           variant="contained"
           onClick={isEdit ? updateForm.handleSubmit(onSubmitUpdate) : createForm.handleSubmit(onSubmitCreate)}
           loading={isPending}
         >
-          {isEdit ? 'Save' : 'Create'}
+          {isEdit ? t('common.save') : t('common.create')}
         </LoadingButton>
       </DialogActions>
     </Dialog>

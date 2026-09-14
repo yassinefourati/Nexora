@@ -1,16 +1,16 @@
 import { useCrudResource, type ListParams } from '@/core/api/useCrudResource';
 import { ENTITY_TAGS_BASE_PATH, ENTITY_TAGS_KEY, type CreateEntityTagRequest, type EntityTag } from '../api/entityTagsApi';
 
-function resource() {
+function useResource() {
   return useCrudResource<EntityTag, CreateEntityTagRequest, never>(ENTITY_TAGS_BASE_PATH, ENTITY_TAGS_KEY);
 }
 
 export function useEntityTags(params: ListParams = {}) {
-  return resource().useList(params);
+  return useResource().useList(params);
 }
 export function useCreateEntityTag() {
-  return resource().useCreate();
+  return useResource().useCreate();
 }
 export function useDeleteEntityTag() {
-  return resource().useRemove();
+  return useResource().useRemove();
 }

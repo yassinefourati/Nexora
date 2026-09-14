@@ -1,0 +1,8 @@
+# Shell scripts and container entrypoints must stay LF: they run inside Linux
+# containers and CI runners regardless of the contributor's OS.
+*.sh        text eol=lf
+mvnw        text eol=lf
+Makefile    text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+Dockerfile  text eol=lf

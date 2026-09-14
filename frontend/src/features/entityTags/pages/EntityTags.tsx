@@ -1,92 +1,33 @@
-import { useState, useMemo } from 'react';
-import { Box, Button, Chip } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
-import { useEntityTags, useDeleteEntityTag } from '../hooks/useEntityTags';
-import { useTags } from '@/features/tags/hooks/useTags';
-import { useConfirmStore } from '@/shared/stores/useConfirmStore';
-import PageHeader from '@/shared/components/PageHeader';
-import RowActionsMenu from '@/shared/components/RowActionsMenu';
-import ServerDataTable, { type ServerSort } from '@/shared/components/AdvancedDataTable/ServerDataTable';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import CrudPage from '@/shared/components/crud/CrudPage';
 import type { ColumnDef } from '@/shared/components/AdvancedDataTable/types';
+import { useEntityTags, useDeleteEntityTag } from '../hooks/useEntityTags';
 import EntityTagFormDialog from '../components/EntityTagFormDialog';
 import type { EntityTag } from '../api/entityTagsApi';
+import { Chip } from '@mui/material';
+import { useTags } from '@/features/tags/hooks/useTags';
 
 export default function EntityTags() {
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(20);
-  const [sort, setSort] = useState<ServerSort | null>(null);
-  const [search, setSearch] = useState('');
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  const { data, isLoading, isError, refetch } = useEntityTags({
-    page, size: pageSize,
-    ...(sort ? { sort: `${sort.field},${sort.direction}` } : {}),
-  });
-  const { data: tagsPage } = useTags({ page: 0, size: 100 });
-  const { mutate: remove } = useDeleteEntityTag();
-  const { confirm } = useConfirmStore();
-
-  const tagName = useMemo(() => {
-    const map = new Map((tagsPage?.items ?? []).map((t) => [t.id, t.name]));
-    return (id?: string) => (id && map.get(id)) || id || '—';
-  }, [tagsPage]);
-
-  const rows = useMemo(() => {
-    const items = data?.items ?? [];
-    if (!search) return items;
-    const term = search.toLowerCase();
-    return items.filter((et) => et.entityType?.toLowerCase().includes(term) || tagName(et.tagId).toLowerCase().includes(term));
-  }, [data, search, tagName]);
-
+  const { t } = useTranslation();
+  const { data: tagsPage } = useTags({ page: 0, size: 200 });
+  const tagName = useMemo(() => { const m = new Map((tagsPage?.items ?? []).map((tg) => [tg.id, tg.name])); return (id?: string) => (id && m.get(id)) || id || t('common.dash'); }, [tagsPage, t]);
   const columns: ColumnDef<EntityTag>[] = useMemo(() => [
-    { field: 'tagId', headerName: 'Tag', width: 160, renderCell: (row) => <Chip label={tagName(row.tagId)} size="small" /> },
-    { field: 'entityType', headerName: 'Entity type', width: 160 },
-    { field: 'entityId', headerName: 'Entity ID', width: 220 },
-    {
-      field: 'actions', headerName: '', width: 70, sortable: false,
-      renderCell: (row) => (
-        <RowActionsMenu
-          actions={[
-            {
-              label: 'Detach', icon: <DeleteIcon fontSize="small" color="error" />, color: 'error',
-              onClick: () => confirm({
-                title: 'Detach tag', message: 'Remove this tag from the entity?', confirmLabel: 'Detach', severity: 'error',
-                onConfirm: () => remove(row.id!),
-              }),
-            },
-          ]}
-        />
-      ),
-    },
-  ], [confirm, remove, tagName]);
+    { field: 'tagId', headerName: t('fields.tag'), width: 160, renderCell: (row) => <Chip label={tagName(row.tagId)} size="small" /> },
+    { field: 'entityType', headerName: t('fields.entityType'), width: 160 },
+    { field: 'entityId', headerName: t('fields.entityId'), width: 220 },
+  ], [t, tagName]);
 
   return (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <PageHeader
-        title="Entity Tags"
-        description="Tags attached to specific entities across the system."
-        actions={<Button variant="contained" startIcon={<AddIcon />} onClick={() => setDialogOpen(true)}>Attach Tag</Button>}
-      />
-      <ServerDataTable
-        title="Entity Tags"
-        rows={rows}
-        columns={columns}
-        pagination={data?.pagination}
-        isLoading={isLoading}
-        isError={isError}
-        onRefetch={() => void refetch()}
-        page={page}
-        pageSize={pageSize}
-        onPageChange={setPage}
-        onPageSizeChange={setPageSize}
-        sort={sort}
-        onSortChange={(s) => { setSort(s); setPage(0); }}
-        search={search}
-        onSearchChange={setSearch}
-        rowKey={(row) => row.id!}
-      />
-      <EntityTagFormDialog open={dialogOpen} onClose={() => setDialogOpen(false)} />
-    </Box>
+    <CrudPage<EntityTag>
+      resource="entityTags"
+      useList={useEntityTags}
+      useRemove={useDeleteEntityTag}
+      columns={columns}
+      rowLabel={(row) => `${tagName(row.tagId)} / ${row.entityType ?? ''}`}
+      editable={false}
+      deleteActionKey="common.detach"
+      renderDialog={({ open, onClose }) => <EntityTagFormDialog open={open} onClose={onClose} />}
+    ></CrudPage>
   );
 }

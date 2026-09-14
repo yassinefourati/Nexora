@@ -1,0 +1,38 @@
+# Staging: production shape (2 replicas, Redis, RabbitMQ relay, tracing on) with
+# the `staging` Spring profile (verbose logging, relaxed rate limit).
+# Image tags are set by CI: `kustomize edit set image admin-api=...:<sha>`.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+images:
+  - name: admin-api
+    newName: ghcr.io/OWNER/REPO/admin-api
+    newTag: latest
+  - name: admin-frontend
+    newName: ghcr.io/OWNER/REPO/admin-frontend
+    newTag: latest
+patches:
+  - target:
+      kind: Deployment
+      name: admin-api
+    patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0/value
+        value: staging
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value: { name: RATE_LIMIT_RPM, value: "300" }
+  - target:
+      kind: Ingress
+      name: project-admin
+    patch: |
+      - op: replace
+        path: /spec/rules/0/host
+        value: admin-staging.example.com
+      - op: replace
+        path: /spec/rules/1/host
+        value: api-staging.example.com
+      - op: replace
+        path: /spec/tls/0/hosts
+        value: [admin-staging.example.com, api-staging.example.com]

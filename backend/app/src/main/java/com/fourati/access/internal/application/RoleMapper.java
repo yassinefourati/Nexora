@@ -1,0 +1,29 @@
+package com.fourati.access.internal.application;
+
+import com.fourati.access.internal.domain.Role;
+import com.fourati.access.CreateRoleRequest;
+import com.fourati.access.UpdateRoleRequest;
+import com.fourati.access.RoleResponse;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+public interface RoleMapper {
+
+    RoleResponse toResponse(Role role);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
+    @Mapping(target = "system", source = "system", defaultValue = "false")
+    Role toEntity(CreateRoleRequest request);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
+    void updateEntityFromRequest(UpdateRoleRequest request, @MappingTarget Role role);
+}
