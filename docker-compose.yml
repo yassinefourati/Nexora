@@ -60,7 +60,7 @@ services:
         limits: { cpus: "1.0", memory: 512M }
 
   keycloak:
-    image: quay.io/keycloak/keycloak:26.0
+    image: quay.io/keycloak/keycloak:26.7
     profiles: [infra, app, scale, loadtest]
     restart: unless-stopped
     command: start-dev --import-realm
