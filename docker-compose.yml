@@ -102,7 +102,7 @@ services:
         limits: { cpus: "0.5", memory: 192M }
 
   rabbitmq:
-    image: rabbitmq:3.13-management-alpine
+    image: rabbitmq:4.3-management-alpine
     profiles: [infra, app, scale, loadtest]
     restart: unless-stopped
     environment:
