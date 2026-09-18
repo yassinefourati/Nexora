@@ -21,6 +21,12 @@ function useResourceCount(path: string) {
 export function useUserCount() { return useResourceCount('/users'); }
 export function useOrganizationCount() { return useResourceCount('/organizations'); }
 export function useRoleCount() { return useResourceCount('/roles'); }
+
+/** Loan portfolio counts — same cheap pagination.totalElements approach. Each is a total count; the list endpoints don't support server-side status filtering. */
+export function useLoanApplicationCount() { return useResourceCount('/loan-applications'); }
+export function useLoanAccountCount() { return useResourceCount('/loan-accounts'); }
+export function useCollectionCaseCount() { return useResourceCount('/collection-cases'); }
+export function useLoanDisbursementCount() { return useResourceCount('/loan-disbursements'); }
 export function useActiveSessionCount() {
   return useQuery({
     queryKey: ['dashboard', 'active-sessions'],
