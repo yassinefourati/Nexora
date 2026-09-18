@@ -2128,6 +2128,18 @@ export interface components {
             /** Format: int64 */
             version?: number;
         };
+        UpdateCustomerRequest: {
+            customerType: string;
+            status?: string;
+            firstName?: string;
+            lastName?: string;
+            businessName?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            email: string;
+            phone?: string;
+        };
         /** @description Standard API response envelope. Every endpoint — success or error — returns this shape. */
         ApiResponseOrganizationResponse: {
             /**
@@ -2178,6 +2190,24 @@ export interface components {
             updatedAt?: string;
             /** Format: int64 */
             version?: number;
+        };
+        CustomerResponse: {
+            /** Format: uuid */
+            id?: string;
+            customerType?: string;
+            status?: string;
+            firstName?: string;
+            lastName?: string;
+            businessName?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            email?: string;
+            phone?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
         };
         UpdateNotificationRequest: {
             title: string;
@@ -3148,6 +3178,18 @@ export interface components {
             code: string;
             status?: string;
             metadata?: string;
+        };
+        CreateCustomerRequest: {
+            customerType: string;
+            status?: string;
+            firstName?: string;
+            lastName?: string;
+            businessName?: string;
+            /** Format: date */
+            dateOfBirth?: string;
+            nationalId?: string;
+            email: string;
+            phone?: string;
         };
         CreateOrganizationMemberRequest: {
             /** Format: uuid */
